@@ -1,5 +1,6 @@
 package com.orizon.dairyFarm.tables;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,25 +13,36 @@ import javax.persistence.*;
 @Entity(name = "Births")
 @Table(name = "Births")
 public class Births {
-    @SequenceGenerator(
-            name = "births_sequence",
-            sequenceName = "births_sequence",
-            allocationSize = 1
+    @EmbeddedId
+    private BirthsId birthsId;
+
+    @ManyToOne(
+            cascade = {CascadeType.ALL}
     )
-    @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "births_sequence"
+    @JsonBackReference
+    @MapsId("cattleId")
+    @JoinColumn(
+            name = "cattle_id"
     )
-    private Long birthId;
-    @ManyToOne
     private Cattle cattle;
-
-    @ManyToOne
+    @ManyToOne(
+            cascade = {CascadeType.ALL}
+    )
+    @JsonBackReference
+    @MapsId("calveId")
+    @JoinColumn(
+            name = "calveId"
+    )
     private Cattle calve;
+    private  String sex;
 
-    public Births(Cattle cattle, Cattle calve) {
+    public Births(BirthsId birthsId,
+                  Cattle cattle,
+                  Cattle calve,
+                  String sex) {
+        this.birthsId = birthsId;
         this.cattle = cattle;
         this.calve = calve;
+        this.sex = sex;
     }
 }

@@ -13,7 +13,8 @@ public class BirthsController {
     private final BirthsService birthsService;
     @PostMapping("/{cattleId}/{calveId}")
     public void addBirths(@PathVariable("cattleId") Long cattleId,
-                          @PathVariable("calveId") Long calveId){
-        birthsService.addBirths(cattleId,calveId);
+                          @PathVariable("calveId") Long calveId,
+                          @RequestBody CattleRequest cattleRequest){
+        birthsService.addBirths(cattleId,calveId,cattleRequest);
     }
 }

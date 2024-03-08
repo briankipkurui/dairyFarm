@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +27,7 @@ public class Cattle {
     private Long cattleId;
     private  String name;
     private String sex;
+
 
     public Cattle(String name, String sex) {
         this.name = name;
