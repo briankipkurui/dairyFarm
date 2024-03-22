@@ -2,11 +2,11 @@ package com.orizon.dairyFarm.controller;
 
 import com.orizon.dairyFarm.request.ProductionRequest;
 import com.orizon.dairyFarm.service.ProductionService;
+import com.orizon.dairyFarm.tables.Production;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -16,5 +16,9 @@ public class productionController {
     @PostMapping()
     public  void addToProduction(@RequestBody ProductionRequest productionRequest){
         productionService.addToProduction(productionRequest);
+    }
+    @GetMapping()
+    public List<Production> getProduction(){
+        return productionService.getProduction();
     }
 }

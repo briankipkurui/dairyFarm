@@ -26,10 +26,14 @@ public class Production {
     private Long productionId;
     private Double unit;
     private LocalDateTime time;
+    @ManyToOne
+    private Cattle cattle;
 
     public Production(Double unit,
-                      LocalDateTime time) {
+                      LocalDateTime time,
+                      Cattle cattle) {
         this.unit = unit;
         this.time = time;
+        this.cattle = cattle;
     }
 }

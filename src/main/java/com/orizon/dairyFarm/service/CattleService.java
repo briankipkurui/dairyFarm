@@ -6,6 +6,8 @@ import com.orizon.dairyFarm.tables.Cattle;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class CattleService {
@@ -16,5 +18,9 @@ public class CattleService {
                 cattleRequest.getSex()
         );
         cattleRepo.save(cattle);
+    }
+
+    public List<Cattle> cattleService() {
+        return cattleRepo.findAll();
     }
 }
