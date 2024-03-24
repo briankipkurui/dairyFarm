@@ -38,3 +38,11 @@ export const addToProduction = production =>
         method: 'POST',
         body: JSON.stringify(production)
     }).then(checkStatus)
+
+export const SearchCattle = query =>
+    fetch(`/api/v1/cattle/search?query=${query}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)

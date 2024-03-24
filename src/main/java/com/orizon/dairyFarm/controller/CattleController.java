@@ -23,4 +23,9 @@ public class CattleController {
     public List<Cattle> cattleService() {
         return cattleService.cattleService();
     }
+
+    @GetMapping("search")
+    public List<Cattle> searchCattle(@RequestParam("query") String query) {
+        return cattleService.searchCattle(query);
+    }
 }

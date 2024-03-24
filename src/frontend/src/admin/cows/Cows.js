@@ -6,7 +6,7 @@ import {
     Badge,
     Tag,
     Radio,
-    Popconfirm, Form, Modal, Row, Col, Input, Space,
+    Popconfirm, Form, Modal, Row, Col, Input, Space, Tooltip, Select,
 } from 'antd';
 import {
     LoadingOutlined,
@@ -14,18 +14,31 @@ import {
 } from '@ant-design/icons';
 import React, {useEffect, useState} from "react";
 import {errorNotification, successNotification} from "../../utils/Notification";
-import {addToProduction, getAllCows} from "../adminUrlCall/AdminUrlCalls";
+import {addToProduction, getAllCows, SearchCattle} from "../adminUrlCall/AdminUrlCalls";
 import './Cows.css'
 import CowDrawerForm from "./CowDrawerForm";
-import {Link} from "react-router-dom";
-import {MdEdit, MdMoreHoriz} from 'react-icons/md';
+import {CgArrowsMergeAltH} from "react-icons/cg";
+import {FaCow} from "react-icons/fa6";
+import {useDebounce} from "../utils/DebounceHook";
+
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
+const {Option} = Select;
 const Cows = () => {
     const [cows, setCows] = useState([]);
+    const [cowsToDisplay, setCowsToDisplay] = useState([]);
     const [fetching, setFetching] = useState(true);
     const [showDrawer, setShowDrawer] = useState(false);
     const [selectedCow, setSelectedCow] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalForRelationShipVisible, setIsModalForRelationShipVisible] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('')
+
+    const [cattleOptions,setCattleOptions] = useState([])
+
+
+
+    const [selectedSex, setSelectedSex] = useState([]);
+
 
     const [form] = Form.useForm();
 
@@ -50,15 +63,28 @@ const Cows = () => {
             key: 'actions',
             render: (text, cows) =>
                 <Space>
-                    <Radio.Button
-                        onClick={() => {
-                            setSelectedCow(cows);
-                            setIsModalVisible(true);
-                        }}
-                        style={{border: 'none'}}
-                        value="small">
-                        add Production
-                    </Radio.Button>
+                    <Tooltip title="add production">
+                        <Radio.Button
+                            onClick={() => {
+                                setSelectedCow(cows);
+                                setIsModalVisible(true);
+                            }}
+                            style={{border: 'none'}}
+                            value="small">
+                            <FaCow style={{fontSize: '30px'}}/>
+                        </Radio.Button>
+                    </Tooltip>
+                    <Tooltip title="add relationship">
+                        <Radio.Button
+                            onClick={() => {
+                                setSelectedCow(cows);
+                                setIsModalForRelationShipVisible(true);
+                            }}
+                            style={{border: 'none'}}
+                            value="small">
+                            <CgArrowsMergeAltH style={{fontSize: '30px'}}/>
+                        </Radio.Button>
+                    </Tooltip>
                 </Space>
         },
     ];
@@ -69,6 +95,7 @@ const Cows = () => {
             .then(res => res.json())
             .then(data => {
                 setCows(data);
+                setCowsToDisplay(data)
             }).catch(err => {
             console.log(err.response)
             err.response.json().then(res => {
@@ -88,7 +115,7 @@ const Cows = () => {
         if (selectedCow) {
             form.setFieldsValue(selectedCow);
         }
-    }, [selectedCow,form]);
+    }, [selectedCow, form]);
 
 
     const handleAddProduction = async (product) => {
@@ -121,6 +148,53 @@ const Cows = () => {
         setIsModalVisible(false);
         setSelectedCow(null)
     };
+    const handleCancelForRelationShip = () => {
+        setIsModalForRelationShipVisible(false);
+        setSelectedCow(null)
+    };
+    const handleSexChange = (value) => {
+        setSearchTerm(value)
+    }
+
+    const searchCattleBySearchTerm = (query) => {
+        SearchCattle(searchTerm)
+            .then(res => res.json())
+            .then(data => {
+                setCowsToDisplay(data)
+            }).catch(err => {
+            console.log(err.response)
+            err.response.json().then(res => {
+                console.log(res);
+                errorNotification(
+                    "There was an issue",
+                    `${res.message} [${res.status}] [${res.error}]`
+                )
+            });
+        }).finally(() => setFetching(false))
+    }
+
+    useDebounce(searchTerm, 50, searchCattleBySearchTerm)
+
+    const hanfafa = (inputValue, option) => {
+        const label = option.props.children; // Get the children of the option
+        if (label && typeof label === 'string') {
+            return label.toLowerCase().includes(inputValue.toLowerCase());
+        }
+        return false;
+    };
+
+    useEffect(() => {
+        const updatedCattleOptions = cowsToDisplay.map(category => ({
+            label: category.name,
+            value: category.cattleId
+        }));
+        setCattleOptions(updatedCattleOptions);
+    }, [cowsToDisplay]);
+
+    const makeRelationShip =(cattle) =>{
+        console.log("this are the cattles ",cattle)
+    }
+
     const renderStudents = () => {
         if (fetching) {
             return <Spin indicator={antIcon}/>
@@ -172,6 +246,8 @@ const Cows = () => {
                 onCancel={handleCancel}
                 footer={null}
             >
+
+
                 {selectedCow && (
                     <Form
                         form={form}
@@ -207,15 +283,63 @@ const Cows = () => {
                     </Form>
                 )}
             </Modal>
+            <Modal
+                title="Add relationship"
+                visible={isModalForRelationShipVisible}
+                onCancel={handleCancelForRelationShip}
+                footer={null}
+            >
+                { selectedCow && (
+                    <Form
+                        form={form}
+                        onFinish={makeRelationShip}
+                        initialValues={selectedCow}
+                    >
+                        <Row gutter={16}>
+                            <Col span={12}>
+                                <Form.Item
+                                    name="cattleId"
+                                    label="cowID"
+                                    // hidden={true}
+                                    rules={[{required: true, message: 'Please enter availableQuantity'}]}
+                                >
+                                    <Input readOnly={true}/>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Form.Item
+                            name="name"
+                            label="cattle name"
+                            rules={[{required: true, message: 'Please select a sex'}]}
+                        >
+                            <Select
+                                placeholder="Please select a sex"
+                                showSearch
+                                onSearch={handleSexChange}
+                                filterOption={hanfafa}
+                            >
+                                {cattleOptions.map(option => (
+                                    <Option key={option.value} value={option.value}>{option.label}</Option>
+                                ))}
+                            </Select>
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit">
+                                Add production
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                )}
+            </Modal>
         </>
     }
-  return(
-      <>
-          <div className="cows">
-              {renderStudents()}
-          </div>
+    return (
+        <>
+            <div className="cows">
+                {renderStudents()}
+            </div>
 
-      </>
-  )
+        </>
+    )
 }
 export default Cows
