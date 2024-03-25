@@ -4,6 +4,7 @@ import {Route, Routes} from "react-router-dom";
 import Missing from "./utils/Missing";
 import AdminLayout from "./layout/AdminLayout";
 import Cows from "./admin/cows/Cows";
+import Production from "./admin/production/Production";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                 <Route path="*" element={<Missing/>}/>
                 <Route path="/admin" element={<AdminLayout/>}>
                     <Route path="cows" element={<Cows/>}/>
+                    <Route path="production" element={<Production/>}/>
                 </Route>
             </Routes>
         </>

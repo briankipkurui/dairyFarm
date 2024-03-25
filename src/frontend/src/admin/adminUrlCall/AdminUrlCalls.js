@@ -46,3 +46,12 @@ export const SearchCattle = query =>
         },
         method: 'GET'
     }).then(checkStatus)
+
+export const addBirths = births =>
+    fetch("/api/v1/births", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(births)
+    }).then(checkStatus)

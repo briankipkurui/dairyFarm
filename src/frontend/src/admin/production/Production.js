@@ -15,8 +15,8 @@ import {
 import {useEffect, useState} from "react";
 import {errorNotification} from "../../utils/Notification";
 import {getAllCows, getAllProduction} from "../adminUrlCall/AdminUrlCalls";
-import './Cows.css'
-import CowDrawerForm from "./CowDrawerForm";
+import './Production.css'
+import moment from 'moment';
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 const Production = () => {
 
@@ -28,9 +28,10 @@ const Production = () => {
 
     const columns = fetchCows => [
         {
-            title: 'productionId',
-            dataIndex: 'productionId',
-            key: 'productionId',
+            title: 'Name',
+            dataIndex: 'cattle',
+            key: 'name',
+            render: (cattle) => cattle.name
         },
         {
             title: 'unit',
@@ -41,6 +42,10 @@ const Production = () => {
             title: 'time',
             dataIndex: 'time',
             key: 'time',
+            render: (text) => {
+                const formattedTime = moment(text).format('ddd, MMM DD, YYYY, hh:mm:ss A');
+                return formattedTime;
+            },
         }
     ];
 
@@ -70,38 +75,21 @@ const Production = () => {
         if (fetching) {
             return <Spin indicator={antIcon}/>
         }
-        if (cows.length <= 0) {
+        if (production.length <= 0) {
             return <>
-                <Button
-                    onClick={() => setShowDrawer(!showDrawer)}
-                    type="primary" shape="round" icon={<PlusOutlined/>} size="small">
-                    Add prof
-                </Button>
-                <CowDrawerForm
-                    showDrawer={showDrawer}
-                    setShowDrawer={setShowDrawer}
-                    fetchStudents={fetchStudents}
-                />
                 <Empty/>
             </>
         }
         return <>
 
             <Table
-                dataSource={cows}
-                columns={columns(fetchStudents)}
+                dataSource={production}
+                columns={columns()}
                 bordered
                 title={() =>
                     <>
-                        <Tag>Number of cows</Tag>
-                        <Badge count={cows.length} className="site-badge-count-4"/>
-                        <br/><br/>
 
-                        <CowDrawerForm
-                            showDrawer={showDrawer}
-                            setShowDrawer={setShowDrawer}
-                            fetchStudents={fetchStudents}
-                        />
+                        <br/><br/>
                     </>
                 }
                 pagination={{pageSize: 50}}

@@ -2,6 +2,7 @@ package com.orizon.dairyFarm.service;
 
 import com.orizon.dairyFarm.repo.BirthsRepo;
 import com.orizon.dairyFarm.repo.CattleRepo;
+import com.orizon.dairyFarm.request.AddBirthsRequest;
 import com.orizon.dairyFarm.request.CattleRequest;
 import com.orizon.dairyFarm.tables.Births;
 import com.orizon.dairyFarm.tables.BirthsId;
@@ -15,29 +16,27 @@ public class BirthsService {
     private final CattleRepo cattleRepo;
     private final BirthsRepo birthsRepo;
 
-    public void addBirths(Long cattleId, Long calveId,CattleRequest cattleRequest) {
+    public void addBirths(AddBirthsRequest addBirthsRequest) {
         Cattle cattle
-                = cattleRepo.findById(cattleId)
+                = cattleRepo.findById(addBirthsRequest.getCattleId())
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("cattle with id " +
-                        cattleId + " was not found"));
+                        addBirthsRequest.getCattleId() + " was not found"));
 
         Cattle calve
-                = cattleRepo.findById(calveId)
+                = cattleRepo.findById(addBirthsRequest.getName())
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("cattle with id " +
-                        calveId + " was not found"));
+                        addBirthsRequest.getName() + " was not found"));
 
 
-
-
-        if (calveId.equals(cattleId)) {
+        if (addBirthsRequest.getName().equals(addBirthsRequest.getCattleId())) {
             throw new IllegalStateException("a cow cannot give birth to itself");
         }
 
-        if(!(calveId >= cattleId)){
+        if(!(addBirthsRequest.getName() >= addBirthsRequest.getCattleId())){
             throw  new IllegalStateException("a calve cannot give birth to a  cow");
         }
 
@@ -47,10 +46,9 @@ public class BirthsService {
         }
 
         Births births = new Births(
-                new BirthsId(cattleId,calveId),
+                new BirthsId(addBirthsRequest.getCattleId(),addBirthsRequest.getName()),
                 cattle,
-                calve,
-                cattleRequest.getSex()
+                calve
 
         );
         birthsRepo.save(births);

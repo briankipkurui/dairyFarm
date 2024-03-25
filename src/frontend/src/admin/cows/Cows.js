@@ -14,7 +14,7 @@ import {
 } from '@ant-design/icons';
 import React, {useEffect, useState} from "react";
 import {errorNotification, successNotification} from "../../utils/Notification";
-import {addToProduction, getAllCows, SearchCattle} from "../adminUrlCall/AdminUrlCalls";
+import {addBirths, addToProduction, getAllCows, SearchCattle} from "../adminUrlCall/AdminUrlCalls";
 import './Cows.css'
 import CowDrawerForm from "./CowDrawerForm";
 import {CgArrowsMergeAltH} from "react-icons/cg";
@@ -29,6 +29,7 @@ const Cows = () => {
     const [fetching, setFetching] = useState(true);
     const [showDrawer, setShowDrawer] = useState(false);
     const [selectedCow, setSelectedCow] = useState(null);
+    const [selectedCowForRelationShip, setSelectedCowForRelationShip] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isModalForRelationShipVisible, setIsModalForRelationShipVisible] = useState(false);
     const [searchTerm, setSearchTerm] = useState('')
@@ -41,6 +42,7 @@ const Cows = () => {
 
 
     const [form] = Form.useForm();
+    const [form2] = Form.useForm();
 
     const columns = fetchCows => [
         {
@@ -118,6 +120,15 @@ const Cows = () => {
     }, [selectedCow, form]);
 
 
+    useEffect(() => {
+        if (selectedCowForRelationShip) {
+            form2.setFieldsValue(selectedCowForRelationShip);
+        }else {
+            form2.setFieldsValue('');
+        }
+    }, [selectedCowForRelationShip, form2]);
+
+
     const handleAddProduction = async (product) => {
         console.log(JSON.stringify(product, null, 2))
         addToProduction(product)
@@ -138,10 +149,6 @@ const Cows = () => {
                 )
             });
         })
-        //     .finally(() => {
-        //     setSubmitting(false);
-        // })
-
     };
 
     const handleCancel = () => {
@@ -149,8 +156,8 @@ const Cows = () => {
         setSelectedCow(null)
     };
     const handleCancelForRelationShip = () => {
+        setSelectedCowForRelationShip(null)
         setIsModalForRelationShipVisible(false);
-        setSelectedCow(null)
     };
     const handleSexChange = (value) => {
         setSearchTerm(value)
@@ -184,15 +191,33 @@ const Cows = () => {
     };
 
     useEffect(() => {
-        const updatedCattleOptions = cowsToDisplay.map(category => ({
-            label: category.name,
-            value: category.cattleId
+        const updatedCattleOptions = cowsToDisplay.map(cattle => ({
+            label: cattle.name,
+            value: cattle.cattleId
         }));
         setCattleOptions(updatedCattleOptions);
     }, [cowsToDisplay]);
 
-    const makeRelationShip =(cattle) =>{
-        console.log("this are the cattles ",cattle)
+    const makeRelationShip =(births) =>{
+        addBirths(births)
+            .then(() => {
+                successNotification(
+                    "relationship successfully added",
+                    ` for calve with id  ${births.name}`
+                )
+                setIsModalForRelationShipVisible(false)
+                setSelectedCow(null)
+            }).catch(err => {
+            console.log(err);
+            err.response.json().then(res => {
+                console.log(res);
+                errorNotification(
+                    "There was an issue",
+                    `${res.message} [${res.status}] [${res.error}]`,
+                    "bottomLeft"
+                )
+            });
+        })
     }
 
     const renderStudents = () => {
@@ -296,20 +321,20 @@ const Cows = () => {
                         initialValues={selectedCow}
                     >
                         <Row gutter={16}>
-                            <Col span={12}>
+                            {/*<Col span={12}>*/}
                                 <Form.Item
                                     name="cattleId"
-                                    label="cowID"
+                                    label="perent Cow id"
                                     // hidden={true}
                                     rules={[{required: true, message: 'Please enter availableQuantity'}]}
                                 >
                                     <Input readOnly={true}/>
                                 </Form.Item>
-                            </Col>
+                            {/*</Col>*/}
                         </Row>
                         <Form.Item
                             name="name"
-                            label="cattle name"
+                            label="calve name"
                             rules={[{required: true, message: 'Please select a sex'}]}
                         >
                             <Select
@@ -325,7 +350,7 @@ const Cows = () => {
                         </Form.Item>
                         <Form.Item>
                             <Button type="primary" htmlType="submit">
-                                Add production
+                                submit
                             </Button>
                         </Form.Item>
                     </Form>

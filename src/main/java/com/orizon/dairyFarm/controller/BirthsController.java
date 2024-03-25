@@ -1,5 +1,6 @@
 package com.orizon.dairyFarm.controller;
 
+import com.orizon.dairyFarm.request.AddBirthsRequest;
 import com.orizon.dairyFarm.request.CattleRequest;
 import com.orizon.dairyFarm.service.BirthsService;
 import com.sun.source.tree.BinaryTree;
@@ -11,10 +12,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "api/v1/births")
 public class BirthsController {
     private final BirthsService birthsService;
-    @PostMapping("/{cattleId}/{calveId}")
-    public void addBirths(@PathVariable("cattleId") Long cattleId,
-                          @PathVariable("calveId") Long calveId,
-                          @RequestBody CattleRequest cattleRequest){
-        birthsService.addBirths(cattleId,calveId,cattleRequest);
+    @PostMapping("")
+    public void addBirths(@RequestBody AddBirthsRequest addBirthsRequest){
+        birthsService.addBirths(addBirthsRequest);
     }
+
 }

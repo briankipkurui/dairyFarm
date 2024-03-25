@@ -34,15 +34,13 @@ public class Births {
             name = "calveId"
     )
     private Cattle calve;
-    private  String sex;
 
     public Births(BirthsId birthsId,
                   Cattle cattle,
-                  Cattle calve,
-                  String sex) {
+                  Cattle calve
+    ) {
         this.birthsId = birthsId;
         this.cattle = cattle;
         this.calve = calve;
-        this.sex = sex;
     }
 }

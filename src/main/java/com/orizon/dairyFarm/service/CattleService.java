@@ -24,7 +24,7 @@ public class CattleService {
     }
 
     public List<Cattle> cattleService() {
-        PageRequest pageRequest = PageRequest.of(0, 1, Sort.by("name").ascending());
+        PageRequest pageRequest = PageRequest.of(0, 2, Sort.by("name").ascending());
         Page<Cattle> all = cattleRepo.findAll(pageRequest);
         return all.getContent();
     }
