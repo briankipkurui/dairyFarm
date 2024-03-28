@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
@@ -23,6 +24,7 @@ public class CattleController {
     public List<Cattle> cattleService() {
         return cattleService.cattleService();
     }
+
 
     @GetMapping("search")
     public List<Cattle> searchCattle(@RequestParam("query") String query) {

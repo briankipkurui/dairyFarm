@@ -10,6 +10,9 @@ import com.orizon.dairyFarm.tables.Cattle;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
+
 @Service
 @AllArgsConstructor
 public class BirthsService {
@@ -55,4 +58,7 @@ public class BirthsService {
 
     }
 
+    public List<Object[]> getDescendants(Long cattleId) {
+        return birthsRepo.findDescendantsOfCattle(cattleId);
+    }
 }

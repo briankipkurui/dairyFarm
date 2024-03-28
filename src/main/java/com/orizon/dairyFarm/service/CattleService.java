@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -24,7 +25,7 @@ public class CattleService {
     }
 
     public List<Cattle> cattleService() {
-        PageRequest pageRequest = PageRequest.of(0, 2, Sort.by("name").ascending());
+        PageRequest pageRequest = PageRequest.of(0, 50, Sort.by("name").ascending());
         Page<Cattle> all = cattleRepo.findAll(pageRequest);
         return all.getContent();
     }
@@ -33,4 +34,5 @@ public class CattleService {
         String newQuery = query.toUpperCase();
         return cattleRepo.searchProduct(newQuery);
     }
+
 }
