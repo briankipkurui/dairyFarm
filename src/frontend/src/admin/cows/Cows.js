@@ -20,6 +20,8 @@ import CowDrawerForm from "./CowDrawerForm";
 import {CgArrowsMergeAltH} from "react-icons/cg";
 import {FaCow} from "react-icons/fa6";
 import {useDebounce} from "../utils/DebounceHook";
+import {Link} from "react-router-dom";
+import {LuNetwork} from "react-icons/lu";
 
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 const {Option} = Select;
@@ -34,8 +36,7 @@ const Cows = () => {
     const [isModalForRelationShipVisible, setIsModalForRelationShipVisible] = useState(false);
     const [searchTerm, setSearchTerm] = useState('')
 
-    const [cattleOptions,setCattleOptions] = useState([])
-
+    const [cattleOptions, setCattleOptions] = useState([])
 
 
     const [selectedSex, setSelectedSex] = useState([]);
@@ -87,6 +88,15 @@ const Cows = () => {
                             <CgArrowsMergeAltH style={{fontSize: '30px'}}/>
                         </Radio.Button>
                     </Tooltip>
+                    <Tooltip title={`view family tree of  ${cows.name}`}>
+                        <Link to={`/admin/${cows.cattleId}`}>
+                            <Radio.Button
+                                style={{border: 'none'}}
+                                value="small">
+                                <LuNetwork style={{fontSize: '30px'}}/>
+                            </Radio.Button>
+                        </Link>
+                    </Tooltip>
                 </Space>
         },
     ];
@@ -123,7 +133,7 @@ const Cows = () => {
     useEffect(() => {
         if (selectedCowForRelationShip) {
             form2.setFieldsValue(selectedCowForRelationShip);
-        }else {
+        } else {
             form2.setFieldsValue('');
         }
     }, [selectedCowForRelationShip, form2]);
@@ -198,7 +208,7 @@ const Cows = () => {
         setCattleOptions(updatedCattleOptions);
     }, [cowsToDisplay]);
 
-    const makeRelationShip =(births) =>{
+    const makeRelationShip = (births) => {
         addBirths(births)
             .then(() => {
                 successNotification(
@@ -314,7 +324,7 @@ const Cows = () => {
                 onCancel={handleCancelForRelationShip}
                 footer={null}
             >
-                { selectedCow && (
+                {selectedCow && (
                     <Form
                         form={form}
                         onFinish={makeRelationShip}
@@ -322,14 +332,14 @@ const Cows = () => {
                     >
                         <Row gutter={16}>
                             {/*<Col span={12}>*/}
-                                <Form.Item
-                                    name="cattleId"
-                                    label="perent Cow id"
-                                    // hidden={true}
-                                    rules={[{required: true, message: 'Please enter availableQuantity'}]}
-                                >
-                                    <Input readOnly={true}/>
-                                </Form.Item>
+                            <Form.Item
+                                name="cattleId"
+                                label="perent Cow id"
+                                // hidden={true}
+                                rules={[{required: true, message: 'Please enter availableQuantity'}]}
+                            >
+                                <Input readOnly={true}/>
+                            </Form.Item>
                             {/*</Col>*/}
                         </Row>
                         <Form.Item

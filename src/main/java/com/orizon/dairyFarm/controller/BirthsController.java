@@ -3,11 +3,16 @@ package com.orizon.dairyFarm.controller;
 import com.orizon.dairyFarm.request.AddBirthsRequest;
 import com.orizon.dairyFarm.request.CattleRequest;
 import com.orizon.dairyFarm.service.BirthsService;
+import com.orizon.dairyFarm.tables.CowNode;
 import com.sun.source.tree.BinaryTree;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -19,15 +24,25 @@ public class BirthsController {
     public void addBirths(@RequestBody AddBirthsRequest addBirthsRequest){
         birthsService.addBirths(addBirthsRequest);
     }
-
+//     testing route
     @GetMapping("descendants/{id}")
-    public List<Object[]> cattleService(@PathVariable("id")Long Id) {
+    public List<int[]> cattleService(@PathVariable("id")Long Id) {
         return birthsService.getDescendants(Id);
     }
-
     @GetMapping("ancestors/{calveId}")
     public List<Object[]> getCowAncestors(@PathVariable("calveId")Long calveId) {
         return birthsService.getCowAncestors(calveId);
     }
+    @GetMapping("cowDescendants/{id}")
+    public ResponseEntity<Map<String, Object>> getCowDescendants(@PathVariable("id")Long Id) {
+        List<int[]> descendants = birthsService.getDescendants(Id);
+        int[] firstArrayOfAncestor = descendants.get(0);
+        long elementAtIndex1 = firstArrayOfAncestor[1];
+        CowNode root = birthsService.generateTree(descendants,elementAtIndex1);
+        Map<String, Object> json = root.toJson();
+        return new ResponseEntity<>(json, HttpStatus.OK);
+    }
+
+
 
 }

@@ -55,3 +55,12 @@ export const addBirths = births =>
         method: 'POST',
         body: JSON.stringify(births)
     }).then(checkStatus)
+
+export const getAllCowTrees = () =>
+    fetch("/api/v1/cattle/cows", {
+        method: 'GET'
+    }).then(checkStatus);
+export const getFamilyTreeById = cattleId =>
+    fetch(`/api/v1/births/cowDescendants/${cattleId}`, {
+        method: 'GET'
+    }).then(checkStatus);

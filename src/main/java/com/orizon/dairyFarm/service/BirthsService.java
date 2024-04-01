@@ -7,11 +7,14 @@ import com.orizon.dairyFarm.request.CattleRequest;
 import com.orizon.dairyFarm.tables.Births;
 import com.orizon.dairyFarm.tables.BirthsId;
 import com.orizon.dairyFarm.tables.Cattle;
+import com.orizon.dairyFarm.tables.CowNode;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -59,9 +62,9 @@ public class BirthsService {
 
     }
 
-    public List<Object[]> getDescendants(Long Id) {
+    public List<int[]> getDescendants(Long Id) {
 
-        List<Object[]> descendantsOfCattle = birthsRepo.findDescendantsOfCattle(Id);
+        List<int[]> descendantsOfCattle = birthsRepo.findDescendantsOfCattle(Id);
 
         if (descendantsOfCattle.isEmpty()) {
             List<Object[]> ancestorsOfCattle = birthsRepo.findAncestorsOfCattle(Id);
@@ -81,23 +84,24 @@ public class BirthsService {
 
         } else {
             System.out.println("it is  not empty");
-            if (!descendantsOfCattle.isEmpty()) {
-                Object[] lastArray = descendantsOfCattle.get(descendantsOfCattle.size() - 1);
-                if (lastArray.length > 0) {
-                    BigInteger bigIntegerValue = (BigInteger) lastArray[0];
-                    long longValue = bigIntegerValue.longValue();
-                    System.out.println("Last array inside the array at index 0: " + longValue);
-                    List<Object[]> ancestorsOfCattle = birthsRepo.findAncestorsOfCattle(longValue);
-                    Object[] lastArrayOfAncestor = ancestorsOfCattle.get(ancestorsOfCattle.size() - 1);
-                    BigInteger bigIntegerValueOfAncestor = (BigInteger) lastArrayOfAncestor[1];
-                    long longValueOfAncestor = bigIntegerValueOfAncestor.longValue();
-                    descendantsOfCattle = birthsRepo.findDescendantsOfCattle(longValueOfAncestor);
-                } else {
-                    System.out.println("The last array is empty");
-                }
+            int[] lastArray = descendantsOfCattle.get(descendantsOfCattle.size() - 1);
+            if (lastArray.length > 0) {
+                int bigIntegerValue = lastArray[0];
+                long longValue = bigIntegerValue;
+                System.out.println("Last array of a cow  inside the array at index 0: " + longValue);
+                List<Object[]> ancestorsOfCattle = birthsRepo.findAncestorsOfCattle(longValue);
+                Object[] lastArrayOfAncestor = ancestorsOfCattle.get(ancestorsOfCattle.size() - 1);
+
+                BigInteger bigIntegerValueOfAncestor = (BigInteger) lastArrayOfAncestor[1];
+                long longValueOfAncestor = bigIntegerValueOfAncestor.longValue();
+
+                descendantsOfCattle = birthsRepo.findDescendantsOfCattle(longValueOfAncestor);
             } else {
-                System.out.println("The list is empty");
+                System.out.println("The last array is empty");
             }
+        }
+        if (descendantsOfCattle.isEmpty()) {
+            throw new IllegalStateException("the provided id as no relationship");
         }
 
         return descendantsOfCattle;
@@ -105,5 +109,50 @@ public class BirthsService {
 
     public List<Object[]> getCowAncestors(Long cattleId) {
         return birthsRepo.findAncestorsOfCattle(cattleId);
+    }
+
+    public CowNode generateTree(List<int[]> relationships,long parentMother) {
+        Map<String, CowNode> cowMap = new HashMap<>();
+
+        for (int[] relation : relationships) {
+            int parentId = relation[1];
+            int childId = relation[0];
+            Cattle cattleByParentId
+                    = cattleRepo.findById((long) parentId)
+                    .stream()
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalStateException("cattle with id " +
+                            (long) parentId+ " was not found"));
+
+            Cattle cattleByChildId
+                    = cattleRepo.findById((long) childId)
+                    .stream()
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalStateException("cattle with id " +
+                            (long) childId+ " was not found"));
+
+            String parentIdToUse = cattleByParentId.getName();
+            String childIdToUse = cattleByChildId.getName();
+
+
+            CowNode parent = cowMap.getOrDefault(parentIdToUse, new CowNode(parentIdToUse));
+            CowNode child = cowMap.getOrDefault(childIdToUse, new CowNode(childIdToUse));
+
+            parent.addChild(child);
+
+            cowMap.put(parentIdToUse, parent);
+            cowMap.put(childIdToUse, child);
+        }
+
+        Cattle parentMotherID
+                = cattleRepo.findById(parentMother)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("cattle with id " +
+                        parentMother + " was not found"));
+
+        String name = parentMotherID.getName();
+
+        return cowMap.get(name);
     }
 }

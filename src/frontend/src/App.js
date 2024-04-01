@@ -5,6 +5,8 @@ import Missing from "./utils/Missing";
 import AdminLayout from "./layout/AdminLayout";
 import Cows from "./admin/cows/Cows";
 import Production from "./admin/production/Production";
+import CowTree from "./admin/cowTree/CowTree";
+import SingleCow from "./admin/cows/SingleCow";
 
 function App() {
     return (
@@ -18,6 +20,8 @@ function App() {
                 <Route path="/admin" element={<AdminLayout/>}>
                     <Route path="cows" element={<Cows/>}/>
                     <Route path="production" element={<Production/>}/>
+                    <Route path="cowTree" element={<CowTree/>}/>
+                    <Route path=":cattleId" element={<SingleCow/>}/>
                 </Route>
             </Routes>
         </>

@@ -18,7 +18,7 @@ public interface BirthsRepo extends JpaRepository<Births, Long> {
             "  JOIN cow_descendants cd ON b.cattle_id = cd.calve_id " +
             ") " +
             "SELECT * FROM cow_descendants")
-    List<Object[]> findDescendantsOfCattle(long cattleId);
+    List<int[]> findDescendantsOfCattle(long cattleId);
 
 
 //    @Query(nativeQuery = true, value = "WITH RECURSIVE cow_ancestors AS ( " +
