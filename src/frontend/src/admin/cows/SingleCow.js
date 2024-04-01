@@ -6,7 +6,7 @@ import {errorNotification} from "../../utils/Notification";
 import './Cows.css'
 
 const SingleCow = () => {
-    const [familyTree,setFamilyTree] = useState({})
+    const [familyTree, setFamilyTree] = useState({})
     const {cattleId} = useParams()
 
     const fetchStudents = (cattleId) =>
@@ -28,12 +28,21 @@ const SingleCow = () => {
     useEffect(() => {
         fetchStudents(cattleId);
     }, []);
-    const separation = { siblings: 2, nonSiblings: 2.1 };
+    const separation = {siblings: 2, nonSiblings: 2.1};
     return (
         <>
             <div className="cows">
-                you are viewing family tree of cattle with id  {cattleId}
-                <div style={{width: '100%', height: '100vh', display:'flex',justifyContent:'center',alignItems: 'center',background: 'linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)', backgroundSize: '20px 20px', zIndex: -1 }}>
+                you are viewing family tree of cattle with id {cattleId}
+                <div style={{
+                    width: '100%',
+                    height: '100vh',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    background: 'linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)',
+                    backgroundSize: '20px 20px',
+                    zIndex: -1
+                }}>
                     <Tree className="tree" data={familyTree} orientation="vertical" separation={separation}/>
                 </div>
 
