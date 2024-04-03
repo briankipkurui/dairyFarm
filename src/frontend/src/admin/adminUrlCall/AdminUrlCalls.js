@@ -61,6 +61,11 @@ export const getAllCowTrees = () =>
         method: 'GET'
     }).then(checkStatus);
 export const getFamilyTreeById = cattleId =>
+    fetch(`/api/v1/births/distinctCowDescendants/${cattleId}`, {
+        method: 'GET'
+    }).then(checkStatus);
+
+export const getAllFamilyTreeById = cattleId =>
     fetch(`/api/v1/births/cowDescendants/${cattleId}`, {
         method: 'GET'
     }).then(checkStatus);

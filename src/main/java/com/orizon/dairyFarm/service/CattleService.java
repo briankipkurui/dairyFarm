@@ -18,7 +18,7 @@ public class CattleService {
     private  final CattleRepo cattleRepo;
     public void addCattle(CattleRequest cattleRequest) {
         Cattle cattle = new Cattle(
-                cattleRequest.getName(),
+                cattleRequest.getName().toUpperCase(),
                 cattleRequest.getSex()
         );
         cattleRepo.save(cattle);

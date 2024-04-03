@@ -64,7 +64,7 @@ public class BirthsService {
 
     public List<int[]> getDescendants(Long Id) {
 
-        List<int[]> descendantsOfCattle = birthsRepo.findDescendantsOfCattle(Id);
+        List<int[]> descendantsOfCattle = birthsRepo.findDescendantsOfCattleOneStep(Id);
 
         if (descendantsOfCattle.isEmpty()) {
             List<Object[]> ancestorsOfCattle = birthsRepo.findAncestorsOfCattle(Id);
@@ -107,11 +107,21 @@ public class BirthsService {
         return descendantsOfCattle;
     }
 
+    public List<int[]> getDistinctCowDescendants(Long Id) {
+
+        List<int[]> descendantsOfCattle = birthsRepo.findDescendantsOfCattle(Id);
+
+        if (descendantsOfCattle.isEmpty()) {
+            descendantsOfCattle = birthsRepo.findDescendantsOfCattleByCalveId(Id);
+        }
+        return descendantsOfCattle;
+    }
+
     public List<Object[]> getCowAncestors(Long cattleId) {
         return birthsRepo.findAncestorsOfCattle(cattleId);
     }
 
-    public CowNode generateTree(List<int[]> relationships,long parentMother) {
+    public CowNode generateTree(List<int[]> relationships, long parentMother) {
         Map<String, CowNode> cowMap = new HashMap<>();
 
         for (int[] relation : relationships) {
@@ -122,14 +132,14 @@ public class BirthsService {
                     .stream()
                     .findFirst()
                     .orElseThrow(() -> new IllegalStateException("cattle with id " +
-                            (long) parentId+ " was not found"));
+                            (long) parentId + " was not found"));
 
             Cattle cattleByChildId
                     = cattleRepo.findById((long) childId)
                     .stream()
                     .findFirst()
                     .orElseThrow(() -> new IllegalStateException("cattle with id " +
-                            (long) childId+ " was not found"));
+                            (long) childId + " was not found"));
 
             String parentIdToUse = cattleByParentId.getName();
             String childIdToUse = cattleByChildId.getName();
@@ -154,5 +164,9 @@ public class BirthsService {
         String name = parentMotherID.getName();
 
         return cowMap.get(name);
+    }
+
+    public List<int[]> descendantsOfCattleByCalveId(Long id) {
+        return birthsRepo.findDescendantsOfCattleByCalveId(id);
     }
 }

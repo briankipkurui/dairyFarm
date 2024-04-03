@@ -7,7 +7,7 @@ const AdminHeader = () => {
             <div className="big">
                 <div className="navbar">
                     <div className="container  flex ">
-                        <Link to="#" className="logo logo-logo">lelgina<span>Investments</span></Link>
+                        <Link to="#" className="logo logo-logo">Dairy<span>Farm</span></Link>
 
                         <nav>
                             <ul>
@@ -19,11 +19,6 @@ const AdminHeader = () => {
                                 <li className="large-screen">
                                     <Link to='/admin/production' className="nav-menu">
                                         production
-                                    </Link>
-                                </li>
-                                <li className="large-screen">
-                                    <Link to='/admin/cowTree' className="nav-menu">
-                                        cowTree
                                     </Link>
                                 </li>
                             </ul>
