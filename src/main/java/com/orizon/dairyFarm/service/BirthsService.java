@@ -63,9 +63,7 @@ public class BirthsService {
     }
 
     public List<int[]> getDescendants(Long Id) {
-
         List<int[]> descendantsOfCattle = birthsRepo.findDescendantsOfCattleOneStep(Id);
-
         if (descendantsOfCattle.isEmpty()) {
             List<Object[]> ancestorsOfCattle = birthsRepo.findAncestorsOfCattle(Id);
             if (!ancestorsOfCattle.isEmpty()) {
@@ -108,9 +106,7 @@ public class BirthsService {
     }
 
     public List<int[]> getDistinctCowDescendants(Long Id) {
-
         List<int[]> descendantsOfCattle = birthsRepo.findDescendantsOfCattle(Id);
-
         if (descendantsOfCattle.isEmpty()) {
             descendantsOfCattle = birthsRepo.findDescendantsOfCattleByCalveId(Id);
         }

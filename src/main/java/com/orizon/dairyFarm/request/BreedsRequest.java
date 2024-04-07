@@ -3,8 +3,7 @@ package com.orizon.dairyFarm.request;
 import lombok.Data;
 
 @Data
-public class CattleRequest {
+public class BreedsRequest {
     private String name;
-    private String sex;
-    private Long breed;
+    private Long breedId;
 }

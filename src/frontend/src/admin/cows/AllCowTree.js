@@ -4,7 +4,7 @@ import {errorNotification} from "../../utils/Notification";
 import Tree from "react-d3-tree";
 import './Cows.css'
 
-const AllCowTree = ({cattleId})=> {
+const AllCowTree = ({cattleId}) => {
     const [familyTree, setFamilyTree] = useState({})
     const fetchStudents = (cattleId) =>
         getAllFamilyTreeById(cattleId)
@@ -26,12 +26,12 @@ const AllCowTree = ({cattleId})=> {
         fetchStudents(cattleId);
     }, []);
     const separation = {siblings: 2, nonSiblings: 2.1};
-    const translate = { x: 500, y: 50 };
+    const translate = {x: 500, y: 50};
     return (
         <>
-            {/*<Tree className="tree" data={familyTree} orientation="vertical" separation={separation}/>*/}
 
-                <Tree  translate={translate} data={familyTree} orientation="vertical" separation={separation}/>
+
+            <Tree translate={translate} data={familyTree} orientation="vertical"  separation={separation} />
 
         </>
     )

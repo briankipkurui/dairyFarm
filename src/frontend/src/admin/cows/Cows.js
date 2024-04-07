@@ -193,7 +193,7 @@ const Cows = () => {
     useDebounce(searchTerm, 50, searchCattleBySearchTerm)
 
     const hanfafa = (inputValue, option) => {
-        const label = option.props.children; // Get the children of the option
+        const label = option.props.children;
         if (label && typeof label === 'string') {
             return label.toLowerCase().includes(inputValue.toLowerCase());
         }
@@ -250,7 +250,6 @@ const Cows = () => {
             </>
         }
         return <>
-
             <Table
                 dataSource={cows}
                 columns={columns(fetchStudents)}

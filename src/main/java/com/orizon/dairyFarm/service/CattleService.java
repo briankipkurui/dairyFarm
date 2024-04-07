@@ -17,6 +17,7 @@ import java.util.Objects;
 public class CattleService {
     private  final CattleRepo cattleRepo;
     public void addCattle(CattleRequest cattleRequest) {
+        System.out.println("this are the cattle options........................." +cattleRequest);
         Cattle cattle = new Cattle(
                 cattleRequest.getName().toUpperCase(),
                 cattleRequest.getSex()

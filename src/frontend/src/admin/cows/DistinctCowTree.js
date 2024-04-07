@@ -28,7 +28,7 @@ const DistinctCowTree = ({cattleId}) => {
     const translate = { x: 500, y: 50 };
     return (
         <>
-            <Tree translate={translate} data={familyTree} orientation="vertical" separation={separation}/>
+            <Tree translate={translate} data={familyTree} orientation="vertical" separation={separation} />
         </>
     )
 }

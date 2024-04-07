@@ -6,6 +6,7 @@ import AdminLayout from "./layout/AdminLayout";
 import Cows from "./admin/cows/Cows";
 import Production from "./admin/production/Production";
 import SingleCow from "./admin/cows/SingleCow";
+import Breeds from "./admin/breeds/Breeds";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                     <Route path="cows" element={<Cows/>}/>
                     <Route path="production" element={<Production/>}/>
                     <Route path=":cattleId" element={<SingleCow/>}/>
+                    <Route path="breeds" element={<Breeds/>}/>
                 </Route>
             </Routes>
         </>

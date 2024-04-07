@@ -1,16 +1,40 @@
 import {Drawer, Input, Col, Select, Form, Row, Button, Spin} from 'antd';
 import {LoadingOutlined} from "@ant-design/icons";
-import {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {errorNotification, successNotification} from "../../utils/Notification";
-import {addNewCattle} from "../adminUrlCall/AdminUrlCalls";
+import {addNewCattle, getBreeds, SearchBreed, SearchCattle} from "../adminUrlCall/AdminUrlCalls";
+import {useDebounce} from "../utils/DebounceHook";
 
 const {Option} = Select;
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 
 function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
     const onCLose = () => setShowDrawer(false);
     const [submitting, setSubmitting] = useState(false);
+    const [breedsToDisplay, setBreedToDisplay] = useState([])
+    const [searchTerm,setSearchTerm] = useState('')
+    const [breedOptions, setBreedOptions] = useState([])
+
+    const fetchBreeds = () =>
+        getBreeds()
+            .then(res => res.json())
+            .then(data => {
+                setBreedToDisplay(data);
+            }).catch(err => {
+            console.log(err.response)
+            err.response.json().then(res => {
+                console.log(res);
+                errorNotification(
+                    "There was an issue",
+                    `${res.message} [${res.status}] [${res.error}]`
+                )
+            });
+        })
+
+    useEffect(() => {
+        fetchBreeds();
+    }, []);
 
     const onFinish = student => {
         setSubmitting(true)
@@ -22,25 +46,62 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
                 successNotification(
                     "Cow successfully added",
                     `${student.name} was added to the system`
-                    )
+                )
                 fetchStudents();
             }).catch(err => {
-                console.log(err);
-                err.response.json().then(res => {
-                    console.log(res);
-                    errorNotification(
-                        "There was an issue",
-                        `${res.message} [${res.status}] [${res.error}]`,
-                        "bottomLeft"
-                    )
-                });
-            }).finally(() => {
-                setSubmitting(false);
-            })
+            console.log(err);
+            err.response.json().then(res => {
+                console.log(res);
+                errorNotification(
+                    "There was an issue",
+                    `${res.message} [${res.status}] [${res.error}]`,
+                    "bottomLeft"
+                )
+            });
+        }).finally(() => {
+            setSubmitting(false);
+        })
     };
 
     const onFinishFailed = errorInfo => {
         alert(JSON.stringify(errorInfo, null, 2));
+    };
+    const handleBreedChange = (value) => {
+        setSearchTerm(value)
+    }
+    const searchBreedBySearchTerm = (query) => {
+        SearchBreed(searchTerm)
+            .then(res => res.json())
+            .then(data => {
+                setBreedToDisplay(data)
+            }).catch(err => {
+            console.log(err.response)
+            err.response.json().then(res => {
+                console.log(res);
+                errorNotification(
+                    "There was an issue",
+                    `${res.message} [${res.status}] [${res.error}]`
+                )
+            });
+        })
+    }
+
+    useDebounce(searchTerm, 50, searchBreedBySearchTerm)
+
+    useEffect(() => {
+        const updatedBreedOptions = breedsToDisplay.map(breed => ({
+            label: breed.name,
+            value: breed.breedId
+        }));
+        setBreedOptions(updatedBreedOptions);
+    }, [breedsToDisplay]);
+
+    const filterBreedOptions = (inputValue, option) => {
+        const label = option.props.children;
+        if (label && typeof label === 'string') {
+            return label.toLowerCase().includes(inputValue.toLowerCase());
+        }
+        return false;
     };
 
     return <Drawer
@@ -88,6 +149,28 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
                     </Form.Item>
                 </Col>
             </Row>
+            <Row gutter={16}>
+                <Col span={12}>
+                    <Form.Item
+                        name="breed"
+                        label="breed"
+                        rules={[{required: true, message: 'Please select a sex'}]}
+                    >
+                        <Select
+                            placeholder="Please select a sex"
+                            showSearch
+                            onSearch={handleBreedChange}
+                            filterOption={filterBreedOptions}
+                        >
+                            {breedOptions.map(option => (
+                                <Option key={option.value} value={option.value}>{option.label}</Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                </Col>
+
+            </Row>
+
             <Row>
                 <Col span={12}>
                     <Form.Item>
@@ -98,7 +181,7 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
                 </Col>
             </Row>
             <Row>
-                {submitting && <Spin indicator={antIcon} />}
+                {submitting && <Spin indicator={antIcon}/>}
             </Row>
         </Form>
     </Drawer>

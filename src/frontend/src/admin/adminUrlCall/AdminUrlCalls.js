@@ -56,10 +56,6 @@ export const addBirths = births =>
         body: JSON.stringify(births)
     }).then(checkStatus)
 
-export const getAllCowTrees = () =>
-    fetch("/api/v1/cattle/cows", {
-        method: 'GET'
-    }).then(checkStatus);
 export const getFamilyTreeById = cattleId =>
     fetch(`/api/v1/births/distinctCowDescendants/${cattleId}`, {
         method: 'GET'
@@ -69,3 +65,41 @@ export const getAllFamilyTreeById = cattleId =>
     fetch(`/api/v1/births/cowDescendants/${cattleId}`, {
         method: 'GET'
     }).then(checkStatus);
+
+export const addBreeds = breed =>
+    fetch("/api/v1/breeds", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(breed)
+    }).then(checkStatus)
+
+export const getBreeds = () =>
+    fetch("/api/v1/breeds", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET',
+    }).then(checkStatus);
+export const updateBreeds = breed =>
+    fetch("/api/v1/breeds", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'PUT',
+        body: JSON.stringify(breed)
+    }).then(checkStatus)
+
+export const deleteBreed = breedId =>
+    fetch(`api/v1/breeds/${breedId}`, {
+        method: 'DELETE'
+    }).then(checkStatus);
+
+export const SearchBreed = query =>
+    fetch(`/api/v1/breeds/search?query=${query}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)
