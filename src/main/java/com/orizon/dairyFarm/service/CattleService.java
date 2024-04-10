@@ -1,8 +1,12 @@
 package com.orizon.dairyFarm.service;
 
+import com.orizon.dairyFarm.repo.BreedsRepo;
 import com.orizon.dairyFarm.repo.CattleRepo;
+import com.orizon.dairyFarm.repo.LivestockRepo;
 import com.orizon.dairyFarm.request.CattleRequest;
+import com.orizon.dairyFarm.tables.Breeds;
 import com.orizon.dairyFarm.tables.Cattle;
+import com.orizon.dairyFarm.tables.Livestock;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,12 +19,33 @@ import java.util.Objects;
 @Service
 @AllArgsConstructor
 public class CattleService {
-    private  final CattleRepo cattleRepo;
+    private final CattleRepo cattleRepo;
+    private final BreedsRepo breedsRepo;
+    private final LivestockRepo livestockRepo;
+
     public void addCattle(CattleRequest cattleRequest) {
-        System.out.println("this are the cattle options........................." +cattleRequest);
+        System.out.println("this are the cattle options........................." + cattleRequest);
+
+        Breeds breeds
+                = breedsRepo.findById(cattleRequest.getBreedId())
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("breed with id " +
+                        cattleRequest.getBreedId() + " was not found"));
+
+        Livestock livestock
+                = livestockRepo.findById(cattleRequest.getLivestockId())
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("livestock with id " +
+                        cattleRequest.getLivestockId() + " was not found"));
+
+
         Cattle cattle = new Cattle(
                 cattleRequest.getName().toUpperCase(),
-                cattleRequest.getSex()
+                cattleRequest.getSex(),
+                breeds,
+                livestock
         );
         cattleRepo.save(cattle);
     }
@@ -36,4 +61,7 @@ public class CattleService {
         return cattleRepo.searchProduct(newQuery);
     }
 
+    public Long getMaxId() {
+        return cattleRepo.maxID();
+    }
 }

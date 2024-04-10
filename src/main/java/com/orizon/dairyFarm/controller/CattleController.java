@@ -18,6 +18,7 @@ import java.util.*;
 @RequestMapping(path = "api/v1/cattle")
 public class CattleController {
     private final CattleService cattleService;
+    private final CattleRepo cattleRepo;
 
     @PostMapping()
     public void addCattle(@RequestBody CattleRequest cattleRequest) {
@@ -33,6 +34,11 @@ public class CattleController {
     @GetMapping("search")
     public List<Cattle> searchCattle(@RequestParam("query") String query) {
         return cattleService.searchCattle(query);
+    }
+
+    @GetMapping("maxId")
+    public Long getMaxId() {
+        return cattleService.getMaxId();
     }
 
 }

@@ -103,3 +103,33 @@ export const SearchBreed = query =>
         },
         method: 'GET'
     }).then(checkStatus)
+
+export const getMaxId = () =>
+    fetch("/api/v1/cattle/maxId", {
+        method: 'GET'
+    }).then(checkStatus);
+
+export const addLivestock = livestock =>
+    fetch("/api/v1/livestock", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(livestock)
+    }).then(checkStatus)
+
+export const getLivestock = () =>
+    fetch("/api/v1/livestock", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET',
+    }).then(checkStatus);
+
+export const SearchLivestock = query =>
+    fetch(`/api/v1/livestock/search?query=${query}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)

@@ -34,6 +34,7 @@ public class BreedsController {
             @PathVariable("breedId") Long breedId) {
         breedsService.deleteBreeds(breedId);
     }
+
     @GetMapping("search")
     public List<Breeds> searchBreeds(@RequestParam("query") String query) {
         return breedsService.searchBreeds(query);

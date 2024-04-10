@@ -27,10 +27,19 @@ public class Cattle {
     private Long cattleId;
     private  String name;
     private String sex;
+    @OneToOne
+    private Breeds breeds;
+    @OneToOne
+    private Livestock livestock;
 
 
-    public Cattle(String name, String sex) {
+    public Cattle(String name,
+                  String sex,
+                  Breeds breeds,
+                  Livestock livestock) {
         this.name = name;
         this.sex = sex;
+        this.breeds = breeds;
+        this.livestock = livestock;
     }
 }

@@ -229,6 +229,7 @@ const Cows = () => {
             });
         })
     }
+    console.log("this is a real skdmccccccccccccccccc")
 
     const renderStudents = () => {
         if (fetching) {

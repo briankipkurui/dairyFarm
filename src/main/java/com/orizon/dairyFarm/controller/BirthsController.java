@@ -40,6 +40,7 @@ public class BirthsController {
     @GetMapping("cowDescendants/{id}")
     public ResponseEntity<Map<String, Object>> getCowDescendants(@PathVariable("id") Long Id) {
         List<int[]> descendants = birthsService.getDescendants(Id);
+
         int[] firstArrayOfAncestor = descendants.get(0);
         long elementAtIndex1 = firstArrayOfAncestor[1];
         CowNode root = birthsService.generateTree(descendants, elementAtIndex1);

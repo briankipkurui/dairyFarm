@@ -26,6 +26,11 @@ const AdminHeader = () => {
                                         breeds
                                     </Link>
                                 </li>
+                                <li className="large-screen">
+                                    <Link to='/admin/livestock' className="nav-menu">
+                                        livestock
+                                    </Link>
+                                </li>
                             </ul>
                         </nav>
                     </div>

@@ -7,6 +7,7 @@ import Cows from "./admin/cows/Cows";
 import Production from "./admin/production/Production";
 import SingleCow from "./admin/cows/SingleCow";
 import Breeds from "./admin/breeds/Breeds";
+import Livestock from "./admin/livestock/Livestock";
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                     <Route path="production" element={<Production/>}/>
                     <Route path=":cattleId" element={<SingleCow/>}/>
                     <Route path="breeds" element={<Breeds/>}/>
+                    <Route path="livestock" element={<Livestock/>}/>
                 </Route>
             </Routes>
         </>

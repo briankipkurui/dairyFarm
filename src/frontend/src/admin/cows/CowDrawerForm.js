@@ -2,7 +2,14 @@ import {Drawer, Input, Col, Select, Form, Row, Button, Spin} from 'antd';
 import {LoadingOutlined} from "@ant-design/icons";
 import React, {useEffect, useState} from 'react';
 import {errorNotification, successNotification} from "../../utils/Notification";
-import {addNewCattle, getBreeds, SearchBreed, SearchCattle} from "../adminUrlCall/AdminUrlCalls";
+import {
+    addNewCattle,
+    getBreeds, getLivestock,
+    getMaxId,
+    SearchBreed,
+    SearchCattle,
+    SearchLivestock
+} from "../adminUrlCall/AdminUrlCalls";
 import {useDebounce} from "../utils/DebounceHook";
 
 const {Option} = Select;
@@ -13,8 +20,15 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
     const onCLose = () => setShowDrawer(false);
     const [submitting, setSubmitting] = useState(false);
     const [breedsToDisplay, setBreedToDisplay] = useState([])
-    const [searchTerm,setSearchTerm] = useState('')
+    const [livestockToDisplay, setLivestockToDisplay] = useState([])
+    const [searchTerm, setSearchTerm] = useState('')
+    const [searchTermForLivestock, setSearchTermForLivestock] = useState('')
     const [breedOptions, setBreedOptions] = useState([])
+    const [livestockOptions, setLivestockOptions] = useState([])
+    const [maxId, setMaxId] = useState(0)
+    const [liveStockType, setLiveStockType] = useState('')
+    const [serialNumber, setSerialNumber] = useState('')
+    const [form] = Form.useForm();
 
     const fetchBreeds = () =>
         getBreeds()
@@ -36,10 +50,33 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
         fetchBreeds();
     }, []);
 
+    const fetchLivestock = () =>
+        getLivestock()
+            .then(res => res.json())
+            .then(data => {
+                setLivestockToDisplay(data);
+            }).catch(err => {
+            console.log(err.response)
+            err.response.json().then(res => {
+                console.log(res);
+                errorNotification(
+                    "There was an issue",
+                    `${res.message} [${res.status}] [${res.error}]`
+                )
+            });
+        })
+
+    useEffect(() => {
+        fetchLivestock();
+    }, []);
+
+
     const onFinish = student => {
         setSubmitting(true)
         console.log(JSON.stringify(student, null, 2))
+        console.log("this is what is going to the server",student)
         addNewCattle(student)
+
             .then(() => {
                 console.log("cow added")
                 onCLose();
@@ -69,6 +106,10 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
     const handleBreedChange = (value) => {
         setSearchTerm(value)
     }
+    const handleLivestockChange = (value) => {
+        setSearchTermForLivestock(value)
+        console.log("livestock to change................",value)
+    }
     const searchBreedBySearchTerm = (query) => {
         SearchBreed(searchTerm)
             .then(res => res.json())
@@ -85,8 +126,25 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
             });
         })
     }
-
     useDebounce(searchTerm, 50, searchBreedBySearchTerm)
+
+    const searchLivestockBySearchTerm = (query) => {
+        SearchLivestock(searchTermForLivestock)
+            .then(res => res.json())
+            .then(data => {
+                setLivestockToDisplay(data)
+            }).catch(err => {
+            console.log(err.response)
+            err.response.json().then(res => {
+                console.log(res);
+                errorNotification(
+                    "There was an issue",
+                    `${res.message} [${res.status}] [${res.error}]`
+                )
+            });
+        })
+    }
+    useDebounce(searchTermForLivestock, 50, searchLivestockBySearchTerm)
 
     useEffect(() => {
         const updatedBreedOptions = breedsToDisplay.map(breed => ({
@@ -96,6 +154,14 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
         setBreedOptions(updatedBreedOptions);
     }, [breedsToDisplay]);
 
+    useEffect(() => {
+        const updatedLivestockOptions = livestockToDisplay.map(breed => ({
+            label: breed.name,
+            value: breed.livestockId
+        }));
+        setLivestockOptions(updatedLivestockOptions);
+    }, [livestockToDisplay]);
+
     const filterBreedOptions = (inputValue, option) => {
         const label = option.props.children;
         if (label && typeof label === 'string') {
@@ -103,6 +169,18 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
         }
         return false;
     };
+    const filterLivestockOptions = (inputValue, option) => {
+        const label = option.props.children;
+        if (label && typeof label === 'string') {
+            return label.toLowerCase().includes(inputValue.toLowerCase());
+        }
+        return false;
+    };
+
+    const handLiveStockChange = (value) => {
+        setLiveStockType(value)
+    }
+
 
     return <Drawer
         title="Create new student"
@@ -125,6 +203,8 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
         <Form layout="vertical"
               onFinishFailed={onFinishFailed}
               onFinish={onFinish}
+              form={form}
+
               hideRequiredMark>
             <Row gutter={16}>
                 <Col span={12}>
@@ -152,7 +232,25 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
             <Row gutter={16}>
                 <Col span={12}>
                     <Form.Item
-                        name="breed"
+                        name="livestockId"
+                        label="livestock type"
+                        rules={[{required: true, message: 'Please select a sex'}]}
+                    >
+                        <Select
+                            placeholder="Please select a sex"
+                            showSearch
+                            onSearch={handleLivestockChange}
+                            filterOption={filterLivestockOptions}
+                        >
+                            {livestockOptions.map(option => (
+                                <Option key={option.value} value={option.value}>{option.label}</Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                </Col>
+                <Col span={12}>
+                    <Form.Item
+                        name="breedId"
                         label="breed"
                         rules={[{required: true, message: 'Please select a sex'}]}
                     >
@@ -168,9 +266,7 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
                         </Select>
                     </Form.Item>
                 </Col>
-
             </Row>
-
             <Row>
                 <Col span={12}>
                     <Form.Item>
