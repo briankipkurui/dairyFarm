@@ -87,7 +87,7 @@ const Livestock = () => {
             .then(() => {
                 successNotification("user successfully updated", `${breed.firstName}`)
                 setIsModalVisible(false)
-                fetchStudents()
+                fetchLivestock()
             }).catch(err => {
             console.log(err);
             err.response.json().then(res => {
@@ -97,7 +97,7 @@ const Livestock = () => {
         })
 
     }
-    const fetchStudents = () =>
+    const fetchLivestock = () =>
         getLivestock()
             .then(res => res.json())
             .then(data => {
@@ -113,7 +113,7 @@ const Livestock = () => {
         }).finally(()=>setFetching(false))
 
     useEffect(() => {
-        fetchStudents();
+        fetchLivestock();
     }, []);
 
     const renderBreeds =()=>{
@@ -130,6 +130,7 @@ const Livestock = () => {
                 <LivestockDrawerForm
                     showDrawer={showDrawer}
                     setShowDrawer={setShowDrawer}
+                    fetchLivestock={fetchLivestock}
                 />
                 <Empty/>
             </>
@@ -148,6 +149,7 @@ const Livestock = () => {
                     <LivestockDrawerForm
                         showDrawer={showDrawer}
                         setShowDrawer={setShowDrawer}
+                        fetchLivestock={fetchLivestock}
                     />
 
                 </>}

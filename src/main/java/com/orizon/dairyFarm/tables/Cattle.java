@@ -25,8 +25,9 @@ public class Cattle {
             generator = "cattle_sequence"
     )
     private Long cattleId;
-    private  String name;
+    private String name;
     private String sex;
+    private String serialNumber;
     @OneToOne
     private Breeds breeds;
     @OneToOne
@@ -35,10 +36,12 @@ public class Cattle {
 
     public Cattle(String name,
                   String sex,
+                  String serialNumber,
                   Breeds breeds,
                   Livestock livestock) {
         this.name = name;
         this.sex = sex;
+        this.serialNumber = serialNumber;
         this.breeds = breeds;
         this.livestock = livestock;
     }

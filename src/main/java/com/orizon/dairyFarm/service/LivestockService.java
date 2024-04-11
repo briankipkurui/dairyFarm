@@ -25,7 +25,7 @@ public class LivestockService {
     }
 
     public List<Livestock> getLiveStock() {
-        PageRequest pageRequest = PageRequest.of(0, 1, Sort.by("name").ascending());
+        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("name").ascending());
         Page<Livestock> all = livestockRepo.findAll(pageRequest);
         return all.getContent();
 

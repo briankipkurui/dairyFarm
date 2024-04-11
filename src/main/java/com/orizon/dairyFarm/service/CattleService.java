@@ -7,6 +7,7 @@ import com.orizon.dairyFarm.request.CattleRequest;
 import com.orizon.dairyFarm.tables.Breeds;
 import com.orizon.dairyFarm.tables.Cattle;
 import com.orizon.dairyFarm.tables.Livestock;
+import com.orizon.dairyFarm.utilis.Utilities;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,10 +41,21 @@ public class CattleService {
                 .orElseThrow(() -> new IllegalStateException("livestock with id " +
                         cattleRequest.getLivestockId() + " was not found"));
 
+        String splitLivestock = Utilities.splitNameIntoSubstring(livestock.getName());
+        Long maxId = cattleRepo.maxID();
+        if (maxId == null) {
+            maxId = 0L;
+        }
+        maxId +=1;
+        int lastTwoDigitsOfYear = Utilities.getLastTwoDigitsOfYear();
+
+        String serialNumber = Utilities.concatenateSerialNumber(splitLivestock, maxId.toString(), String.valueOf(lastTwoDigitsOfYear));
+
 
         Cattle cattle = new Cattle(
                 cattleRequest.getName().toUpperCase(),
                 cattleRequest.getSex(),
+                serialNumber,
                 breeds,
                 livestock
         );

@@ -32,7 +32,7 @@ public class BreedsService {
     }
 
     public List<Breeds> getBreeds() {
-        PageRequest pageRequest = PageRequest.of(0, 1, Sort.by("name").ascending());
+        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("name").ascending());
         Page<Breeds> all = breedsRepo.findAll(pageRequest);
         return all.getContent();
     }

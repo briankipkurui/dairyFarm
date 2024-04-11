@@ -87,7 +87,7 @@ const Breeds = () => {
             .then(() => {
                 successNotification("user successfully updated", `${breed.firstName}`)
                 setIsModalVisible(false)
-                fetchStudents()
+                fetchBreeds()
             }).catch(err => {
             console.log(err);
             err.response.json().then(res => {
@@ -97,7 +97,7 @@ const Breeds = () => {
         })
 
     }
-    const fetchStudents = () =>
+    const fetchBreeds = () =>
         getBreeds()
             .then(res => res.json())
             .then(data => {
@@ -113,7 +113,7 @@ const Breeds = () => {
         }).finally(()=>setFetching(false))
 
     useEffect(() => {
-        fetchStudents();
+        fetchBreeds();
     }, []);
 
     const renderBreeds =()=>{
@@ -130,6 +130,7 @@ const Breeds = () => {
                 <BreedsDrawerForm
                     showDrawer={showDrawer}
                     setShowDrawer={setShowDrawer}
+                    fetchBreeds={fetchBreeds}
                 />
                 <Empty/>
             </>
@@ -143,11 +144,12 @@ const Breeds = () => {
                     <Button
                         onClick={() => setShowDrawer(!showDrawer)}
                         type="primary" shape="round" icon={<PlusOutlined/>} size="small">
-                        Add New user
+                        Add breed
                     </Button>
                     <BreedsDrawerForm
                         showDrawer={showDrawer}
                         setShowDrawer={setShowDrawer}
+                        fetchBreeds={fetchBreeds}
                     />
 
                 </>}

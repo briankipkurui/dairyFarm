@@ -62,5 +62,15 @@ public class BirthsController {
         return birthsService.descendantsOfCattleByCalveId(Id);
     }
 
+    @GetMapping("name/{id}")
+    public String getName(@PathVariable("id") Long Id) {
+        return birthsService.getName(Id);
+    }
+
+    @GetMapping("subString/{id}")
+    public String getSerialNumber(@PathVariable("id") Long Id) {
+        return birthsService.getSerialNumber(Id);
+    }
+
 
 }

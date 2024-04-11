@@ -52,6 +52,11 @@ const Cows = () => {
             key: 'cattleId',
         },
         {
+            title: 'serialNumber',
+            dataIndex: 'serialNumber',
+            key: 'serialNumber',
+        },
+        {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
@@ -74,7 +79,7 @@ const Cows = () => {
                             }}
                             style={{border: 'none'}}
                             value="small">
-                            <FaCow style={{fontSize: '30px'}}/>
+                            <FaCow style={{fontSize: '20px'}}/>
                         </Radio.Button>
                     </Tooltip>
                     <Tooltip title="add relationship">
@@ -85,7 +90,7 @@ const Cows = () => {
                             }}
                             style={{border: 'none'}}
                             value="small">
-                            <CgArrowsMergeAltH style={{fontSize: '30px'}}/>
+                            <CgArrowsMergeAltH style={{fontSize: '20px'}}/>
                         </Radio.Button>
                     </Tooltip>
                     <Tooltip title={`view family tree of  ${cows.name}`}>
@@ -93,7 +98,7 @@ const Cows = () => {
                             <Radio.Button
                                 style={{border: 'none'}}
                                 value="small">
-                                <LuNetwork style={{fontSize: '30px'}}/>
+                                <LuNetwork style={{fontSize: '20px',fontWeight:'Bold'}}/>
                             </Radio.Button>
                         </Link>
                     </Tooltip>

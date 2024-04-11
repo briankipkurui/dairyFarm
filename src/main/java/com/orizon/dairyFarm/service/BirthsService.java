@@ -8,6 +8,7 @@ import com.orizon.dairyFarm.tables.Births;
 import com.orizon.dairyFarm.tables.BirthsId;
 import com.orizon.dairyFarm.tables.Cattle;
 import com.orizon.dairyFarm.tables.CowNode;
+import com.orizon.dairyFarm.utilis.Utilities;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -130,6 +131,21 @@ public class BirthsService {
                     .orElseThrow(() -> new IllegalStateException("cattle with id " +
                             (long) parentId + " was not found"));
 
+            String breed = cattleByParentId.getBreeds().getName();
+            String name = cattleByParentId.getName();
+            String serialNumber = cattleByParentId.getSerialNumber();
+            StringBuilder result = new StringBuilder();
+
+            if (breed.contains(" ")) {
+                // If breed has two parts separated by a space
+                result.append(Utilities.splitName(breed));
+            } else {
+                // If breed doesn't have two parts separated by a space
+                result.append(Utilities.splitNameIntoSubstring(breed));
+            }
+            String re = String.valueOf(result);
+            String cow = Utilities.concatenateStrings(name,serialNumber, re);
+
             Cattle cattleByChildId
                     = cattleRepo.findById((long) childId)
                     .stream()
@@ -137,8 +153,27 @@ public class BirthsService {
                     .orElseThrow(() -> new IllegalStateException("cattle with id " +
                             (long) childId + " was not found"));
 
-            String parentIdToUse = cattleByParentId.getName();
-            String childIdToUse = cattleByChildId.getName();
+
+            String breedCalve = cattleByChildId.getBreeds().getName();
+            String nameCalve = cattleByChildId.getName();
+            String serialNumberCalve = cattleByChildId.getSerialNumber();
+            StringBuilder resultForCalve = new StringBuilder();
+
+            if (breedCalve.contains(" ")) {
+                // If breed has two parts separated by a space
+                resultForCalve.append(Utilities.splitName(breedCalve));
+            } else {
+                // If breed doesn't have two parts separated by a space
+                resultForCalve.append(Utilities.splitNameIntoSubstring(breedCalve));
+            }
+            String resultCalve = String.valueOf(resultForCalve);
+            String calve = Utilities.concatenateStrings(nameCalve,serialNumberCalve, resultCalve);
+
+
+
+
+            String parentIdToUse = cow;
+            String childIdToUse = calve;
 
 
             CowNode parent = cowMap.getOrDefault(parentIdToUse, new CowNode(parentIdToUse));
@@ -157,12 +192,74 @@ public class BirthsService {
                 .orElseThrow(() -> new IllegalStateException("cattle with id " +
                         parentMother + " was not found"));
 
-        String name = parentMotherID.getName();
 
-        return cowMap.get(name);
+        String breed = parentMotherID.getBreeds().getName();
+        String name = parentMotherID.getName();
+        String serialNumber = parentMotherID.getSerialNumber();
+        StringBuilder result = new StringBuilder();
+
+        if (breed.contains(" ")) {
+            // If breed has two parts separated by a space
+            result.append(Utilities.splitName(breed));
+        } else {
+            // If breed doesn't have two parts separated by a space
+            result.append(Utilities.splitNameIntoSubstring(breed));
+        }
+        String re = String.valueOf(result);
+        String cow = Utilities.concatenateStrings(name,serialNumber, re);
+
+
+        return cowMap.get(cow);
     }
 
     public List<int[]> descendantsOfCattleByCalveId(Long id) {
         return birthsRepo.findDescendantsOfCattleByCalveId(id);
+    }
+
+    public String getName(Long id) {
+        Cattle cattle
+                = cattleRepo.findById(id)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("cattle with id " +
+                        id + " was not found"));
+
+        String breed = cattle.getBreeds().getName();
+        String name = cattle.getName();
+        String serialNumber = cattle.getSerialNumber();
+        StringBuilder result = new StringBuilder();
+
+        if (breed.contains(" ")) {
+            // If breed has two parts separated by a space
+            result.append(Utilities.splitName(breed));
+        } else {
+            // If breed doesn't have two parts separated by a space
+            result.append(Utilities.splitNameIntoSubstring(breed));
+        }
+        String re = String.valueOf(result);
+        String s = Utilities.concatenateStrings(name,serialNumber, re);
+
+
+        return s;
+    }
+
+    public String getSerialNumber(Long id) {
+        Cattle cattle
+                = cattleRepo.findById(id)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("cattle with id " +
+                        id + " was not found"));
+        String splitLivestock = Utilities.splitNameIntoSubstring(cattle.getLivestock().getName());
+        String s1 = Utilities.splitName(cattle.getLivestock().getName());
+        Long maxId = cattleRepo.maxID();
+        if (maxId == null) {
+            maxId = (long) (0 +1);
+        }
+        maxId +=1;
+        int lastTwoDigitsOfYear = Utilities.getLastTwoDigitsOfYear();
+
+        String s = Utilities.concatenateStrings(splitLivestock, maxId.toString(), String.valueOf(lastTwoDigitsOfYear));
+        return s;
     }
 }

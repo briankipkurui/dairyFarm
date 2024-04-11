@@ -7,7 +7,7 @@ import {addBreeds} from "../adminUrlCall/AdminUrlCalls";
 
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 
-function BreedsDrawerForm({showDrawer, setShowDrawer}) {
+function BreedsDrawerForm({showDrawer, setShowDrawer,fetchBreeds}) {
     const onCLose = () => setShowDrawer(false);
     const [submitting, setSubmitting] = useState(false);
 
@@ -22,6 +22,7 @@ function BreedsDrawerForm({showDrawer, setShowDrawer}) {
                     "Student successfully added",
                     `${user.firstName} was added to the system`
                 )
+                fetchBreeds()
             }).catch(err => {
             console.log(err);
             err.response.json().then(res => {
@@ -42,7 +43,7 @@ function BreedsDrawerForm({showDrawer, setShowDrawer}) {
     };
 
     return <Drawer
-        title="Create new user"
+        title="Create new breed"
         width={720}
         onClose={onCLose}
         visible={showDrawer}
