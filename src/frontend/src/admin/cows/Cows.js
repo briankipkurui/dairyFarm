@@ -25,6 +25,7 @@ import {LuNetwork} from "react-icons/lu";
 import moment from "moment/moment";
 import {MdMoreHoriz} from "react-icons/md";
 import MoreCowDetailsDrawerForm from "./MoreCowDetailsDrawerForm";
+import CowSearchBar from "./CowSearchBar";
 
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 const {Option} = Select;
@@ -297,18 +298,7 @@ const Cows = () => {
                 setShowDrawer={setShowDrawer}
                 fetchStudents={fetchStudents}
             />
-            <div>
-                <Form.Item
-                    name="sex"
-                    label="sex"
-                    rules={[{required: true, message: 'Please select a sex'}]}
-                >
-                    <Select placeholder="Please select a sex">
-                        <Option value="MALE">MALE</Option>
-                        <Option value="FEMALE">FEMALE</Option>
-                    </Select>
-                </Form.Item>
-            </div>
+            <CowSearchBar fun={setCows}/>
             <Table
                 dataSource={cows}
                 columns={columns(fetchStudents)}

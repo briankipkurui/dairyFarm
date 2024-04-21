@@ -1,14 +1,10 @@
 package com.orizon.dairyFarm.controller;
 
-import com.orizon.dairyFarm.repo.BirthsRepo;
 import com.orizon.dairyFarm.repo.CattleRepo;
 import com.orizon.dairyFarm.request.CattleRequest;
 import com.orizon.dairyFarm.service.CattleService;
 import com.orizon.dairyFarm.tables.Cattle;
-import com.orizon.dairyFarm.tables.CowNode;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -30,15 +26,16 @@ public class CattleController {
         return cattleService.cattleService();
     }
 
+    @GetMapping("{cattleId}")
+    public List<Cattle> findCattleByCattleId(@PathVariable("cattleId") Long cattleId) {
+        return cattleService.findCattleByCattleId(cattleId);
+    }
+
 
     @GetMapping("search")
     public List<Cattle> searchCattle(@RequestParam("query") String query) {
         return cattleService.searchCattle(query);
     }
 
-    @GetMapping("maxId")
-    public Long getMaxId() {
-        return cattleService.getMaxId();
-    }
 
 }

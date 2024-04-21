@@ -11,6 +11,7 @@ import BreedsDrawerForm from "./BreedsDrawerForm";
 import {getAllCows, getBreeds, updateBreeds} from "../adminUrlCall/AdminUrlCalls";
 import {LoadingOutlined, PlusOutlined} from "@ant-design/icons";
 import CowDrawerForm from "../cows/CowDrawerForm";
+import BreedSearchBar from "./BreedSearchBar";
 
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 
@@ -136,6 +137,8 @@ const Breeds = () => {
             </>
         }
         return <>
+
+            <BreedSearchBar fun={setBreeds}/>
             <Table
                 dataSource={breeds}
                 columns={columns()}

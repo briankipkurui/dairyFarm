@@ -3,6 +3,7 @@ package com.orizon.dairyFarm.controller;
 import com.orizon.dairyFarm.request.LivestockRequest;
 import com.orizon.dairyFarm.service.LivestockService;
 import com.orizon.dairyFarm.tables.Breeds;
+import com.orizon.dairyFarm.tables.Cattle;
 import com.orizon.dairyFarm.tables.Livestock;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -39,4 +40,10 @@ public class livestockController {
     public List<Livestock> searchLivestock(@RequestParam("query") String query) {
         return liveStockService.searchLivestock(query);
     }
+
+    @GetMapping("{liveStockId}")
+    public List<Livestock> findLiveStockByLiveStockId(@PathVariable("liveStockId") Long liveStockId) {
+        return liveStockService.findLiveStockByLiveStockId(liveStockId);
+    }
+
 }

@@ -59,4 +59,8 @@ public class LivestockService {
         String newQuery = query.toUpperCase();
         return livestockRepo.searchLivestock(newQuery);
     }
+
+    public List<Livestock> findLiveStockByLiveStockId(Long liveStockId) {
+        return livestockRepo.findLiveStockByLiveStockId(liveStockId);
+    }
 }

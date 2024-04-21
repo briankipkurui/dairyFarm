@@ -11,6 +11,7 @@ import LivestockDrawerForm from "./LivestockDrawerForm";
 import {getAllCows, getBreeds, getLivestock, updateBreeds} from "../adminUrlCall/AdminUrlCalls";
 import {LoadingOutlined, PlusOutlined} from "@ant-design/icons";
 import CowDrawerForm from "../cows/CowDrawerForm";
+import LiveStockSearchBar from "./LiveStockSearchBar";
 
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 
@@ -136,6 +137,7 @@ const Livestock = () => {
             </>
         }
         return <>
+            <LiveStockSearchBar fun={setBreeds}/>
             <Table
                 dataSource={breeds}
                 columns={columns()}

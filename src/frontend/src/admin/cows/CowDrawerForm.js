@@ -3,7 +3,7 @@ import {LoadingOutlined} from "@ant-design/icons";
 import React, {useEffect, useState} from 'react';
 import {errorNotification, successNotification} from "../../utils/Notification";
 import {
-    addNewCattle,
+    addNewCattle, getAllCows,
     getBreeds, getLivestock,
     getMaxId,
     SearchBreed,
@@ -177,9 +177,10 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
         return false;
     };
 
+
+
     const handleLivestockSelect = (value) => {
         console.log("Selected livestock ID:", value);
-        // You can do further processing with the selected value here
     };
 
 

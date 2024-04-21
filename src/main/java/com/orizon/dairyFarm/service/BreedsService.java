@@ -64,4 +64,8 @@ public class BreedsService {
         String newQuery = query.toUpperCase();
         return breedsRepo.searchProduct(newQuery);
     }
+
+    public List<Breeds> findBreedByCattleId(Long breedId) {
+        return breedsRepo.findBreedByBreedId(breedId);
+    }
 }

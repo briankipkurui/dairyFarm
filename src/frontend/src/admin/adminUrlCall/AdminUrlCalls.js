@@ -133,3 +133,27 @@ export const SearchLivestock = query =>
         },
         method: 'GET'
     }).then(checkStatus)
+
+export const SearchCattleById = id =>
+    fetch(`/api/v1/cattle/${id}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)
+
+export const SearchBreedById = id =>
+    fetch(`/api/v1/breeds/${id}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)
+
+export const SearchLiveStockById = id =>
+    fetch(`/api/v1/livestock/${id}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)

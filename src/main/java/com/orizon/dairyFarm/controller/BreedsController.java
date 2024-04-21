@@ -35,6 +35,11 @@ public class BreedsController {
         breedsService.deleteBreeds(breedId);
     }
 
+    @GetMapping("{breedId}")
+    public List<Breeds> findBreedByCattleId(@PathVariable("breedId") Long breedId) {
+        return breedsService.findBreedByCattleId(breedId);
+    }
+
     @GetMapping("search")
     public List<Breeds> searchBreeds(@RequestParam("query") String query) {
         return breedsService.searchBreeds(query);

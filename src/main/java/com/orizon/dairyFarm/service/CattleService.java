@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -81,5 +80,10 @@ public class CattleService {
 
     public Long getMaxId() {
         return cattleRepo.maxID();
+    }
+
+    public List<Cattle> findCattleByCattleId(Long cattleId) {
+
+        return cattleRepo.findCattleByCattleId(cattleId);
     }
 }
