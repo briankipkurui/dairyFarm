@@ -40,6 +40,11 @@ public class BirthsService {
                         addBirthsRequest.getName() + " was not found"));
 
 
+        if(!cattle.getLivestock().getName().equals(calve.getLivestock().getName())){
+            throw new IllegalStateException("livestock is not of the same species ");
+        }
+
+
         if (addBirthsRequest.getName().equals(addBirthsRequest.getCattleId())) {
             throw new IllegalStateException("a cow cannot give birth to itself");
         }
@@ -98,9 +103,6 @@ public class BirthsService {
             } else {
                 System.out.println("The last array is empty");
             }
-        }
-        if (descendantsOfCattle.isEmpty()) {
-            throw new IllegalStateException("the provided id as no relationship");
         }
 
         return descendantsOfCattle;

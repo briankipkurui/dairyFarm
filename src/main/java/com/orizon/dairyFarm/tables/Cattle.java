@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,20 +30,28 @@ public class Cattle {
     private String name;
     private String sex;
     private String serialNumber;
+    private LocalDateTime dateOfBirth;
+    private LocalDateTime DateDewormed;
+    private LocalDateTime DateServed;
     @OneToOne
     private Breeds breeds;
     @OneToOne
     private Livestock livestock;
 
-
     public Cattle(String name,
                   String sex,
                   String serialNumber,
+                  LocalDateTime dateOfBirth,
+                  LocalDateTime dateDewormed,
+                  LocalDateTime dateServed,
                   Breeds breeds,
                   Livestock livestock) {
         this.name = name;
         this.sex = sex;
         this.serialNumber = serialNumber;
+        this.dateOfBirth = dateOfBirth;
+        DateDewormed = dateDewormed;
+        DateServed = dateServed;
         this.breeds = breeds;
         this.livestock = livestock;
     }

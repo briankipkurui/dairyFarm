@@ -1,6 +1,8 @@
 package com.orizon.dairyFarm.utilis;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Utilities {
 
@@ -36,6 +38,7 @@ public class Utilities {
         }
         return concatenatedString.toString();
     }
+
     public static String concatenateSerialNumber(String... strings) {
         StringBuilder concatenatedString = new StringBuilder();
         for (String str : strings) {
@@ -45,5 +48,18 @@ public class Utilities {
             concatenatedString.setLength(concatenatedString.length() - 1);
         }
         return concatenatedString.toString();
+    }
+
+    public static LocalDateTime convertStringToLocalDateTime(String dateString) {
+        // Check if the input string is null or empty
+        if (dateString == null || dateString.isEmpty()) {
+            return null; // Return null if the input string is null or empty
+        }
+        LocalDate localDate = LocalDate.parse(dateString);
+
+        // Convert LocalDate to LocalDateTime (assuming time as midnight)
+        LocalDateTime localDateTime = localDate.atStartOfDay();
+        // Parse string to LocalDateTime
+        return localDateTime;
     }
 }

@@ -22,6 +22,9 @@ import {FaCow} from "react-icons/fa6";
 import {useDebounce} from "../utils/DebounceHook";
 import {Link} from "react-router-dom";
 import {LuNetwork} from "react-icons/lu";
+import moment from "moment/moment";
+import {MdMoreHoriz} from "react-icons/md";
+import MoreCowDetailsDrawerForm from "./MoreCowDetailsDrawerForm";
 
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 const {Option} = Select;
@@ -30,11 +33,13 @@ const Cows = () => {
     const [cowsToDisplay, setCowsToDisplay] = useState([]);
     const [fetching, setFetching] = useState(true);
     const [showDrawer, setShowDrawer] = useState(false);
+    const [showMDDrawer, setShowMDDrawer] = useState(false);
     const [selectedCow, setSelectedCow] = useState(null);
     const [selectedCowForRelationShip, setSelectedCowForRelationShip] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isModalForRelationShipVisible, setIsModalForRelationShipVisible] = useState(false);
     const [searchTerm, setSearchTerm] = useState('')
+    const [moreCows, setMoreCows] = useState('')
 
     const [cattleOptions, setCattleOptions] = useState([])
 
@@ -52,20 +57,33 @@ const Cows = () => {
             key: 'cattleId',
         },
         {
-            title: 'serialNumber',
-            dataIndex: 'serialNumber',
-            key: 'serialNumber',
-        },
-        {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
         },
         {
-            title: 'Sex',
-            dataIndex: 'sex',
-            key: 'sex',
+            title: 'breed',
+            dataIndex: ['breeds', 'name'],
+            key: 'breed',
         },
+
+        // {
+        //     title: 'age',
+        //     dataIndex: 'dateOfBirth',
+        //     key: 'dateOfBirth',
+        //     render: (text) => {
+        //         const dateOfBirth = moment(text);
+        //         const currentDate = moment();
+        //         const years = currentDate.diff(dateOfBirth, 'years');
+        //         dateOfBirth.add(years, 'years');
+        //
+        //         const months = currentDate.diff(dateOfBirth, 'months');
+        //         dateOfBirth.add(months, 'months');
+        //
+        //         const days = currentDate.diff(dateOfBirth, 'days')
+        //         return `${years} years, ${months} months, and ${days} days`;
+        //     },
+        // },
         {
             title: 'Actions',
             key: 'actions',
@@ -98,10 +116,21 @@ const Cows = () => {
                             <Radio.Button
                                 style={{border: 'none'}}
                                 value="small">
-                                <LuNetwork style={{fontSize: '20px',fontWeight:'Bold'}}/>
+                                <LuNetwork style={{fontSize: '20px', fontWeight: 'Bold'}}/>
                             </Radio.Button>
                         </Link>
                     </Tooltip>
+                    <Radio.Button
+                        onClick={() => {
+                            setShowMDDrawer(!showMDDrawer)
+                            setMoreCows(cows)
+                        }
+                        }
+
+                        style={{border: 'none'}}
+                        value="small">
+                        <MdMoreHoriz/>
+                    </Radio.Button>
                 </Space>
         },
     ];
@@ -234,9 +263,11 @@ const Cows = () => {
             });
         })
     }
-    console.log("this is a real skdmccccccccccccccccc")
+
 
     const renderStudents = () => {
+
+
         if (fetching) {
             return <Spin indicator={antIcon}/>
         }
@@ -256,6 +287,28 @@ const Cows = () => {
             </>
         }
         return <>
+            <MoreCowDetailsDrawerForm
+                showDrawer={showMDDrawer}
+                setShowDrawer={setShowMDDrawer}
+                cows={moreCows}
+            />
+            <CowDrawerForm
+                showDrawer={showDrawer}
+                setShowDrawer={setShowDrawer}
+                fetchStudents={fetchStudents}
+            />
+            <div>
+                <Form.Item
+                    name="sex"
+                    label="sex"
+                    rules={[{required: true, message: 'Please select a sex'}]}
+                >
+                    <Select placeholder="Please select a sex">
+                        <Option value="MALE">MALE</Option>
+                        <Option value="FEMALE">FEMALE</Option>
+                    </Select>
+                </Form.Item>
+            </div>
             <Table
                 dataSource={cows}
                 columns={columns(fetchStudents)}
@@ -269,11 +322,7 @@ const Cows = () => {
                             type="primary" shape="round" icon={<PlusOutlined/>} size="small">
                             Add New Cow
                         </Button>
-                        <CowDrawerForm
-                            showDrawer={showDrawer}
-                            setShowDrawer={setShowDrawer}
-                            fetchStudents={fetchStudents}
-                        />
+
                     </>
                 }
                 pagination={{pageSize: 50}}

@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,12 +51,17 @@ public class CattleService {
         int lastTwoDigitsOfYear = Utilities.getLastTwoDigitsOfYear();
 
         String serialNumber = Utilities.concatenateSerialNumber(splitLivestock, maxId.toString(), String.valueOf(lastTwoDigitsOfYear));
-
-
+        LocalDateTime dateOfBirth = Utilities.convertStringToLocalDateTime(cattleRequest.getDateOfBirth());
+        LocalDateTime dateDewormed = Utilities.convertStringToLocalDateTime(cattleRequest.getDateDewormed());
+        LocalDateTime dateServed = Utilities.convertStringToLocalDateTime(cattleRequest.getDateServed());
+        
         Cattle cattle = new Cattle(
                 cattleRequest.getName().toUpperCase(),
                 cattleRequest.getSex(),
                 serialNumber,
+                dateOfBirth,
+                dateDewormed,
+                dateServed,
                 breeds,
                 livestock
         );

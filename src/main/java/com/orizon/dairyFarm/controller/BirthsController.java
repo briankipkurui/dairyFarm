@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -37,24 +38,44 @@ public class BirthsController {
         return birthsService.getCowAncestors(calveId);
     }
 
+//    @GetMapping("cowDescendants/{id}")
+//    public ResponseEntity<Map<String, Object>> getCowDescendants(@PathVariable("id") Long Id) {
+//        List<int[]> descendants = birthsService.getDescendants(Id);
+//
+//        int[] firstArrayOfAncestor = descendants.get(0);
+//        long elementAtIndex1 = firstArrayOfAncestor[1];
+//        CowNode root = birthsService.generateTree(descendants, elementAtIndex1);
+//        Map<String, Object> json = root.toJson();
+//        return new ResponseEntity<>(json, HttpStatus.OK);
+//    }
+
     @GetMapping("cowDescendants/{id}")
     public ResponseEntity<Map<String, Object>> getCowDescendants(@PathVariable("id") Long Id) {
         List<int[]> descendants = birthsService.getDescendants(Id);
-
+        if (descendants.isEmpty()) {
+            Map<String, Object> emptyJson = new HashMap<>();
+            return ResponseEntity.ok(emptyJson);
+        }
         int[] firstArrayOfAncestor = descendants.get(0);
         long elementAtIndex1 = firstArrayOfAncestor[1];
         CowNode root = birthsService.generateTree(descendants, elementAtIndex1);
         Map<String, Object> json = root.toJson();
-        return new ResponseEntity<>(json, HttpStatus.OK);
+        return ResponseEntity.ok(json);
     }
+
     @GetMapping("distinctCowDescendants/{id}")
     public ResponseEntity<Map<String, Object>> getDistinctCowDescendants(@PathVariable("id") Long Id) {
         List<int[]> descendants = birthsService.getDistinctCowDescendants(Id);
+        if (descendants.isEmpty()) {
+            Map<String, Object> emptyJson = new HashMap<>();
+            return ResponseEntity.ok(emptyJson);
+        }
         int[] firstArrayOfAncestor = descendants.get(0);
         long elementAtIndex1 = firstArrayOfAncestor[1];
         CowNode root = birthsService.generateTree(descendants, elementAtIndex1);
         Map<String, Object> json = root.toJson();
-        return new ResponseEntity<>(json, HttpStatus.OK);
+//        return new ResponseEntity<>(json, HttpStatus.OK);
+        return ResponseEntity.ok(json);
     }
 
     @GetMapping("descendantsByCalveId/{id}")

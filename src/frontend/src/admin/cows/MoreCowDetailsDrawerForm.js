@@ -11,12 +11,13 @@ import {
     SearchLivestock
 } from "../adminUrlCall/AdminUrlCalls";
 import {useDebounce} from "../utils/DebounceHook";
+import moment from "moment/moment";
 
 const {Option} = Select;
 
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 
-function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
+function CowDrawerForm({showDrawer, setShowDrawer, cows}) {
     const onCLose = () => setShowDrawer(false);
     const [submitting, setSubmitting] = useState(false);
     const [breedsToDisplay, setBreedToDisplay] = useState([])
@@ -29,6 +30,8 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
     const [liveStockType, setLiveStockType] = useState('')
     const [serialNumber, setSerialNumber] = useState('')
     const [form] = Form.useForm();
+
+    console.log("this is calles ,dddddddddddddddddddddd")
 
     const fetchBreeds = () =>
         getBreeds()
@@ -74,7 +77,7 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
     const onFinish = student => {
         setSubmitting(true)
         console.log(JSON.stringify(student, null, 2))
-        console.log("this is what is going to the server",student)
+        console.log("this is what is going to the server", student)
         addNewCattle(student)
 
             .then(() => {
@@ -84,7 +87,6 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
                     "Cow successfully added",
                     `${student.name} was added to the system`
                 )
-                fetchStudents();
             }).catch(err => {
             console.log(err);
             err.response.json().then(res => {
@@ -108,7 +110,7 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
     }
     const handleLivestockChange = (value) => {
         setSearchTermForLivestock(value)
-        console.log("livestock to change................",value)
+        console.log("livestock to change................", value)
     }
     const searchBreedBySearchTerm = (query) => {
         SearchBreed(searchTerm)
@@ -177,10 +179,19 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
         return false;
     };
 
-    const handleLivestockSelect = (value) => {
-        console.log("Selected livestock ID:", value);
-        // You can do further processing with the selected value here
-    };
+    const transformData = (text) => {
+        const dateOfBirth = moment(text);
+        const currentDate = moment();
+        const years = currentDate.diff(dateOfBirth, 'years');
+        dateOfBirth.add(years, 'years');
+
+        const months = currentDate.diff(dateOfBirth, 'months');
+        dateOfBirth.add(months, 'months');
+
+        const days = currentDate.diff(dateOfBirth, 'days')
+        return `${years} years, ${months} months, and ${days} days`;
+
+    }
 
 
     return <Drawer
@@ -201,116 +212,42 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
             </div>
         }
     >
-        <Form layout="vertical"
-              onFinishFailed={onFinishFailed}
-              onFinish={onFinish}
-              form={form}
 
-              hideRequiredMark>
-            <Row gutter={16}>
-                <Col span={12}>
-                    <Form.Item
-                        name="name"
-                        label="Name"
-                        rules={[{required: true, message: 'Please enter student name'}]}
-                    >
-                        <Input placeholder="Please enter student name"/>
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
-                        name="sex"
-                        label="sex"
-                        rules={[{required: true, message: 'Please select a sex'}]}
-                    >
-                        <Select placeholder="Please select a sex">
-                            <Option value="MALE">MALE</Option>
-                            <Option value="FEMALE">FEMALE</Option>
-                        </Select>
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row gutter={16}>
-                <Col span={12}>
-                    <Form.Item
-                        name="livestockId"
-                        label="livestock type"
-                        rules={[{required: true, message: 'Please select a sex'}]}
-                    >
-                        <Select
-                            placeholder="Please select a sex"
-                            showSearch
-                            onSearch={handleLivestockChange}
-                            filterOption={filterLivestockOptions}
-                            onSelect={handleLivestockSelect}
-                        >
-                            {livestockOptions.map(option => (
-                                <Option key={option.value} value={option.value}>{option.label}</Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
-                        name="breedId"
-                        label="breed"
-                        rules={[{required: true, message: 'Please select a sex'}]}
-                    >
-                        <Select
-                            placeholder="Please select a sex"
-                            showSearch
-                            onSearch={handleBreedChange}
-                            filterOption={filterBreedOptions}
-                        >
-                            {breedOptions.map(option => (
-                                <Option key={option.value} value={option.value}>{option.label}</Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-                </Col>
-            </Row>
 
-            <Row gutter={16}>
-                <Col span={12}>
-                    <Form.Item
-                        name="dateOfBirth"
-                        label="Date Of Birth"
-                    >
-                        <Input type="date"  />
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
-                        name="DateDewormed"
-                        label="Date  Dewormed"
-                    >
-                        <Input type="date"  />
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row gutter={16}>
-                <Col span={12}>
-                    <Form.Item
-                        name="DateServed"
-                        label="Date  Served"
-                    >
-                        <Input type="date"  />
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row>
-                <Col span={12}>
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                            Submit
-                        </Button>
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row>
-                {submitting && <Spin indicator={antIcon}/>}
-            </Row>
-        </Form>
+        <Row gutter={16} style={{marginBottom: '20px'}}>
+            <Col span={12}>
+                <p><span  style={{ color: 'purple' }}><b>Name:</b></span> {cows.name}</p>
+            </Col>
+            <Col span={12}>
+                <p><span  style={{color: 'purple'}}><b>Sex:</b></span> {cows.sex}</p>
+            </Col>
+        </Row>
+        <Row gutter={16} style={{marginBottom: '20px'}}>
+            <Col span={12}>
+                <p><span  style={{color: 'purple'}}><b>serialNumber:</b></span> {cows.serialNumber}</p>
+            </Col>
+            <Col span={12}>
+                <p><span  style={{color: 'purple'}}><b>dateOfBirth:</b></span> {transformData(cows.dateOfBirth)}</p>
+            </Col>
+        </Row>
+        <Row gutter={16} style={{marginBottom: '20px'}}>
+            <Col span={12}>
+                <p><span style={{color: 'purple'}}><b>dateDewormed:</b></span> {transformData(cows.dateDewormed)}</p>
+            </Col>
+            <Col span={12}>
+                <p><span style={{color: 'purple'}}><b>dateServed:</b></span> {transformData(cows.dateServed)}</p>
+            </Col>
+        </Row>
+        <Row gutter={16}>
+            <Col span={12}>
+                {/*<p><span style={{color: 'purple'}}><b>liveStockType :</b></span> {cows.livestock.name}</p>*/}
+            </Col>
+            <Col span={12}>
+                {/*<p><span style={{color: 'purple'}}><b>breed :</b></span> {cows.breeds.name}</p>*/}
+            </Col>
+        </Row>
+
+
     </Drawer>
 }
 

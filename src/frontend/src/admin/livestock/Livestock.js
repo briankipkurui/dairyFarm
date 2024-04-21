@@ -125,7 +125,7 @@ const Livestock = () => {
                 <Button
                     onClick={() => setShowDrawer(!showDrawer)}
                     type="primary" shape="round" icon={<PlusOutlined/>} size="small">
-                    Add New breed
+                    Add livestock
                 </Button>
                 <LivestockDrawerForm
                     showDrawer={showDrawer}
