@@ -6,18 +6,21 @@ import {
     Badge,
     Tag,
     Radio,
-    Popconfirm,
+    Popconfirm, Form, Select,
 } from 'antd';
 import {
     LoadingOutlined,
     PlusOutlined
 } from '@ant-design/icons';
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {errorNotification} from "../../utils/Notification";
 import {getAllCows, getAllProduction} from "../adminUrlCall/AdminUrlCalls";
 import './Production.css'
 import moment from 'moment';
+import FilterProduction from "./FilterProduction";
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
+
+
 const Production = () => {
 
 
@@ -81,7 +84,7 @@ const Production = () => {
             </>
         }
         return <>
-
+            <FilterProduction/>
             <Table
                 dataSource={production}
                 columns={columns()}

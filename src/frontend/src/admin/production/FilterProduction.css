@@ -1,0 +1,13 @@
+.productionFilter {
+    width: 300px;
+    display: grid;
+    margin-bottom: 20px;
+}
+
+.submit {
+    margin-top: 32px;
+}
+.rowName{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
