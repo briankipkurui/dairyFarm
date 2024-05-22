@@ -2,8 +2,8 @@ import {Form, Select} from "antd";
 import React, {useEffect, useState} from "react";
 import './CowSearchBar.css'
 import {errorNotification} from "../../utils/Notification";
-import {SearchCattle, SearchCattleById} from "../../admin/adminUrlCall/AdminUrlCalls";
 import {useDebounce} from "../../admin/utils/DebounceHook";
+import {SearchCattleByIdsUsers, SearchCattleUsers} from "../userUrlCalls/UserUrlCalls";
 
 
 const {Option} = Select;
@@ -14,7 +14,7 @@ const CowSearchBar = ({fun}) => {
 
 
     const searchCowBySearchTerm = (query) => {
-        SearchCattle(searchTerm)
+        SearchCattleUsers(searchTerm)
             .then(res => res.json())
             .then(data => {
                 setCowsToDisplay(data)
@@ -48,7 +48,7 @@ const CowSearchBar = ({fun}) => {
     };
 
     const fetchCattleByCattleId = (id) =>
-        SearchCattleById(id)
+        SearchCattleByIdsUsers(id)
             .then(res => res.json())
             .then(data => {
                 fun(data);

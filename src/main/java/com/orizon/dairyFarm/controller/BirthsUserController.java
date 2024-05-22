@@ -1,25 +1,20 @@
 package com.orizon.dairyFarm.controller;
 
 import com.orizon.dairyFarm.request.AddBirthsRequest;
-import com.orizon.dairyFarm.request.CattleRequest;
 import com.orizon.dairyFarm.service.BirthsService;
 import com.orizon.dairyFarm.tables.CowNode;
-import com.sun.source.tree.BinaryTree;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "api/v1/births")
-public class BirthsController {
+@RequestMapping(path = "api/v1/births/users")
+public class BirthsUserController {
     private final BirthsService birthsService;
 
     @PostMapping()

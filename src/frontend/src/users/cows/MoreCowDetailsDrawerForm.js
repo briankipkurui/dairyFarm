@@ -4,14 +4,14 @@ import React, {useEffect, useState} from 'react';
 import {errorNotification, successNotification} from "../../utils/Notification";
 
 import moment from "moment/moment";
-import {
-    addNewCattle,
-    getBreeds,
-    getLivestock,
-    SearchBreed,
-    SearchLivestock
-} from "../../admin/adminUrlCall/AdminUrlCalls";
 import {useDebounce} from "../../admin/utils/DebounceHook";
+import {
+    addNewCattleUser,
+    getBreedsUsers,
+    getLivestockUser,
+    SearchBreedUsers,
+    SearchLivestockUsers
+} from "../userUrlCalls/UserUrlCalls";
 
 const {Option} = Select;
 
@@ -34,7 +34,7 @@ function CowDrawerForm({showDrawer, setShowDrawer, cows}) {
     console.log("this is calles ,dddddddddddddddddddddd")
 
     const fetchBreeds = () =>
-        getBreeds()
+        getBreedsUsers()
             .then(res => res.json())
             .then(data => {
                 setBreedToDisplay(data);
@@ -54,7 +54,7 @@ function CowDrawerForm({showDrawer, setShowDrawer, cows}) {
     }, []);
 
     const fetchLivestock = () =>
-        getLivestock()
+        getLivestockUser()
             .then(res => res.json())
             .then(data => {
                 setLivestockToDisplay(data);
@@ -78,7 +78,7 @@ function CowDrawerForm({showDrawer, setShowDrawer, cows}) {
         setSubmitting(true)
         console.log(JSON.stringify(student, null, 2))
         console.log("this is what is going to the server", student)
-        addNewCattle(student)
+        addNewCattleUser(student)
 
             .then(() => {
                 console.log("cow added")
@@ -113,7 +113,7 @@ function CowDrawerForm({showDrawer, setShowDrawer, cows}) {
         console.log("livestock to change................", value)
     }
     const searchBreedBySearchTerm = (query) => {
-        SearchBreed(searchTerm)
+        SearchBreedUsers(searchTerm)
             .then(res => res.json())
             .then(data => {
                 setBreedToDisplay(data)
@@ -131,7 +131,7 @@ function CowDrawerForm({showDrawer, setShowDrawer, cows}) {
     useDebounce(searchTerm, 50, searchBreedBySearchTerm)
 
     const searchLivestockBySearchTerm = (query) => {
-        SearchLivestock(searchTermForLivestock)
+        SearchLivestockUsers(searchTermForLivestock)
             .then(res => res.json())
             .then(data => {
                 setLivestockToDisplay(data)

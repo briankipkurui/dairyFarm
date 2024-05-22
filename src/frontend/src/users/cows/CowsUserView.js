@@ -24,7 +24,7 @@ import {MdMoreHoriz} from "react-icons/md";
 import MoreCowDetailsDrawerForm from "./MoreCowDetailsDrawerForm";
 import CowSearchBar from "./CowSearchBar";
 import {useDebounce} from "../../admin/utils/DebounceHook";
-import {addBirths, addToProduction, getAllCows, SearchCattle} from "../../admin/adminUrlCall/AdminUrlCalls";
+import {addToProductionUser, getAllCowsUsers, SearchCattleUsers} from "../userUrlCalls/UserUrlCalls";
 
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 const {Option} = Select;
@@ -32,7 +32,6 @@ const CowsUserView = () => {
     const [cows, setCows] = useState([]);
     const [cowsToDisplay, setCowsToDisplay] = useState([]);
     const [fetching, setFetching] = useState(true);
-    const [showDrawer, setShowDrawer] = useState(false);
     const [showMDDrawer, setShowMDDrawer] = useState(false);
     const [selectedCow, setSelectedCow] = useState(null);
     const [selectedCowForRelationShip, setSelectedCowForRelationShip] = useState(null);
@@ -105,7 +104,7 @@ const CowsUserView = () => {
 
 
     const fetchStudents = () =>
-        getAllCows()
+        getAllCowsUsers()
             .then(res => res.json())
             .then(data => {
                 setCows(data);
@@ -143,7 +142,7 @@ const CowsUserView = () => {
 
     const handleAddProduction = async (product) => {
         console.log(JSON.stringify(product, null, 2))
-        addToProduction(product)
+        addToProductionUser(product)
             .then(() => {
                 successNotification(
                     "production successfully added",
@@ -171,7 +170,7 @@ const CowsUserView = () => {
 
 
     const searchCattleBySearchTerm = (query) => {
-        SearchCattle(searchTerm)
+        SearchCattleUsers(searchTerm)
             .then(res => res.json())
             .then(data => {
                 setCowsToDisplay(data)

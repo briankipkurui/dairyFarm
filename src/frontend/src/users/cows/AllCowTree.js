@@ -3,12 +3,12 @@ import React, {useEffect, useState} from "react";
 import {errorNotification} from "../../utils/Notification";
 import Tree from "react-d3-tree";
 import './Cows.css'
-import {getAllFamilyTreeById} from "../../admin/adminUrlCall/AdminUrlCalls";
+import {getAllFamilyTreeByIdUsers} from "../userUrlCalls/UserUrlCalls";
 
 const AllCowTree = ({cattleId}) => {
     const [familyTree, setFamilyTree] = useState({})
     const fetchStudents = (cattleId) =>
-        getAllFamilyTreeById(cattleId)
+        getAllFamilyTreeByIdUsers(cattleId)
             .then(res => res.json())
             .then(data => {
                 setFamilyTree(data);

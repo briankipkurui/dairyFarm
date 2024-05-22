@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "api/v1/cattle/users")
-public class CattleControllerUsers {
+public class CattleUserController {
     private final CattleService cattleService;
     private final CattleRepo cattleRepo;
 
