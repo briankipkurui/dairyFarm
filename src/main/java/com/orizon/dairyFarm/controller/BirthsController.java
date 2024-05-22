@@ -27,7 +27,7 @@ public class BirthsController {
         birthsService.addBirths(addBirthsRequest);
     }
 
-    //     testing route
+    //  testing route
     @GetMapping("descendants/{id}")
     public List<int[]> cattleService(@PathVariable("id") Long Id) {
         return birthsService.getDescendants(Id);
@@ -63,7 +63,6 @@ public class BirthsController {
         long elementAtIndex1 = firstArrayOfAncestor[1];
         CowNode root = birthsService.generateTree(descendants, elementAtIndex1);
         Map<String, Object> json = root.toJson();
-//        return new ResponseEntity<>(json, HttpStatus.OK);
         return ResponseEntity.ok(json);
     }
 
