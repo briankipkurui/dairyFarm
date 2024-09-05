@@ -76,7 +76,6 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
         console.log(JSON.stringify(student, null, 2))
         console.log("this is what is going to the server",student)
         addNewCattle(student)
-
             .then(() => {
                 console.log("cow added")
                 onCLose();
@@ -177,13 +176,9 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
         return false;
     };
 
-
-
     const handleLivestockSelect = (value) => {
         console.log("Selected livestock ID:", value);
     };
-
-
     return <Drawer
         title="Create new student"
         width={720}
@@ -206,7 +201,6 @@ function CowDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
               onFinishFailed={onFinishFailed}
               onFinish={onFinish}
               form={form}
-
               hideRequiredMark>
             <Row gutter={16}>
                 <Col span={12}>
