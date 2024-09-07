@@ -11,7 +11,9 @@ public class CattleRequest {
     private Long breedId;
     private Long livestockId;
     private String dateOfBirth;
-    private String DateDewormed;
-    private String DateServed;
+    private String dateDewormed;
+    private String dateServed;
+
+
 
 }
