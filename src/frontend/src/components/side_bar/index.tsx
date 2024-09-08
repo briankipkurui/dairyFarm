@@ -18,6 +18,8 @@ import {SidebarDesktop} from './sidebar-desktop';
 import {SidebarItems} from '@/types';
 import {useMediaQuery} from 'usehooks-ts';
 import {SidebarMobile} from './sidebar-mobile';
+import { GiBarn,GiFlake,GiHeadshot } from "react-icons/gi"
+
 
 const sidebarItems: SidebarItems = {
     links: [
@@ -25,17 +27,17 @@ const sidebarItems: SidebarItems = {
         {
             label: 'Cattle',
             href: 'cattle',
-            icon: Car,
+            icon: GiHeadshot,
         },
         {
             label: 'Breeds',
             href: 'breeds',
-            icon: Car,
+            icon: GiFlake,
         },
         {
             label: 'Livestock',
             href: 'livestock',
-            icon: Car,
+            icon: GiBarn,
         },
 
 

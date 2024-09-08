@@ -1,6 +1,6 @@
 
 
-export interface Cattle {
+export type Cattle ={
     cattleId: number
     name: string
     sex: string
@@ -13,12 +13,12 @@ export interface Cattle {
 }
 
 
-export interface Breeds {
+export type Breeds ={
     breedId: number
     name: string
 }
 
-export interface Livestock {
+export type Livestock ={
     livestockId: number
     name: string
 }

@@ -3,9 +3,10 @@ import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { SheetClose } from '@/components/ui/sheet';
 import { Button, ButtonProps } from '@/components/ui/button';
+import { IconType } from 'react-icons';
 
 interface SidebarButtonProps extends ButtonProps {
-  icon?: LucideIcon;
+  icon?: LucideIcon | IconType ;
 }
 
 export function SidebarButton({

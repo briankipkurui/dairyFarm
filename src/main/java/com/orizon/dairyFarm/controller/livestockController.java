@@ -26,9 +26,10 @@ public class livestockController {
         return liveStockService.getLiveStock();
     }
 
-    @PutMapping()
-    public void updateLiveStock(@RequestBody LivestockRequest livestockRequest) {
-        liveStockService.updateLiveStock(livestockRequest);
+    @PutMapping("{livestockId}")
+    public void updateLiveStock(@RequestBody LivestockRequest livestockRequest,
+                                @PathVariable("livestockId") Long livestockIdId) {
+        liveStockService.updateLiveStock(livestockRequest,livestockIdId);
     }
 
     @DeleteMapping(path = "{livestockId}")

@@ -1,20 +1,26 @@
-
-import {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 
 
 import Spinner from "@/pages/spinnner/Spinner";
 import {Button} from "@/components/ui/button";
-import { Livestock} from "@/pages/types/Types";
+import {Livestock} from "@/pages/types/Types";
 import {LiveStockColumns} from "@/pages/livestock/LiveStockColumns";
 import {LivestockDataTables} from "@/pages/livestock/LiveStockDataTables";
-import {getLivestock} from "@/apiCalls/apiCalls";
+import {deteleLiveStock, getLivestock} from "@/apiCalls/apiCalls";
+import AddCattleDrawer from "@/pages/cattle/AddCattleDrawer";
+import AddLivestockDrawerForm from "@/pages/livestock/AddLiveStockDrawer";
+import UpdateLivestockDrawerForm from "@/pages/livestock/UpdateLiveStockDrawer";
+import {errorNotification, successNotification} from "@/utils/Notification";
 
 
 export default function LiveStockFn() {
     const [data, setData] = useState<Livestock[]>([])
     const [loading, setLoading] = useState<boolean>(true)
+    const [showAddLiveStockDrawer, setShowAddLiveStockDrawer] = useState<boolean>(false)
+    const [showUpdateLiveStockDrawer, setShowUpdateLiveStockDrawer] = useState<boolean>(false)
+    const [liveStockData, setLiveStockData] = useState<Livestock | undefined>(undefined)
 
-    const fetchLiveStocks = async () =>
+    const fetchLiveStocks = () => {
         getLivestock()
             .then((res: any) => res.json())
             .then((data: any) => {
@@ -22,15 +28,43 @@ export default function LiveStockFn() {
             }).catch((err: any) => {
         }).finally(() => setLoading(false))
 
+    }
+
+
 
     useEffect(() => {
         fetchLiveStocks()
     }, [])
 
+    const deleteCustomerById = (customerId: any) => {
+        deteleLiveStock(customerId).then(() => {
+            successNotification(
+                "assets successfully added",
+                ` was added to the system`,
+                'topRight'
+            )
+            fetchLiveStocks()
+        }).catch(err => {
+            err.response.json().then((res: any) => {
+                console.log(res);
+                errorNotification(
+                    "There was an issue",
+                    `${res.message} [${res.status}] [${res.error}]`,
+                    "bottomLeft"
+                )
+            });
+        })
+    }
 
-    const editFunctionCall = (livestock: Livestock) => {}
 
-    const deleteFunctionCall = async (livestock: Livestock) => {}
+    const editFunctionCall = (livestock: Livestock) => {
+        setLiveStockData(livestock)
+        setShowUpdateLiveStockDrawer(!showUpdateLiveStockDrawer)
+    }
+
+    const deleteFunctionCall = async (livestock: Livestock) => {
+        deleteCustomerById(livestock.livestockId)
+    }
 
 
     const onDelete = useCallback(
@@ -43,7 +77,7 @@ export default function LiveStockFn() {
         []
     )
 
-    const LiveStockColumnsData = useMemo(() => LiveStockColumns({ onEdit, onDelete }), [])
+    const LiveStockColumnsData = useMemo(() => LiveStockColumns({onEdit, onDelete}), [])
 
     if (loading) {
         return <Spinner/>
@@ -54,10 +88,27 @@ export default function LiveStockFn() {
             <Button
                 variant='default'
                 className="flex items-center justify-end"
+                onClick={() => setShowAddLiveStockDrawer(!showAddLiveStockDrawer)}
             >
                 Add livestock
             </Button>
-            <LivestockDataTables columns={LiveStockColumnsData} data={data}  />
+            <LivestockDataTables columns={LiveStockColumnsData} data={data}/>
+
+            <AddLivestockDrawerForm
+                showAddLiveStockDrawer={showAddLiveStockDrawer}
+                setShowAddLiveStockDrawer={setShowAddLiveStockDrawer}
+                fetchLiveStocks={fetchLiveStocks}
+            />
+
+            {liveStockData && (
+                <UpdateLivestockDrawerForm
+                    showUpdateLiveStockDrawer={showUpdateLiveStockDrawer}
+                    setShowUpdateLiveStockDrawer={setShowUpdateLiveStockDrawer}
+                    LiveStock={liveStockData}
+                    fetchLiveStocks={fetchLiveStocks}
+                    setLiveStockData={setLiveStockData}
+                />
+            )}
         </main>
     )
 }

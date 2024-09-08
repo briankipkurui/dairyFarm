@@ -31,13 +31,13 @@ public class LivestockService {
 
     }
 
-    public void updateLiveStock(LivestockRequest livestockRequest) {
+    public void updateLiveStock(LivestockRequest livestockRequest,Long livestockIdId) {
         Livestock livestock
-                = livestockRepo.findById(livestockRequest.getLivestockId())
+                = livestockRepo.findById(livestockIdId)
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("livestock  with id " +
-                        livestockRequest.getLivestockId() + " was not found"));
+                        livestockIdId + " was not found"));
 
 
         String upperCase = livestockRequest.getName().toUpperCase();

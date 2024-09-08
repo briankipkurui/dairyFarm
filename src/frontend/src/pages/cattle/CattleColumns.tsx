@@ -2,7 +2,7 @@ import {ColumnDef} from "@tanstack/react-table"
 import {Checkbox} from "@/components/ui/checkbox"
 import CattleRowActions from "@/pages/cattle/CattleRowActions";
 import {Cattle} from "@/pages/types/Types";
-import { differenceInYears, differenceInMonths, differenceInDays } from 'date-fns';
+import {differenceInYears, differenceInMonths, differenceInDays} from 'date-fns';
 
 
 interface rowActionProps {
@@ -55,7 +55,7 @@ export const CattleColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<Cat
         {
             accessorKey: "dateOfBirth",
             header: "Age",
-            cell: ({ row }) => {
+            cell: ({row}) => {
                 const dob = new Date(row.original.dateOfBirth);
                 const currentDate = new Date();
 
@@ -63,15 +63,23 @@ export const CattleColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<Cat
                 const months = differenceInMonths(currentDate, dob) % 12;
                 const days = differenceInDays(currentDate, dob);
 
+                let ageText = "";
                 if (years > 0) {
-                    return `${years} year${years > 1 ? 's' : ''} ${months} month${months !== 1 ? 's' : ''} old`;
+                    ageText = `${years} year${years > 1 ? 's' : ''} ${months} month${months !== 1 ? 's' : ''} old`;
                 } else if (months > 0) {
-                    return `${months} month${months > 1 ? 's' : ''} old`;
+                    ageText = `${months} month${months > 1 ? 's' : ''} old`;
                 } else if (days < 30) {
-                    return 'Less than a month old';
+                    ageText = 'Less than a month old';
                 }
+
+                return (
+                    <div className="px-2  rounded-full bg-green-500 text-white">
+                        {ageText}
+                    </div>
+                );
             },
         },
+
         {
             accessorKey: "breeds",
             header: "breeds",
@@ -99,7 +107,7 @@ export const CattleColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<Cat
         {
             id: "actions",
             header: 'Actions',
-            cell: ({row}) => <CattleRowActions row={row} onEdit={onEdit} onDelete={onDelete} />,
+            cell: ({row}) => <CattleRowActions row={row} onEdit={onEdit} onDelete={onDelete}/>,
         }
     ]
 
