@@ -1,7 +1,7 @@
-import { Button } from '@/components/ui/button';
-import { Row } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
-import React, { useState } from 'react';
+import {Button} from '@/components/ui/button';
+import {Row} from '@tanstack/react-table';
+import {MoreHorizontal} from 'lucide-react';
+import React, {useState} from 'react';
 
 import {
     DropdownMenu,
@@ -27,9 +27,10 @@ interface DataTableRowActionsProps<TData> {
     row: Row<TData>;
     onEdit: (value: TData) => void;
     onDelete: (value: TData) => void
+    onAddRelationShip: (value: TData) => void
 }
 
-const CattleRowActions = <TData,>({ row, onEdit, onDelete }: DataTableRowActionsProps<TData>) => {
+const CattleRowActions = <TData, >({row, onEdit, onDelete,onAddRelationShip}: DataTableRowActionsProps<TData>) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
 
@@ -51,29 +52,29 @@ const CattleRowActions = <TData,>({ row, onEdit, onDelete }: DataTableRowActions
         <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
-                    <MoreHorizontal className="h-4 w-4" />
+                    <MoreHorizontal className="h-4 w-4"/>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => onEdit(row.original)}>Edit</DropdownMenuItem>
-
-                <DropdownMenuSeparator />
-                    <AlertDialog open={isAlertDialogOpen} onOpenChange={setIsAlertDialogOpen}>
-                        <AlertDialogTrigger>delete</AlertDialogTrigger>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    this will delete the selected row
-                                    click continue to delete
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel onClick={handleAlertDialogClose}>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
+                <DropdownMenuItem onClick={() => onEdit(row.original)}>Edit</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onAddRelationShip(row.original)}>Add Relationship</DropdownMenuItem>
+                <DropdownMenuSeparator/>
+                <AlertDialog open={isAlertDialogOpen} onOpenChange={setIsAlertDialogOpen}>
+                    <AlertDialogTrigger>delete</AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                this will delete the selected row
+                                click continue to delete
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel onClick={handleAlertDialogClose}>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </DropdownMenuContent>
         </DropdownMenu>
     )

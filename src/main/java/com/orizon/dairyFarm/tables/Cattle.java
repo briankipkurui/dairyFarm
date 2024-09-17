@@ -26,7 +26,7 @@ public class Cattle {
             strategy = GenerationType.SEQUENCE,
             generator = "cattle_sequence"
     )
-    private Long cattleId;
+    private Long id;
     private String name;
     private String sex;
     private String serialNumber;

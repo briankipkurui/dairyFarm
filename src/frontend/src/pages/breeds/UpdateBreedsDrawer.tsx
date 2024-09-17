@@ -1,61 +1,50 @@
-import {Drawer, Input, Col, Form, Row, Button, Spin} from 'antd';
-import {LoadingOutlined} from "@ant-design/icons";
-import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {addLivestock, updateLivestock} from "@/apiCalls/apiCalls";
-import {errorNotification, successNotification} from "@/utils/Notification";
-import {Cattle, Livestock} from "@/pages/types/Types";
+import {Drawer, Input, Col, Form, Row, Button, Spin} from 'antd'
+import {LoadingOutlined} from "@ant-design/icons"
+import React, {useState} from 'react'
+import {addBreeds, updateBreeds} from "@/apiCalls/apiCalls"
+import {errorNotification, successNotification} from "@/utils/Notification"
+import {Breeds} from "@/pages/types/Types";
 
 
-const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
+const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>
 
-interface LiveStockDrawerProps {
-    showUpdateLiveStockDrawer: boolean;
-    setShowUpdateLiveStockDrawer: React.Dispatch<React.SetStateAction<boolean>>
-    LiveStock: Livestock
-    fetchLiveStocks: any,
-    setLiveStockData: React.Dispatch<React.SetStateAction<Livestock | undefined>>
+interface BreedsDrawerProps {
+    showUpdateBreedsDrawer: boolean;
+    setShowUpdateBreedsDrawer: React.Dispatch<React.SetStateAction<boolean>>
+    fetchBreeds: any
+    breeds: Breeds
+    setBreedsData: React.Dispatch<React.SetStateAction<Breeds | undefined>>
 }
 
-const UpdateLivestockDrawerForm: React.FC<LiveStockDrawerProps> = ({
-                                                                       showUpdateLiveStockDrawer,
-                                                                       setShowUpdateLiveStockDrawer,
-                                                                       LiveStock,
-                                                                       fetchLiveStocks,
-                                                                       setLiveStockData
-                                                                   }) => {
+const UpdateBreedsDrawer: React.FC<BreedsDrawerProps> = ({
+                                                             showUpdateBreedsDrawer,
+                                                             setShowUpdateBreedsDrawer,
+                                                             fetchBreeds,
+                                                             breeds,
+                                                             setBreedsData
+                                                         }) => {
     const onCLose = () => {
-        setShowUpdateLiveStockDrawer(false);
-        setLiveStockData(undefined)
+        setBreedsData(undefined)
+        setShowUpdateBreedsDrawer(false)
     }
     const [submitting, setSubmitting] = useState(false);
-    const [form] = Form.useForm()
 
-
-    useEffect(() => {
-        if (LiveStock) {
-            form.setFieldsValue(LiveStock);
-        }
-    }, [LiveStock, form]);
-
-
-    const onFinish = (user: any) => {
+    const onFinish = (Breeds: any) => {
         setSubmitting(true)
-        console.log(JSON.stringify(user, null, 2))
-        updateLivestock(user)
+        updateBreeds(Breeds)
             .then(() => {
-                console.log("student added")
                 onCLose();
-                fetchLiveStocks()
+                fetchBreeds()
                 successNotification(
-                    "Student successfully added",
-                    `${user.firstName} was added to the system`,
+                    "Breed successfully added",
+                    `${Breeds.name} was added to the system`,
                     'topRight'
                 )
 
             }).catch(err => {
-            console.log(err);
+
             err.response.json().then((res: any) => {
-                console.log(res);
+
                 errorNotification(
                     "There was an issue",
                     `${res.message} [${res.status}] [${res.error}]`,
@@ -72,10 +61,10 @@ const UpdateLivestockDrawerForm: React.FC<LiveStockDrawerProps> = ({
     };
 
     return <Drawer
-        title="Update livestock"
+        title="Update Breeds"
         width={720}
         onClose={onCLose}
-        visible={showUpdateLiveStockDrawer}
+        visible={showUpdateBreedsDrawer}
         bodyStyle={{paddingBottom: 80}}
         footer={
             <div
@@ -92,10 +81,7 @@ const UpdateLivestockDrawerForm: React.FC<LiveStockDrawerProps> = ({
         <Form layout="vertical"
               onFinishFailed={onFinishFailed}
               onFinish={onFinish}
-              initialValues={{
-                  name: LiveStock.name,
-                  livestockId: LiveStock.id
-              }}
+              initialValues={breeds}
               hideRequiredMark>
             <Row gutter={16}>
                 <Col span={12}>
@@ -109,8 +95,8 @@ const UpdateLivestockDrawerForm: React.FC<LiveStockDrawerProps> = ({
                 </Col>
                 <Col span={12}>
                     <Form.Item
-                        name="livestockId"
-                        label="livestockId"
+                        name="breedId"
+                        label="breedId"
                         rules={[{required: true, message: 'Please enter name'}]}
                     >
                         <Input placeholder="Please enter name"/>
@@ -133,4 +119,4 @@ const UpdateLivestockDrawerForm: React.FC<LiveStockDrawerProps> = ({
     </Drawer>
 }
 
-export default UpdateLivestockDrawerForm;
+export default UpdateBreedsDrawer;

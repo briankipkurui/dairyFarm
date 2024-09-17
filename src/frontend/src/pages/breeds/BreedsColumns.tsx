@@ -13,8 +13,8 @@ interface rowActionProps {
 export const BreedsColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<Breeds>[] => {
     const columns: ColumnDef<Breeds>[] = [
         {
-            accessorKey: "breedId",
-            header: "breedId",
+            accessorKey: "id",
+            header: "id",
         },
         {
             accessorKey: "name",

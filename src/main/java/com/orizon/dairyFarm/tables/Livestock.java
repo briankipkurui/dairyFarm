@@ -22,7 +22,7 @@ public class Livestock {
             strategy = GenerationType.SEQUENCE,
             generator = "livestock_sequence"
     )
-    private Long livestockId;
+    private Long id;
     private String name;
 
 

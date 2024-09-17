@@ -11,8 +11,8 @@ interface rowActionProps {
 export const LiveStockColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<Livestock>[] => {
     const columns: ColumnDef<Livestock>[] = [
         {
-            accessorKey: "livestockId",
-            header: "livestockId",
+            accessorKey: "id",
+            header: "id",
         },
         {
             accessorKey: "name",

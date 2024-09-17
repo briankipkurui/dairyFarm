@@ -38,7 +38,7 @@ public class ApplicationUserService  implements UserDetailsService {
         applicationUser.getApplicationUserRoles().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoles().getName()));
         });
-        String username = applicationUser.getUserId().toString();
+        String username = applicationUser.getId().toString();
         return new User(
                 username,
                 applicationUser.getPassword(),

@@ -24,20 +24,16 @@ export const addNewCattle = (cows: any) =>
         }
     ).then(checkStatus)
 
-
-export const getAllProduction = () =>
-    fetch("/api/v1/production", {
-        method: 'GET'
-    }).then(checkStatus);
-
-export const addToProduction = (production: any) =>
-    fetch("/api/v1/production", {
+export const updateCattle = (cattle: any) =>
+    fetch(`/api/v1/cattle/${cattle.id}`, {
         headers: {
             'Content-Type': 'application/json'
         },
-        method: 'POST',
-        body: JSON.stringify(production)
+        method: 'PUT',
+        body: JSON.stringify(cattle)
     }).then(checkStatus)
+
+
 
 export const SearchCattle = (query: any) =>
     fetch(`/api/v1/cattle/search?query=${query}`, {
@@ -46,6 +42,124 @@ export const SearchCattle = (query: any) =>
         },
         method: 'GET'
     }).then(checkStatus)
+
+
+export const SearchCattleById = (id: any) =>
+    fetch(`/api/v1/cattle/${id}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)
+
+
+
+
+
+export const addBreeds = (breed: any) =>
+    fetch("/api/v1/breeds", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(breed)
+    }).then(checkStatus)
+
+export const getBreeds = () =>
+    fetch("/api/v1/breeds", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET',
+    }).then(checkStatus);
+
+
+
+export const updateBreeds = (breed: any) =>
+    fetch(`/api/v1/breeds/${breed.breedId}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'PUT',
+        body: JSON.stringify(breed)
+    }).then(checkStatus)
+
+
+
+export const deleteBreed = (breedId: any) =>
+    fetch(`/api/v1/breeds/${breedId}`, {
+        method: 'DELETE'
+    }).then(checkStatus);
+
+
+
+export const SearchBreed = (query: any) =>
+    fetch(`/api/v1/breeds/search?query=${query}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)
+
+
+export const SearchBreedById = (id: any) =>
+    fetch(`/api/v1/breeds/${id}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)
+
+export const addLivestock = (livestock: any) =>
+    fetch("/api/v1/livestock", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(livestock)
+    }).then(checkStatus)
+
+export const getLivestock = () =>
+    fetch("/api/v1/livestock", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET',
+    }).then(checkStatus);
+
+
+export const deteleLiveStock = (liveStockId: any) =>
+    fetch(`/api/v1/livestock/${liveStockId}`, {
+        method: 'DELETE'
+    }).then(checkStatus)
+
+
+export const updateLivestock = (livestock: any) =>
+    fetch(`/api/v1/livestock/${livestock.livestockId}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'PUT',
+        body: JSON.stringify(livestock)
+    }).then(checkStatus)
+
+
+export const SearchLivestock = (query: any) =>
+    fetch(`/api/v1/livestock/search?query=${query}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)
+
+export const SearchLiveStockById = (id: any) =>
+    fetch(`/api/v1/livestock/${id}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)
+
 
 export const addBirths = (births: any) =>
     fetch("/api/v1/births", {
@@ -66,111 +180,34 @@ export const getAllFamilyTreeById = (cattleId: any) =>
         method: 'GET'
     }).then(checkStatus);
 
-export const addBreeds = (breed: any) =>
-    fetch("/api/v1/breeds", {
+
+export const getAllProduction = () =>
+    fetch("/api/v1/production", {
+        method: 'GET'
+    }).then(checkStatus);
+
+export const addToProduction = (production: any) =>
+    fetch("/api/v1/production", {
         headers: {
             'Content-Type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify(breed)
+        body: JSON.stringify(production)
     }).then(checkStatus)
 
-export const getBreeds = () =>
-    fetch("/api/v1/breeds", {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'GET',
-    }).then(checkStatus);
-export const updateBreeds = (breed: any) =>
-    fetch("/api/v1/breeds", {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'PUT',
-        body: JSON.stringify(breed)
-    }).then(checkStatus)
-
-export const deleteBreed = (breedId: any) =>
-    fetch(`api/v1/breeds/${breedId}`, {
-        method: 'DELETE'
-    }).then(checkStatus);
-
-export const SearchBreed = (query: any) =>
-    fetch(`/api/v1/breeds/search?query=${query}`, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'GET'
-    }).then(checkStatus)
-
-export const getMaxId = () =>
-    fetch("/api/v1/cattle/maxId", {
-        method: 'GET'
-    }).then(checkStatus);
 
 
 
-export const getLivestock = () =>
-    fetch("/api/v1/livestock", {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'GET',
-    }).then(checkStatus);
 
 
-export const SearchCattleById = (id: any) =>
-    fetch(`/api/v1/cattle/${id}`, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'GET'
-    }).then(checkStatus)
 
-export const SearchBreedById = (id: any) =>
-    fetch(`/api/v1/breeds/${id}`, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'GET'
-    }).then(checkStatus)
 
-export const SearchLiveStockById = (id: any) =>
-    fetch(`/api/v1/livestock/${id}`, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'GET'
-    }).then(checkStatus)
 
-export const deteleLiveStock = (liveStockId: any) =>
-    fetch(`/api/v1/livestock/${liveStockId}`, {
-        method: 'DELETE'
-    }).then(checkStatus)
 
-export const SearchLivestock = (query: any) =>
-    fetch(`/api/v1/livestock/search?query=${query}`, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'GET'
-    }).then(checkStatus)
 
-export const addLivestock = (livestock: any) =>
-    fetch("/api/v1/livestock", {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify(livestock)
-    }).then(checkStatus)
 
-export const updateLivestock = (livestock: any) =>
-    fetch(`/api/v1/livestock/${livestock.livestockId}`, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'PUT',
-        body: JSON.stringify(livestock)
-    }).then(checkStatus)
+
+
+
+
+

@@ -25,10 +25,12 @@ public class BreedsController {
         return breedsService.getBreeds();
     }
 
-    @PutMapping()
-    public void updateBreeds(@RequestBody BreedsRequest breedsRequest) {
-        breedsService.updateBreeds(breedsRequest);
+    @PutMapping("{livestockId}")
+    public void updateBreeds(@RequestBody BreedsRequest breedsRequest,
+                             @PathVariable("livestockId") Long livestockIdId) {
+        breedsService.updateBreeds(breedsRequest,livestockIdId);
     }
+
     @DeleteMapping(path = "{breedId}")
     public void deleteBreeds(
             @PathVariable("breedId") Long breedId) {

@@ -25,7 +25,7 @@ public class ApplicationUser {
             strategy = GenerationType.SEQUENCE,
             generator = "application_user_sequence"
     )
-    private Long userId;
+    private Long id;
     private String firstName;
     private String lastName;
     private String phoneNumber;

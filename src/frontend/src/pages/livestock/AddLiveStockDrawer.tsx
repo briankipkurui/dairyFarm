@@ -16,7 +16,7 @@ interface LiveStockDrawerProps {
 const AddLivestockDrawerForm: React.FC<LiveStockDrawerProps> = ({
                                                                     showAddLiveStockDrawer,
                                                                     setShowAddLiveStockDrawer,
-                                                                    fetchLiveStocks
+                                                                     fetchLiveStocks
                                                                 }) => {
     const onCLose = () => setShowAddLiveStockDrawer(false);
     const [submitting, setSubmitting] = useState(false);

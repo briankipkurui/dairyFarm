@@ -12,12 +12,12 @@ public interface CattleRepo extends JpaRepository<Cattle,Long> {
     @Query("SELECT p FROM Cattle  p WHERE p.name LIKE CONCAT('%',:query,'%')")
     List<Cattle> searchProduct(String query);
 
-    @Query("SELECT max(p.cattleId) FROM Cattle p")
+    @Query("SELECT max(p.id) FROM Cattle p")
     Long maxID();
 
 //    Optional<Cattle> findCattleByCattleId(Long cattleId);
 
-    @Query("SELECT p FROM Cattle  p WHERE p.cattleId = ?1")
+    @Query("SELECT p FROM Cattle  p WHERE p.id = ?1")
     List<Cattle> findCattleByCattleId(Long cattleId);
 
 

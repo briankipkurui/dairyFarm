@@ -1,7 +1,7 @@
 
 
 export type Cattle ={
-    cattleId: number
+    id: number
     name: string
     sex: string
     serialNumber: string
@@ -14,11 +14,11 @@ export type Cattle ={
 
 
 export type Breeds ={
-    breedId: number
+    id: number
     name: string
 }
 
 export type Livestock ={
-    livestockId: number
+    id: number
     name: string
 }

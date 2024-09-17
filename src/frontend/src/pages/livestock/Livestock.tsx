@@ -6,7 +6,7 @@ import {Button} from "@/components/ui/button";
 import {Livestock} from "@/pages/types/Types";
 import {LiveStockColumns} from "@/pages/livestock/LiveStockColumns";
 import {LivestockDataTables} from "@/pages/livestock/LiveStockDataTables";
-import {deteleLiveStock, getLivestock} from "@/apiCalls/apiCalls";
+import {deteleLiveStock, getBreeds, getLivestock} from "@/apiCalls/apiCalls";
 import AddCattleDrawer from "@/pages/cattle/AddCattleDrawer";
 import AddLivestockDrawerForm from "@/pages/livestock/AddLiveStockDrawer";
 import UpdateLivestockDrawerForm from "@/pages/livestock/UpdateLiveStockDrawer";
@@ -20,21 +20,25 @@ export default function LiveStockFn() {
     const [showUpdateLiveStockDrawer, setShowUpdateLiveStockDrawer] = useState<boolean>(false)
     const [liveStockData, setLiveStockData] = useState<Livestock | undefined>(undefined)
 
-    const fetchLiveStocks = () => {
-        getLivestock()
-            .then((res: any) => res.json())
-            .then((data: any) => {
-                setData(data)
-            }).catch((err: any) => {
-        }).finally(() => setLoading(false))
 
-    }
+    const fetchLiveStocks = useCallback(async () => {
+        setLoading(true);
+        try {
+            const res = await getBreeds();
+            const data = await res.json();
+            setData(data);
+        } catch (err) {
+            console.error("Error fetching breeds:", err);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
 
 
     useEffect(() => {
         fetchLiveStocks()
-    }, [])
+    }, [fetchLiveStocks])
 
     const deleteCustomerById = (customerId: any) => {
         deteleLiveStock(customerId).then(() => {
@@ -63,7 +67,7 @@ export default function LiveStockFn() {
     }
 
     const deleteFunctionCall = async (livestock: Livestock) => {
-        deleteCustomerById(livestock.livestockId)
+        deleteCustomerById(livestock.id)
     }
 
 

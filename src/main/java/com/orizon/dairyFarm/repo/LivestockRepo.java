@@ -11,6 +11,6 @@ public interface LivestockRepo extends JpaRepository<Livestock,Long> {
     @Query("SELECT p FROM Livestock  p WHERE p.name LIKE CONCAT('%',:query,'%')")
     List<Livestock> searchLivestock(String query);
 
-    @Query("SELECT p FROM Livestock  p WHERE p.livestockId = ?1")
+    @Query("SELECT p FROM Livestock  p WHERE p.id = ?1")
     List<Livestock> findLiveStockByLiveStockId(Long liveStockId);
 }

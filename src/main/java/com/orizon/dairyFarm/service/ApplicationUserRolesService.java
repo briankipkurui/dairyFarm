@@ -56,7 +56,7 @@ public class ApplicationUserRolesService {
                 .orElseThrow(() -> new IllegalStateException("role with " + roleID + " was not found"));
 
         ApplicationUserRoles applicationUserRoles = new ApplicationUserRoles(
-                new RoleId(applicationUser.getUserId(), roles.getId()),
+                new RoleId(applicationUser.getId(), roles.getId()),
                 applicationUser,
                 roles
         );

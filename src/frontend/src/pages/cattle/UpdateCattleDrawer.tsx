@@ -1,10 +1,18 @@
 import {Drawer, Input, Col, Select, Form, Row, Button, Spin} from 'antd';
 import {LoadingOutlined} from "@ant-design/icons";
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {errorNotification, successNotification} from "../../utils/Notification";
-import {addNewCattle, getBreeds, getLivestock, SearchBreed, SearchLivestock} from "@/apiCalls/apiCalls";
+import {
+    addNewCattle,
+    getBreeds,
+    getLivestock,
+    SearchBreed,
+    SearchBreedById,
+    SearchLivestock, SearchLiveStockById, updateCattle
+} from "@/apiCalls/apiCalls";
 import {useDebounce} from "@/utils/DebounceHook";
-import {Breeds, Livestock} from "@/pages/types/Types";
+import {Breeds, Cattle, Livestock} from "@/pages/types/Types";
+import moment from 'moment';
 
 
 const {Option} = Select;
@@ -12,13 +20,24 @@ const {Option} = Select;
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 
 interface CattleDrawerProps {
-    addCattleDrawer: boolean;
-    showAddCattleDrawer: React.Dispatch<React.SetStateAction<boolean>>
-    fetchAllCows: any
+    updateCattleDrawer: boolean;
+    showUpdateCattleDrawer: React.Dispatch<React.SetStateAction<boolean>>
+    cattle: Cattle,
+    setCattleData: React.Dispatch<React.SetStateAction<Cattle | undefined>>
+    getAllCows: any
 }
 
-const AddCattleDrawer: React.FC<CattleDrawerProps> = ({addCattleDrawer, showAddCattleDrawer, fetchAllCows}) => {
-    const onCLose = () => showAddCattleDrawer(false);
+const UpdateCattleDrawer: React.FC<CattleDrawerProps> = ({
+                                                             updateCattleDrawer,
+                                                             showUpdateCattleDrawer,
+                                                             cattle,
+                                                             setCattleData,
+                                                             getAllCows
+                                                         }) => {
+    const onCLose = () => {
+        setCattleData(undefined)
+        showUpdateCattleDrawer(false);
+    }
     const [submitting, setSubmitting] = useState(false);
     const [breedsToDisplay, setBreedToDisplay] = useState([])
     const [livestockToDisplay, setLivestockToDisplay] = useState([])
@@ -30,6 +49,30 @@ const AddCattleDrawer: React.FC<CattleDrawerProps> = ({addCattleDrawer, showAddC
     const [liveStockType, setLiveStockType] = useState('')
     const [serialNumber, setSerialNumber] = useState('')
     const [form] = Form.useForm();
+
+
+    useLayoutEffect(() => {
+        const setFormValues = async () => {
+            const liveStock: Livestock = livestockToDisplay.find((c: Livestock) => c.id === cattle.livestock.id) ||
+                await getSpecificLiveStockById(cattle.livestock.id)
+            const breed: Breeds = breedsToDisplay.find((p: Breeds) => p.id === cattle.breeds.id) ||
+                await getSpecificBreedById(cattle.breeds.id);
+
+            form.setFieldsValue({
+                livestockId: liveStock ? {value: liveStock.id, label: liveStock.name} : undefined,
+                breedId: breed ? {value: breed.id, label: breed.name} : undefined,
+                dateServed: cattle.dateServed ? moment(cattle.dateServed).format('YYYY-MM-DD') : null,
+                dateDewormed: cattle.dateDewormed ? moment(cattle.dateDewormed).format('YYYY-MM-DD') : null,
+                dateOfBirth: cattle.dateOfBirth ? moment(cattle.dateOfBirth).format('YYYY-MM-DD') : null,
+                sex: cattle.sex,
+                name: cattle.name
+
+            })
+        };
+        if (cattle) {
+            setFormValues()
+        }
+    }, [cattle, livestockToDisplay, breedsToDisplay, form])
 
     const fetchBreeds = () =>
         getBreeds()
@@ -74,11 +117,66 @@ const AddCattleDrawer: React.FC<CattleDrawerProps> = ({addCattleDrawer, showAddC
     }, []);
 
 
+    const getSpecificBreedById = async (id: any) => {
+        try {
+            const res = await SearchBreedById(id)
+            const data = await res.json()
+            return data && data.length > 0 ? data[0] : null;
+        } catch (err: any) {
+            if (err.response) {
+                const errorResponse = await err.response.json();
+                console.error(errorResponse)
+                errorNotification(
+                    "There was an issue",
+                    `${errorResponse.message} [${errorResponse.status}] [${errorResponse.error}]`,
+                    'topRight'
+                );
+            } else {
+                errorNotification(
+                    "Unexpected Error",
+                    "An unexpected error occurred.",
+                    'topRight'
+                );
+            }
+            return null;
+        }
+    }
+
+    const getSpecificLiveStockById = async (id: any) => {
+        try {
+            const res = await SearchLiveStockById(id)
+            const data = await res.json()
+            return data && data.length > 0 ? data[0] : null;
+        } catch (err: any) {
+            if (err.response) {
+                const errorResponse = await err.response.json();
+                console.error(errorResponse)
+                errorNotification(
+                    "There was an issue",
+                    `${errorResponse.message} [${errorResponse.status}] [${errorResponse.error}]`,
+                    'topRight'
+                );
+            } else {
+                errorNotification(
+                    "Unexpected Error",
+                    "An unexpected error occurred.",
+                    'topRight'
+                );
+            }
+            return null;
+        }
+    }
+
     const onFinish = (student: any) => {
         setSubmitting(true)
+        const extractedAssets = {
+            ...student,
+            livestockId: student.livestockId?.value ? student.livestockId.value : student.livestockId,
+            breedId: student.breedId?.value ? student.breedId.value : student.breedId
+        }
         console.log(JSON.stringify(student, null, 2))
         console.log("this is what is going to the server", student)
-        addNewCattle(student)
+        updateCattle(extractedAssets)
             .then(() => {
                 console.log("cow added")
                 onCLose();
@@ -87,7 +185,7 @@ const AddCattleDrawer: React.FC<CattleDrawerProps> = ({addCattleDrawer, showAddC
                     `${student.name} was added to the system`,
                     'topRight'
                 )
-                fetchAllCows();
+
             }).catch(err => {
             console.log(err);
             err.response.json().then((res: any) => {
@@ -166,14 +264,14 @@ const AddCattleDrawer: React.FC<CattleDrawerProps> = ({addCattleDrawer, showAddC
         setLivestockOptions(updatedLivestockOptions);
     }, [livestockToDisplay]);
 
-    const filterBreedOptions = (inputValue:any, option:any) => {
+    const filterBreedOptions = (inputValue: any, option: any) => {
         const label = option.props.children;
         if (label && typeof label === 'string') {
             return label.toLowerCase().includes(inputValue.toLowerCase());
         }
         return false;
     };
-    const filterLivestockOptions = (inputValue:any, option:any) => {
+    const filterLivestockOptions = (inputValue: any, option: any) => {
         const label = option.props.children;
         if (label && typeof label === 'string') {
             return label.toLowerCase().includes(inputValue.toLowerCase());
@@ -181,14 +279,14 @@ const AddCattleDrawer: React.FC<CattleDrawerProps> = ({addCattleDrawer, showAddC
         return false;
     };
 
-    const handleLivestockSelect = (value:any) => {
+    const handleLivestockSelect = (value: any) => {
         console.log("Selected livestock ID:", value)
     };
     return <Drawer
         title="Create new student"
         width={720}
         onClose={onCLose}
-        visible={addCattleDrawer}
+        visible={updateCattleDrawer}
         bodyStyle={{paddingBottom: 80}}
         footer={
             <div
@@ -206,6 +304,16 @@ const AddCattleDrawer: React.FC<CattleDrawerProps> = ({addCattleDrawer, showAddC
               onFinishFailed={onFinishFailed}
               onFinish={onFinish}
               form={form}
+              initialValues={{
+                  livestockId: cattle.livestock.id,
+                  breedId: cattle.breeds.id,
+                  dateServed: cattle.dateServed ? moment(cattle.dateServed).format('YYYY-MM-DD') : null,
+                  dateDewormed: cattle.dateDewormed ? moment(cattle.dateDewormed).format('YYYY-MM-DD') : null,
+                  dateOfBirth: cattle.dateOfBirth ? moment(cattle.dateOfBirth).format('YYYY-MM-DD') : null,
+                  sex: cattle.sex,
+                  name: cattle.name,
+                  id:cattle.id
+              }}
               hideRequiredMark>
             <Row gutter={16}>
                 <Col span={12}>
@@ -244,7 +352,7 @@ const AddCattleDrawer: React.FC<CattleDrawerProps> = ({addCattleDrawer, showAddC
                             filterOption={filterLivestockOptions}
                             onSelect={handleLivestockSelect}
                         >
-                            {livestockOptions.map((option:any) => (
+                            {livestockOptions.map((option: any) => (
                                 <Option key={option.value} value={option.value}>{option.label}</Option>
                             ))}
                         </Select>
@@ -262,13 +370,14 @@ const AddCattleDrawer: React.FC<CattleDrawerProps> = ({addCattleDrawer, showAddC
                             onSearch={handleBreedChange}
                             filterOption={filterBreedOptions}
                         >
-                            {breedOptions.map((option:any) => (
+                            {breedOptions.map((option: any) => (
                                 <Option key={option.value} value={option.value}>{option.label}</Option>
                             ))}
                         </Select>
                     </Form.Item>
                 </Col>
             </Row>
+
 
             <Row gutter={16}>
                 <Col span={12}>
@@ -297,11 +406,20 @@ const AddCattleDrawer: React.FC<CattleDrawerProps> = ({addCattleDrawer, showAddC
                         <Input type="date"/>
                     </Form.Item>
                 </Col>
+
+                <Col span={12}>
+                    <Form.Item
+                        name="id"
+                        label="Id"
+                    >
+                        <Input />
+                    </Form.Item>
+                </Col>
             </Row>
             <Row>
                 <Col span={12}>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit" style={{backgroundColor: 'green'}}>
                             Submit
                         </Button>
                     </Form.Item>
@@ -314,4 +432,4 @@ const AddCattleDrawer: React.FC<CattleDrawerProps> = ({addCattleDrawer, showAddC
     </Drawer>
 }
 
-export default AddCattleDrawer;
+export default UpdateCattleDrawer;

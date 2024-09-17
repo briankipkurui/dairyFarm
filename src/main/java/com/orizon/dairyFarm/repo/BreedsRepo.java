@@ -12,6 +12,6 @@ public interface BreedsRepo extends JpaRepository<Breeds,Long> {
     Optional<Breeds> findByName(String name);
     @Query("SELECT p FROM Breeds  p WHERE p.name LIKE CONCAT('%',:query,'%')")
     List<Breeds> searchProduct(String query);
-    @Query("SELECT p FROM Breeds  p WHERE p.breedId = ?1")
+    @Query("SELECT p FROM Breeds  p WHERE p.id = ?1")
     List<Breeds> findBreedByBreedId(Long breedId);
 }

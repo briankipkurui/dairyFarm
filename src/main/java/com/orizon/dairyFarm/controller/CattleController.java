@@ -1,6 +1,7 @@
 package com.orizon.dairyFarm.controller;
 
 import com.orizon.dairyFarm.repo.CattleRepo;
+import com.orizon.dairyFarm.request.BreedsRequest;
 import com.orizon.dairyFarm.request.CattleRequest;
 import com.orizon.dairyFarm.service.CattleService;
 import com.orizon.dairyFarm.tables.Cattle;
@@ -35,6 +36,12 @@ public class CattleController {
     @GetMapping("search")
     public List<Cattle> searchCattle(@RequestParam("query") String query) {
         return cattleService.searchCattle(query);
+    }
+
+    @PutMapping("{cattleId}")
+    public void updateCattle(@RequestBody CattleRequest cattleRequest,
+                             @PathVariable("cattleId") Long cattleId) {
+        cattleService.updateCattle(cattleRequest,cattleId);
     }
 
 

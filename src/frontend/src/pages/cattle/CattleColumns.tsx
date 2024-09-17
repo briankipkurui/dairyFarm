@@ -8,37 +8,15 @@ import {differenceInYears, differenceInMonths, differenceInDays} from 'date-fns'
 interface rowActionProps {
     onEdit: (data: any) => void
     onDelete: (data: any) => void
+    onAddRelationShip: (data: any) => void
 }
 
-export const CattleColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<Cattle>[] => {
+export const CattleColumns = ({onEdit, onDelete,onAddRelationShip}: rowActionProps): ColumnDef<Cattle>[] => {
     const columns: ColumnDef<Cattle>[] = [
+
         {
-            id: "select",
-            header: ({table}) => (
-                <Checkbox
-                    className="mx-3 "
-                    checked={
-                        table.getIsAllPageRowsSelected() ||
-                        (table.getIsSomePageRowsSelected() && "indeterminate")
-                    }
-                    onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                    aria-label="Select all"
-                />
-            ),
-            cell: ({row}) => (
-                <Checkbox
-                    className="mx-3 "
-                    checked={row.getIsSelected()}
-                    onCheckedChange={(value: any) => row.toggleSelected(!!value)}
-                    aria-label="Select row"
-                />
-            ),
-            enableSorting: false,
-            enableHiding: false,
-        },
-        {
-            accessorKey: "cattleId",
-            header: "cattleId",
+            accessorKey: "id",
+            header: "id",
         },
         {
             accessorKey: "name",
@@ -107,7 +85,7 @@ export const CattleColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<Cat
         {
             id: "actions",
             header: 'Actions',
-            cell: ({row}) => <CattleRowActions row={row} onEdit={onEdit} onDelete={onDelete}/>,
+            cell: ({row}) => <CattleRowActions row={row} onEdit={onEdit} onDelete={onDelete} onAddRelationShip={onAddRelationShip}/>,
         }
     ]
 

@@ -1,7 +1,7 @@
 import {Drawer, Input, Col, Form, Row, Button, Spin} from 'antd';
 import {LoadingOutlined} from "@ant-design/icons";
 import React, {useState} from 'react';
-import {addLivestock} from "@/apiCalls/apiCalls";
+import {addBreeds, addLivestock} from "@/apiCalls/apiCalls";
 import {errorNotification, successNotification} from "@/utils/Notification";
 
 
@@ -23,24 +23,22 @@ const AddBreedsLivestockDrawer: React.FC<LiveStockDrawerProps> = ({
     }
     const [submitting, setSubmitting] = useState(false);
 
-    const onFinish = (user: any) => {
+    const onFinish = (Breeds: any) => {
         setSubmitting(true)
-        console.log(JSON.stringify(user, null, 2))
-        addLivestock(user)
+        addBreeds(Breeds)
             .then(() => {
-                console.log("student added")
                 onCLose();
                 fetchBreeds()
                 successNotification(
-                    "Student successfully added",
-                    `${user.firstName} was added to the system`,
+                    "Breed successfully added",
+                    `${Breeds.name} was added to the system`,
                     'topRight'
                 )
 
             }).catch(err => {
-            console.log(err);
+
             err.response.json().then((res: any) => {
-                console.log(res);
+
                 errorNotification(
                     "There was an issue",
                     `${res.message} [${res.status}] [${res.error}]`,

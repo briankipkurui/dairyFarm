@@ -22,7 +22,7 @@ public class Breeds {
             strategy = GenerationType.SEQUENCE,
             generator = "breeds_sequence"
     )
-    private Long breedId;
+    private Long id;
     private String name;
 
     public Breeds(String name) {

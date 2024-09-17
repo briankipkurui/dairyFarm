@@ -26,17 +26,17 @@ const sidebarItems: SidebarItems = {
 
         {
             label: 'Cattle',
-            href: 'cattle',
+            href: '/cattle',
             icon: GiHeadshot,
         },
         {
             label: 'Breeds',
-            href: 'breeds',
+            href: '/breeds',
             icon: GiFlake,
         },
         {
             label: 'Livestock',
-            href: 'livestock',
+            href: '/livestock',
             icon: GiBarn,
         },
 

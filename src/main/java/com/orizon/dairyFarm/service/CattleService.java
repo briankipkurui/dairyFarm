@@ -25,8 +25,6 @@ public class CattleService {
     private final LivestockRepo livestockRepo;
 
     public void addCattle(CattleRequest cattleRequest) {
-        System.out.println("this are the cattle options........................." + cattleRequest);
-
         Breeds breeds
                 = breedsRepo.findById(cattleRequest.getBreedId())
                 .stream()
@@ -46,14 +44,14 @@ public class CattleService {
         if (maxId == null) {
             maxId = 0L;
         }
-        maxId +=1;
+        maxId += 1;
         int lastTwoDigitsOfYear = Utilities.getLastTwoDigitsOfYear();
 
         String serialNumber = Utilities.concatenateSerialNumber(splitLivestock, maxId.toString(), String.valueOf(lastTwoDigitsOfYear));
         LocalDateTime dateOfBirth = Utilities.convertStringToLocalDateTime(cattleRequest.getDateOfBirth());
         LocalDateTime dateDewormed = Utilities.convertStringToLocalDateTime(cattleRequest.getDateDewormed());
         LocalDateTime dateServed = Utilities.convertStringToLocalDateTime(cattleRequest.getDateServed());
-        
+
         Cattle cattle = new Cattle(
                 cattleRequest.getName().toUpperCase(),
                 cattleRequest.getSex(),
@@ -85,5 +83,50 @@ public class CattleService {
     public List<Cattle> findCattleByCattleId(Long cattleId) {
 
         return cattleRepo.findCattleByCattleId(cattleId);
+    }
+
+    public void updateCattle(CattleRequest cattleRequest, Long cattleId) {
+        System.out.println("this is the cattle id ..............**************-----------" + cattleId);
+        Breeds breeds
+                = breedsRepo.findById(cattleRequest.getBreedId())
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("breed with id " +
+                        cattleRequest.getBreedId() + " was not found"));
+
+        Livestock livestock
+                = livestockRepo.findById(cattleRequest.getLivestockId())
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("livestock with id " +
+                        cattleRequest.getLivestockId() + " was not found"));
+
+        Cattle cattle
+                = cattleRepo.findById(cattleId)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("cattle with id " +
+                        cattleId + " was not found"));
+
+        Long id = cattle.getId();
+        System.out.println("shhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh" + id);
+
+        int lastTwoDigitsOfYear = Utilities.getLastTwoDigitsOfYear();
+        String splitLivestock = Utilities.splitNameIntoSubstring(livestock.getName());
+        String serialNumber = Utilities.concatenateSerialNumber(splitLivestock, String.valueOf(id), String.valueOf(lastTwoDigitsOfYear));
+        LocalDateTime dateOfBirth = Utilities.convertStringToLocalDateTime(cattleRequest.getDateOfBirth());
+        LocalDateTime dateDewormed = Utilities.convertStringToLocalDateTime(cattleRequest.getDateDewormed());
+        LocalDateTime dateServed = Utilities.convertStringToLocalDateTime(cattleRequest.getDateServed());
+
+        cattle.setName(cattleRequest.getName());
+        cattle.setSex(cattleRequest.getSex());
+        cattle.setSerialNumber(serialNumber);
+        cattle.setDateOfBirth(dateOfBirth);
+        cattle.setBreeds(breeds);
+        cattle.setLivestock(livestock);
+        cattle.setDateDewormed(dateDewormed);
+        cattle.setDateServed(dateServed);
+        cattleRepo.save(cattle);
+
     }
 }

@@ -37,13 +37,13 @@ public class BreedsService {
         return all.getContent();
     }
 
-    public void updateBreeds(BreedsRequest breedsRequest) {
+    public void updateBreeds(BreedsRequest breedsRequest,Long livestockIdId) {
         Breeds breeds
-                = breedsRepo.findById(breedsRequest.getBreedId())
+                = breedsRepo.findById(livestockIdId)
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("breed with id " +
-                        breedsRequest.getBreedId() + " was not found"));
+                        livestockIdId + " was not found"));
 
 
         String upperCase = breedsRequest.getName().toUpperCase();
