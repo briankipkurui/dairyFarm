@@ -8,6 +8,7 @@ import {Cattle} from "@/pages/types/Types";
 import {getAllCows, getBreeds} from "@/apiCalls/apiCalls";
 import AddCattleDrawer from "@/pages/cattle/AddCattleDrawer";
 import UpdateCattleDrawer from "@/pages/cattle/UpdateCattleDrawer";
+import AddRelationShipDrawer from "@/pages/cattle/AddRelationShipDrawer";
 
 
 export default function CattleFn() {
@@ -16,13 +17,8 @@ export default function CattleFn() {
     const [addCattleDrawer, showAddCattleDrawer] = useState(false);
     const [cattleData, setCattleData] = useState<Cattle | undefined>(undefined)
     const [updateCattleDrawer, showUpdateCattleDrawer] = useState(false);
+    const [addRelationShipDrawer, showRelationShipDrawer] = useState(false);
 
-
-
-
-    // useEffect(() => {
-    //     fetchAllCows()
-    // }, [])
 
     const fetchAllCows = useCallback(async () => {
         setLoading(true);
@@ -47,8 +43,12 @@ export default function CattleFn() {
         showUpdateCattleDrawer(!updateCattleDrawer)
     }
 
-    const deleteFunctionCall = async (cattle: Cattle) => {}
-    const onAddRelationShipFunctionCall = async (cattle: Cattle) => {}
+    const deleteFunctionCall = async (cattle: Cattle) => {
+    }
+    const onAddRelationShipFunctionCall = async (cattle: Cattle) => {
+        setCattleData(cattle)
+        showRelationShipDrawer(!addRelationShipDrawer)
+    }
 
 
     const onDelete = useCallback(
@@ -65,7 +65,7 @@ export default function CattleFn() {
         []
     )
 
-    const CattleColumnsData = useMemo(() => CattleColumns({onEdit, onDelete,onAddRelationShip}), [])
+    const CattleColumnsData = useMemo(() => CattleColumns({onEdit, onDelete, onAddRelationShip}), [])
 
     if (loading) {
         return <Spinner/>
@@ -95,6 +95,12 @@ export default function CattleFn() {
                     getAllCows={getAllCows}
                 />
             )}
+            {cattleData && (<AddRelationShipDrawer
+                addRelationShipDrawer={addRelationShipDrawer}
+                showRelationShipDrawer={showRelationShipDrawer}
+                cattle={cattleData}
+                setCattleData={setCattleData}
+            />)}
 
         </main>
     )

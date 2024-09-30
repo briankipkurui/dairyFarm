@@ -109,8 +109,6 @@ public class CattleService {
                         cattleId + " was not found"));
 
         Long id = cattle.getId();
-        System.out.println("shhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh" + id);
-
         int lastTwoDigitsOfYear = Utilities.getLastTwoDigitsOfYear();
         String splitLivestock = Utilities.splitNameIntoSubstring(livestock.getName());
         String serialNumber = Utilities.concatenateSerialNumber(splitLivestock, String.valueOf(id), String.valueOf(lastTwoDigitsOfYear));

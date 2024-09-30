@@ -26,18 +26,18 @@ public class BirthsService {
 
     public void addBirths(AddBirthsRequest addBirthsRequest) {
         Cattle cattle
-                = cattleRepo.findById(addBirthsRequest.getCattleId())
+                = cattleRepo.findById(addBirthsRequest.getId())
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("cattle with id " +
-                        addBirthsRequest.getCattleId() + " was not found"));
+                        addBirthsRequest.getId() + " was not found"));
 
         Cattle calve
-                = cattleRepo.findById(addBirthsRequest.getName())
+                = cattleRepo.findById(addBirthsRequest.getCalveId())
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("cattle with id " +
-                        addBirthsRequest.getName() + " was not found"));
+                        addBirthsRequest.getCalveId() + " was not found"));
 
 
         if(!cattle.getLivestock().getName().equals(calve.getLivestock().getName())){
@@ -45,11 +45,11 @@ public class BirthsService {
         }
 
 
-        if (addBirthsRequest.getName().equals(addBirthsRequest.getCattleId())) {
+        if (addBirthsRequest.getCalveId().equals(addBirthsRequest.getId())) {
             throw new IllegalStateException("a cow cannot give birth to itself");
         }
 
-        if (!(addBirthsRequest.getName() >= addBirthsRequest.getCattleId())) {
+        if (!(addBirthsRequest.getCalveId() >= addBirthsRequest.getId())) {
             throw new IllegalStateException("a calve cannot give birth to a  cow");
         }
 
@@ -59,7 +59,7 @@ public class BirthsService {
         }
 
         Births births = new Births(
-                new BirthsId(addBirthsRequest.getCattleId(), addBirthsRequest.getName()),
+                new BirthsId(addBirthsRequest.getId(), addBirthsRequest.getCalveId()),
                 cattle,
                 calve
 

@@ -3,11 +3,12 @@ import {LoadingOutlined} from "@ant-design/icons";
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {errorNotification, successNotification} from "../../utils/Notification";
 import {
-    addNewCattle,
+    addBirths,
+    addNewCattle, getAllCows,
     getBreeds,
     getLivestock,
     SearchBreed,
-    SearchBreedById,
+    SearchBreedById, SearchCattle,
     SearchLivestock, SearchLiveStockById, updateCattle
 } from "@/apiCalls/apiCalls";
 import {useDebounce} from "@/utils/DebounceHook";
@@ -27,56 +28,27 @@ interface AddRelationShipDrawerProps {
 }
 
 const AddRelationShipDrawer: React.FC<AddRelationShipDrawerProps> = ({
-                                                                      addRelationShipDrawer,
-                                                                      showRelationShipDrawer,
-                                                                      cattle,
-                                                                      setCattleData,
-                                                                  }) => {
+                                                                         addRelationShipDrawer,
+                                                                         showRelationShipDrawer,
+                                                                         cattle,
+                                                                         setCattleData,
+                                                                     }) => {
     const onCLose = () => {
         setCattleData(undefined)
         showRelationShipDrawer(false);
     }
-    const [submitting, setSubmitting] = useState(false);
-    const [breedsToDisplay, setBreedToDisplay] = useState([])
-    const [livestockToDisplay, setLivestockToDisplay] = useState([])
-    const [searchTerm, setSearchTerm] = useState('')
-    const [searchTermForLivestock, setSearchTermForLivestock] = useState('')
-    const [breedOptions, setBreedOptions] = useState([])
-    const [livestockOptions, setLivestockOptions] = useState([])
-    const [maxId, setMaxId] = useState(0)
-    const [liveStockType, setLiveStockType] = useState('')
-    const [serialNumber, setSerialNumber] = useState('')
     const [form] = Form.useForm();
+    const [cattleOptions, setCattleOptions] = useState<any>([])
+    const [cowsToDisplay, setCowsToDisplay] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('')
 
 
-    useLayoutEffect(() => {
-        const setFormValues = async () => {
-            const liveStock: Livestock = livestockToDisplay.find((c: Livestock) => c.id === cattle.livestock.id) ||
-                await getSpecificLiveStockById(cattle.livestock.id)
-            const breed: Breeds = breedsToDisplay.find((p: Breeds) => p.id === cattle.breeds.id) ||
-                await getSpecificBreedById(cattle.breeds.id);
-
-            form.setFieldsValue({
-                livestockId: liveStock ? {value: liveStock.id, label: liveStock.name} : undefined,
-                breedId: breed ? {value: breed.id, label: breed.name} : undefined,
-                dateServed: cattle.dateServed ? moment(cattle.dateServed).format('YYYY-MM-DD') : null,
-                dateDewormed: cattle.dateDewormed ? moment(cattle.dateDewormed).format('YYYY-MM-DD') : null,
-                dateOfBirth: cattle.dateOfBirth ? moment(cattle.dateOfBirth).format('YYYY-MM-DD') : null,
-                sex: cattle.sex,
-                name: cattle.name
-
-            })
-        };
-        if (cattle) {
-            setFormValues()
-        }
-    }, [cattle, livestockToDisplay, breedsToDisplay, form])
-
-    const fetchBreeds = () =>
-        getBreeds()
+    const fetchCattle = () =>
+        getAllCows()
             .then(res => res.json())
             .then(data => {
-                setBreedToDisplay(data);
+                setCowsToDisplay(data);
+                setCowsToDisplay(data)
             }).catch(err => {
             console.log(err.response)
             err.response.json().then((res: any) => {
@@ -90,14 +62,15 @@ const AddRelationShipDrawer: React.FC<AddRelationShipDrawerProps> = ({
         })
 
     useEffect(() => {
-        fetchBreeds();
+        fetchCattle();
     }, []);
 
-    const fetchLivestock = () =>
-        getLivestock()
+
+    const searchCattleBySearchTerm = () => {
+        SearchCattle(searchTerm)
             .then(res => res.json())
             .then(data => {
-                setLivestockToDisplay(data);
+                setCowsToDisplay(data)
             }).catch(err => {
             console.log(err.response)
             err.response.json().then((res: any) => {
@@ -109,177 +82,58 @@ const AddRelationShipDrawer: React.FC<AddRelationShipDrawerProps> = ({
                 )
             });
         })
-
-    useEffect(() => {
-        fetchLivestock();
-    }, []);
-
-
-    const getSpecificBreedById = async (id: any) => {
-        try {
-            const res = await SearchBreedById(id)
-            const data = await res.json()
-            return data && data.length > 0 ? data[0] : null;
-        } catch (err: any) {
-            if (err.response) {
-                const errorResponse = await err.response.json();
-                console.error(errorResponse)
-                errorNotification(
-                    "There was an issue",
-                    `${errorResponse.message} [${errorResponse.status}] [${errorResponse.error}]`,
-                    'topRight'
-                );
-            } else {
-                errorNotification(
-                    "Unexpected Error",
-                    "An unexpected error occurred.",
-                    'topRight'
-                );
-            }
-            return null;
-        }
     }
 
-    const getSpecificLiveStockById = async (id: any) => {
-        try {
-            const res = await SearchLiveStockById(id)
-            const data = await res.json()
-            return data && data.length > 0 ? data[0] : null;
-        } catch (err: any) {
-            if (err.response) {
-                const errorResponse = await err.response.json();
-                console.error(errorResponse)
-                errorNotification(
-                    "There was an issue",
-                    `${errorResponse.message} [${errorResponse.status}] [${errorResponse.error}]`,
-                    'topRight'
-                );
-            } else {
-                errorNotification(
-                    "Unexpected Error",
-                    "An unexpected error occurred.",
-                    'topRight'
-                );
-            }
-            return null;
-        }
-    }
+    useDebounce(searchTerm, 50, searchCattleBySearchTerm)
 
-    const onFinish = (student: any) => {
-        setSubmitting(true)
-        const extractedAssets = {
-            ...student,
-            livestockId: student.livestockId?.value ? student.livestockId.value : student.livestockId,
-            breedId: student.breedId?.value ? student.breedId.value : student.breedId
-        }
-        console.log(JSON.stringify(student, null, 2))
-        console.log("this is what is going to the server", student)
-        updateCattle(extractedAssets)
+
+    const onFinish = (births:any) => {
+        console.log("tgis aaaaaaaaaaaaaaa",births)
+        addBirths(births)
             .then(() => {
-                console.log("cow added")
-                onCLose();
                 successNotification(
-                    "Cow successfully added",
-                    `${student.name} was added to the system`,
+                    "relationship successfully added",
+                    ` for calve with id  ${births.name}`,
                     'topRight'
                 )
-
+                onCLose()
             }).catch(err => {
             console.log(err);
-            err.response.json().then((res: any) => {
+            err.response.json().then((res:any) => {
                 console.log(res);
                 errorNotification(
                     "There was an issue",
                     `${res.message} [${res.status}] [${res.error}]`,
-                    "bottomLeft"
+                    'topRight'
                 )
             });
-        }).finally(() => {
-            setSubmitting(false);
         })
-    };
+    }
 
     const onFinishFailed = (errorInfo: any) => {
         alert(JSON.stringify(errorInfo, null, 2));
     };
-    const handleBreedChange = (value: any) => {
+
+    const filterCattleOptions = (inputValue: any, option: any) => {
+        const label = option.props.children;
+        if (label && typeof label === 'string') {
+            return label.toLowerCase().includes(inputValue.toLowerCase());
+        }
+        return false;
+    };
+
+    useEffect(() => {
+        const updatedCattleOptions = cowsToDisplay.map((cattle: Cattle) => ({
+            label: cattle.name,
+            value: cattle.id
+        }));
+        setCattleOptions(updatedCattleOptions);
+    }, [cowsToDisplay]);
+
+    const handleSexChange = (value: any) => {
         setSearchTerm(value)
     }
-    const handleLivestockChange = (value: any) => {
-        setSearchTermForLivestock(value)
-    }
-    const searchBreedBySearchTerm = (query: any) => {
-        SearchBreed(searchTerm)
-            .then(res => res.json())
-            .then(data => {
-                setBreedToDisplay(data)
-            }).catch(err => {
-            console.log(err.response)
-            err.response.json().then((res: any) => {
-                console.log(res);
-                errorNotification(
-                    "There was an issue",
-                    `${res.message} [${res.status}] [${res.error}]`,
-                    "bottomLeft"
-                )
-            });
-        })
-    }
-    useDebounce(searchTerm, 50, searchBreedBySearchTerm)
 
-    const searchLivestockBySearchTerm = (query: any) => {
-        SearchLivestock(searchTermForLivestock)
-            .then(res => res.json())
-            .then(data => {
-                setLivestockToDisplay(data)
-            }).catch(err => {
-            console.log(err.response)
-            err.response.json().then((res: any) => {
-                console.log(res);
-                errorNotification(
-                    "There was an issue",
-                    `${res.message} [${res.status}] [${res.error}]`,
-                    "bottomLeft"
-                )
-            });
-        })
-    }
-    useDebounce(searchTermForLivestock, 50, searchLivestockBySearchTerm)
-
-    useEffect(() => {
-        const updatedBreedOptions: any = breedsToDisplay.map((breed: Breeds) => ({
-            label: breed.name,
-            value: breed.id
-        }));
-        setBreedOptions(updatedBreedOptions);
-    }, [breedsToDisplay]);
-
-    useEffect(() => {
-        const updatedLivestockOptions: any = livestockToDisplay.map((breed: Livestock) => ({
-            label: breed.name,
-            value: breed.id
-        }));
-        setLivestockOptions(updatedLivestockOptions);
-    }, [livestockToDisplay]);
-
-    const filterBreedOptions = (inputValue: any, option: any) => {
-        const label = option.props.children;
-        if (label && typeof label === 'string') {
-            return label.toLowerCase().includes(inputValue.toLowerCase());
-        }
-        return false;
-    };
-    const filterLivestockOptions = (inputValue: any, option: any) => {
-        const label = option.props.children;
-        if (label && typeof label === 'string') {
-            return label.toLowerCase().includes(inputValue.toLowerCase());
-        }
-        return false;
-    };
-
-    const handleLivestockSelect = (value: any) => {
-        console.log("Selected livestock ID:", value)
-    };
     return <Drawer
         title={`add RelationShip to Cattle ${cattle.name}`}
         width={720}
@@ -303,110 +157,54 @@ const AddRelationShipDrawer: React.FC<AddRelationShipDrawerProps> = ({
               onFinish={onFinish}
               form={form}
               initialValues={cattle}
-              hideRequiredMark>
+              hideRequiredMark
+        >
             <Row gutter={16}>
-                <Col span={12}>
+                <Col span={8}>
                     <Form.Item
-                        name="name"
-                        label="Name"
-                        rules={[{required: true, message: 'Please enter student name'}]}
-                    >
-                        <Input placeholder="Please enter student name"/>
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
-                        name="sex"
-                        label="sex"
+                        name="id"
+                        label="Parent Cow"
                         rules={[{required: true, message: 'Please select a sex'}]}
-                    >
-                        <Select placeholder="Please select a sex">
-                            <Option value="MALE">MALE</Option>
-                            <Option value="FEMALE">FEMALE</Option>
-                        </Select>
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row gutter={16}>
-                <Col span={12}>
-                    <Form.Item
-                        name="livestockId"
-                        label="livestock type"
-                        rules={[{required: true, message: 'Please select a sex'}]}
-                    >
-                        <Select
-                            placeholder="Please select a sex"
-                            showSearch
-                            onSearch={handleLivestockChange}
-                            filterOption={filterLivestockOptions}
-                            onSelect={handleLivestockSelect}
-                        >
-                            {livestockOptions.map((option: any) => (
-                                <Option key={option.value} value={option.value}>{option.label}</Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
-                        name="breedId"
-                        label="breed"
-                        rules={[{required: true, message: 'Please select a sex'}]}
-                    >
-                        <Select
-                            placeholder="Please select a sex"
-                            showSearch
-                            onSearch={handleBreedChange}
-                            filterOption={filterBreedOptions}
-                        >
-                            {breedOptions.map((option: any) => (
-                                <Option key={option.value} value={option.value}>{option.label}</Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-                </Col>
-            </Row>
 
-            <Row gutter={16}>
-                <Col span={12}>
-                    <Form.Item
-                        name="dateOfBirth"
-                        label="Date Of Birth"
                     >
-                        <Input type="date"/>
+                        <Select
+                            placeholder="Please select a sex"
+                            showSearch
+                            onSearch={handleSexChange}
+                            filterOption={filterCattleOptions}
+                            disabled={true}
+                        >
+                            {cattleOptions.map((option: any) => (
+                                <Option key={option.value} value={option.value}>{option.label}</Option>
+                            ))}
+                        </Select>
                     </Form.Item>
                 </Col>
-                <Col span={12}>
-                    <Form.Item
-                        name="dateDewormed"
-                        label="Date  Dewormed"
+            </Row>
+            <Col span={8}>
+                <Form.Item
+                    name="calveId"
+                    label="calve name"
+                    rules={[{required: true, message: 'Please select a Calve name'}]}
+                >
+                    <Select
+                        placeholder="Please select a Calve name"
+                        showSearch
+                        onSearch={handleSexChange}
+                        filterOption={filterCattleOptions}
                     >
-                        <Input type="date"/>
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row gutter={16}>
-                <Col span={12}>
-                    <Form.Item
-                        name="dateServed"
-                        label="Date  Served"
-                    >
-                        <Input type="date"/>
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row>
-                <Col span={12}>
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit" style={{backgroundColor: 'green'}}>
-                            Submit
-                        </Button>
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row>
-                {submitting && <Spin indicator={antIcon}/>}
-            </Row>
+                        {cattleOptions.map((option: any) => (
+                            <Option key={option.value} value={option.value}>{option.label}</Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+            </Col>
+            <Form.Item>
+                <Button type="primary" htmlType="submit" style={{backgroundColor: 'green'}}>
+                    Submit
+                </Button>
+            </Form.Item>
+
         </Form>
     </Drawer>
 }
