@@ -9,9 +9,10 @@ interface rowActionProps {
     onEdit: (data: any) => void
     onDelete: (data: any) => void
     onAddRelationShip: (data: any) => void
+    onViewFamilyTree: (data: any) => void
 }
 
-export const CattleColumns = ({onEdit, onDelete,onAddRelationShip}: rowActionProps): ColumnDef<Cattle>[] => {
+export const CattleColumns = ({onEdit, onDelete,onAddRelationShip,onViewFamilyTree}: rowActionProps): ColumnDef<Cattle>[] => {
     const columns: ColumnDef<Cattle>[] = [
 
         {
@@ -85,7 +86,7 @@ export const CattleColumns = ({onEdit, onDelete,onAddRelationShip}: rowActionPro
         {
             id: "actions",
             header: 'Actions',
-            cell: ({row}) => <CattleRowActions row={row} onEdit={onEdit} onDelete={onDelete} onAddRelationShip={onAddRelationShip}/>,
+            cell: ({row}) => <CattleRowActions row={row} onEdit={onEdit} onDelete={onDelete} onAddRelationShip={onAddRelationShip} onViewFamilyTree={onViewFamilyTree}/>,
         }
     ]
 

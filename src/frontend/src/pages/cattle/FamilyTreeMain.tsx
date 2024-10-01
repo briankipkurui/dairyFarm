@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import './Cows.css'
 import {Button, Drawer, Switch} from "antd";
 import {Cattle} from "@/pages/types/Types";
 import AllCattleTree from "@/pages/cattle/AllCattleTree";
@@ -12,7 +11,7 @@ interface FamilyTreeMainProps {
     setCattleData: React.Dispatch<React.SetStateAction<Cattle | undefined>>
 }
 
-const FamilyTreeMain:React.FC<FamilyTreeMainProps> = ({familyTreeMainDrawer,showFamilyTreeMainDrawer,cattle,setCattleData}) => {
+const FamilyTreeMainDrawer:React.FC<FamilyTreeMainProps> = ({familyTreeMainDrawer,showFamilyTreeMainDrawer,cattle,setCattleData}) => {
 
     const [checked, setChecked] = useState(false)
 
@@ -25,7 +24,7 @@ const FamilyTreeMain:React.FC<FamilyTreeMainProps> = ({familyTreeMainDrawer,show
     return (
         <Drawer
             title={"view family tree"}
-            width={720}
+            width={1000}
             onClose={() => {
                 setCattleData(undefined);
                 showFamilyTreeMainDrawer(false);
@@ -69,4 +68,4 @@ const FamilyTreeMain:React.FC<FamilyTreeMainProps> = ({familyTreeMainDrawer,show
         </Drawer>
     )
 }
-export default FamilyTreeMain
+export default FamilyTreeMainDrawer

@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class BreedsRequest {
     private String name;
-    private Long breedId;
+    private String description;
 }

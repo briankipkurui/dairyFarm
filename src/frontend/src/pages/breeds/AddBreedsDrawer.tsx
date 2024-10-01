@@ -17,8 +17,8 @@ const AddBreedsLivestockDrawer: React.FC<LiveStockDrawerProps> = ({
                                                                       showAddBreedsDrawer,
                                                                       setShowAddBreedsDrawer,
                                                                       fetchBreeds
-                                                                }) => {
-    const onCLose = () =>{
+                                                                  }) => {
+    const onCLose = () => {
         setShowAddBreedsDrawer(false)
     }
     const [submitting, setSubmitting] = useState(false);
@@ -86,11 +86,20 @@ const AddBreedsLivestockDrawer: React.FC<LiveStockDrawerProps> = ({
                         <Input placeholder="Please enter name"/>
                     </Form.Item>
                 </Col>
+                <Col span={12}>
+                    <Form.Item
+                        name="description"
+                        label="description"
+                        rules={[{required: true, message: 'Please enter name'}]}
+                    >
+                        <Input placeholder="Please enter name"/>
+                    </Form.Item>
+                </Col>
             </Row>
             <Row>
                 <Col span={12}>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" style={{ backgroundColor: 'green' }}>
+                        <Button type="primary" htmlType="submit" style={{backgroundColor: 'green'}}>
                             Submit
                         </Button>
                     </Form.Item>

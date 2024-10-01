@@ -2,11 +2,11 @@ package com.orizon.dairyFarm.service;
 
 import com.orizon.dairyFarm.repo.BreedsRepo;
 import com.orizon.dairyFarm.repo.CattleRepo;
-import com.orizon.dairyFarm.repo.LivestockRepo;
+import com.orizon.dairyFarm.repo.LivestockTypeRepo;
 import com.orizon.dairyFarm.request.CattleRequest;
 import com.orizon.dairyFarm.tables.Breeds;
 import com.orizon.dairyFarm.tables.Cattle;
-import com.orizon.dairyFarm.tables.Livestock;
+import com.orizon.dairyFarm.tables.LivestockTypes;
 import com.orizon.dairyFarm.utilis.Utilities;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,7 @@ import java.util.List;
 public class CattleService {
     private final CattleRepo cattleRepo;
     private final BreedsRepo breedsRepo;
-    private final LivestockRepo livestockRepo;
+    private final LivestockTypeRepo livestockTypeRepo;
 
     public void addCattle(CattleRequest cattleRequest) {
         Breeds breeds
@@ -32,8 +32,8 @@ public class CattleService {
                 .orElseThrow(() -> new IllegalStateException("breed with id " +
                         cattleRequest.getBreedId() + " was not found"));
 
-        Livestock livestock
-                = livestockRepo.findById(cattleRequest.getLivestockId())
+        LivestockTypes livestock
+                = livestockTypeRepo.findById(cattleRequest.getLivestockId())
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("livestock with id " +
@@ -94,8 +94,8 @@ public class CattleService {
                 .orElseThrow(() -> new IllegalStateException("breed with id " +
                         cattleRequest.getBreedId() + " was not found"));
 
-        Livestock livestock
-                = livestockRepo.findById(cattleRequest.getLivestockId())
+        LivestockTypes livestock
+                = livestockTypeRepo.findById(cattleRequest.getLivestockId())
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("livestock with id " +

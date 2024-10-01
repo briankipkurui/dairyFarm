@@ -5,10 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -36,7 +33,7 @@ public class Cattle {
     @OneToOne
     private Breeds breeds;
     @OneToOne
-    private Livestock livestock;
+    private LivestockTypes livestock;
 
     public Cattle(String name,
                   String sex,
@@ -45,7 +42,7 @@ public class Cattle {
                   LocalDateTime dateDewormed,
                   LocalDateTime dateServed,
                   Breeds breeds,
-                  Livestock livestock) {
+                  LivestockTypes livestock) {
         this.name = name;
         this.sex = sex;
         this.serialNumber = serialNumber;

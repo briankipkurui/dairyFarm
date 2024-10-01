@@ -1,6 +1,4 @@
 import {ColumnDef} from "@tanstack/react-table"
-import {Checkbox} from "@/components/ui/checkbox"
-import CattleRowActions from "@/pages/cattle/CattleRowActions";
 import {Breeds} from "@/pages/types/Types";
 import BreedsRowActions from "@/pages/breeds/BreedsRowActions";
 
@@ -19,6 +17,10 @@ export const BreedsColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<Bre
         {
             accessorKey: "name",
             header: "name",
+        },
+        {
+            accessorKey: "description",
+            header: "description",
         },
         {
             id: "actions",

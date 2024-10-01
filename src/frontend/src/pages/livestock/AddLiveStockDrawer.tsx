@@ -3,9 +3,8 @@ import {LoadingOutlined} from "@ant-design/icons";
 import React, {useState} from 'react';
 import {addLivestock} from "@/apiCalls/apiCalls";
 import {errorNotification, successNotification} from "@/utils/Notification";
-
-
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
+
 
 interface LiveStockDrawerProps {
     showAddLiveStockDrawer: boolean;
@@ -16,17 +15,15 @@ interface LiveStockDrawerProps {
 const AddLivestockDrawerForm: React.FC<LiveStockDrawerProps> = ({
                                                                     showAddLiveStockDrawer,
                                                                     setShowAddLiveStockDrawer,
-                                                                     fetchLiveStocks
+                                                                    fetchLiveStocks
                                                                 }) => {
     const onCLose = () => setShowAddLiveStockDrawer(false);
     const [submitting, setSubmitting] = useState(false);
 
     const onFinish = (user: any) => {
         setSubmitting(true)
-        console.log(JSON.stringify(user, null, 2))
         addLivestock(user)
             .then(() => {
-                console.log("student added")
                 onCLose();
                 fetchLiveStocks()
                 successNotification(
@@ -86,11 +83,20 @@ const AddLivestockDrawerForm: React.FC<LiveStockDrawerProps> = ({
                         <Input placeholder="Please enter name"/>
                     </Form.Item>
                 </Col>
+                <Col span={12}>
+                    <Form.Item
+                        name="description"
+                        label="description"
+                        rules={[{required: true, message: 'Please enter name'}]}
+                    >
+                        <Input placeholder="Please enter name"/>
+                    </Form.Item>
+                </Col>
             </Row>
             <Row>
                 <Col span={12}>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" style={{ backgroundColor: 'green' }}>
+                        <Button type="primary" htmlType="submit" style={{backgroundColor: 'green'}}>
                             Submit
                         </Button>
                     </Form.Item>

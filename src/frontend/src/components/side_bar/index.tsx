@@ -1,18 +1,7 @@
 'use client';
 
 import {
-    UserCog,
-    ShoppingBasket,
-    KeyRound,
-    HandPlatter,
-    Warehouse,
-    Layers,
-    Layers2,
-    CircleDollarSign,
-    BusFront,
-    Car,
-    UsersRound,
-    ShieldAlert
+    Package
 } from 'lucide-react';
 import {SidebarDesktop} from './sidebar-desktop';
 import {SidebarItems} from '@/types';
@@ -35,12 +24,15 @@ const sidebarItems: SidebarItems = {
             icon: GiFlake,
         },
         {
-            label: 'Livestock',
+            label: 'LivestockType',
             href: '/livestock',
             icon: GiBarn,
         },
-
-
+        {
+            label: 'FeedsTypes',
+            href: '/feedsTypes',
+            icon: Package,
+        },
     ],
     extras: (
         <div className='flex flex-col gap-2'>

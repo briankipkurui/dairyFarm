@@ -26,7 +26,8 @@ public class BreedsService {
             throw new IllegalStateException("name already exist");
         }
         Breeds breeds = new Breeds(
-                breedsRequest.getName().toUpperCase()
+                breedsRequest.getName().toUpperCase(),
+                breedsRequest.getDescription()
         );
         breedsRepo.save(breeds);
     }

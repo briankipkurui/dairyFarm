@@ -1,13 +1,10 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
-
-
 import Spinner from "@/pages/spinnner/Spinner";
 import {Button} from "@/components/ui/button";
 import {Livestock} from "@/pages/types/Types";
 import {LiveStockColumns} from "@/pages/livestock/LiveStockColumns";
 import {LivestockDataTables} from "@/pages/livestock/LiveStockDataTables";
-import {deteleLiveStock, getBreeds, getLivestock} from "@/apiCalls/apiCalls";
-import AddCattleDrawer from "@/pages/cattle/AddCattleDrawer";
+import {deteleLiveStock, getLivestock} from "@/apiCalls/apiCalls"
 import AddLivestockDrawerForm from "@/pages/livestock/AddLiveStockDrawer";
 import UpdateLivestockDrawerForm from "@/pages/livestock/UpdateLiveStockDrawer";
 import {errorNotification, successNotification} from "@/utils/Notification";
@@ -24,16 +21,15 @@ export default function LiveStockFn() {
     const fetchLiveStocks = useCallback(async () => {
         setLoading(true);
         try {
-            const res = await getBreeds();
-            const data = await res.json();
+            const res = await getLivestock()
+            const data = await res.json()
             setData(data);
         } catch (err) {
-            console.error("Error fetching breeds:", err);
+            console.error("Error fetching breeds:", err)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    }, []);
-
+    }, [])
 
 
     useEffect(() => {

@@ -19,6 +19,10 @@ export const LiveStockColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<
             header: "name",
         },
         {
+            accessorKey: "description",
+            header: "description",
+        },
+        {
             id: "actions",
             header: 'Actions',
             cell: ({row}) => <LiveStockRowActions row={row} onEdit={onEdit} onDelete={onDelete} />,

@@ -196,6 +196,23 @@ export const addToProduction = (production: any) =>
     }).then(checkStatus)
 
 
+export const getAllFeedsTypes = () =>
+    fetch("/api/v1/feedsTypes", {
+        method: 'GET'
+    }).then(checkStatus);
+
+export const addFeedsTypes = (feedTypes: any) =>
+    fetch("/api/v1/feedsTypes", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(feedTypes)
+    }).then(checkStatus)
+
+
+
+
 
 
 

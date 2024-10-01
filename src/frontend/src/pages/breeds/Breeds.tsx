@@ -34,7 +34,7 @@ export default function BreedsFn() {
     }, []);
 
     useEffect(() => {
-        fetchBreeds(); // Fetch once on mount
+        fetchBreeds();
     }, [fetchBreeds]);
 
     const deleteBreedById = (breedId: any) => {

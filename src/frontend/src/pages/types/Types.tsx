@@ -1,6 +1,4 @@
-
-
-export type Cattle ={
+export type Cattle = {
     id: number
     name: string
     sex: string
@@ -13,12 +11,25 @@ export type Cattle ={
 }
 
 
-export type Breeds ={
+export type Breeds = {
     id: number
     name: string
+    description: string
 }
 
-export type Livestock ={
+export type Livestock = {
     id: number
     name: string
+    description: string
+}
+
+export type FeedsTypes = {
+    id: number
+    name: string
+    description: string
+    proteinPct: string
+    fatPct: string
+    fiberPct: string
+    energy: string
+    costPerKg: string
 }
