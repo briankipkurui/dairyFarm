@@ -9,8 +9,22 @@ export type Cattle = {
     dateDewormed: any
     dateServed: any
 }
+export type  FeedingFormulas = {
+    feedingFormulasIds: feedingFormulasIds
+    livestockTypes: Livestock
+    feedsTypes: FeedsTypes
+    quantityKg: number
+    feedingFrequency: string
+    feedingTime: string
+    waterLiters: number
+    supplements: string
+    createdAt: Date
 
-
+}
+export type feedingFormulasIds = {
+    livestockTypeId: number
+    feedTypeId: number
+}
 export type Breeds = {
     id: number
     name: string

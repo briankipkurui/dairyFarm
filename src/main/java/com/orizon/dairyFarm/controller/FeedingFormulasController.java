@@ -3,19 +3,27 @@ package com.orizon.dairyFarm.controller;
 import com.orizon.dairyFarm.request.FeedingFormulaRequest;
 import com.orizon.dairyFarm.request.FeedsTypeRequest;
 import com.orizon.dairyFarm.service.FeedingFormulasService;
+import com.orizon.dairyFarm.tables.FeedingFormulas;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "api/v1/feedingFormulas")
 public class FeedingFormulasController {
     private final FeedingFormulasService feedingFormulasService;
-    @PostMapping()
-    public void addFeedingFormula(@RequestBody FeedingFormulaRequest feedingFormulaRequest) {
-        feedingFormulasService.addFeedingFormula(feedingFormulaRequest);
+
+    @PostMapping("{liveStockTypeId}/{feedTypeId}")
+    public void addFeedingFormula(@RequestBody FeedingFormulaRequest feedingFormulaRequest,
+                                  @PathVariable("liveStockTypeId") Long liveStockTypeId,
+                                  @PathVariable("feedTypeId") Long feedTypeId) {
+        feedingFormulasService.addFeedingFormula(feedingFormulaRequest, liveStockTypeId, feedTypeId);
+    }
+
+    @GetMapping()
+    public List<FeedingFormulas> getAllFeedingFormulas() {
+       return feedingFormulasService.getAllFeedingFormulas();
     }
 }

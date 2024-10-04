@@ -1,12 +1,13 @@
 package com.orizon.dairyFarm.request;
 
+import com.orizon.dairyFarm.tables.FeedsTypes;
 import lombok.Data;
 
 @Data
 public class FeedingFormulaRequest {
-    private Double quantity_kg;
-    private String feeding_frequency;
-    private String feeding_time;
-    private Double water_liters;
+    private Double quantityKg;
+    private String feedingFrequency;
+    private String feedingTime;
+    private Double waterLiters;
     private String supplements;
 }

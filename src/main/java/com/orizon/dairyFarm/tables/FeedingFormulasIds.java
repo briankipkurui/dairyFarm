@@ -16,6 +16,7 @@ public class FeedingFormulasIds implements Serializable {
 
     @Column(
             name = "livestock_type_id"
+
     )
     private Long livestockTypeId;
     @Column(
