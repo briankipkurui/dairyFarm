@@ -34,7 +34,6 @@ export const updateCattle = (cattle: any) =>
     }).then(checkStatus)
 
 
-
 export const SearchCattle = (query: any) =>
     fetch(`/api/v1/cattle/search?query=${query}`, {
         headers: {
@@ -51,9 +50,6 @@ export const SearchCattleById = (id: any) =>
         },
         method: 'GET'
     }).then(checkStatus)
-
-
-
 
 
 export const addBreeds = (breed: any) =>
@@ -74,7 +70,6 @@ export const getBreeds = () =>
     }).then(checkStatus);
 
 
-
 export const updateBreeds = (breed: any) =>
     fetch(`/api/v1/breeds/${breed.breedId}`, {
         headers: {
@@ -85,12 +80,10 @@ export const updateBreeds = (breed: any) =>
     }).then(checkStatus)
 
 
-
 export const deleteBreed = (breedId: any) =>
     fetch(`/api/v1/breeds/${breedId}`, {
         method: 'DELETE'
     }).then(checkStatus);
-
 
 
 export const SearchBreed = (query: any) =>
@@ -209,6 +202,31 @@ export const addFeedsTypes = (feedTypes: any) =>
         method: 'POST',
         body: JSON.stringify(feedTypes)
     }).then(checkStatus)
+
+export const SearchFeedsTypes = (query: any) =>
+    fetch(`/api/v1/feedsTypes/search?query=${query}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)
+
+export const addFeedingFormula = (feedingFormula: any) =>
+    fetch(`/api/v1/feedingFormulas/${feedingFormula.livestockTypeId}/${feedingFormula.feedsTypesId}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(feedingFormula)
+        }
+    ).then(checkStatus)
+
+export const getAllFeedingFormulas = () =>
+    fetch("/api/v1/feedingFormulas", {
+        method: 'GET'
+    }).then(checkStatus);
+
+
 
 
 

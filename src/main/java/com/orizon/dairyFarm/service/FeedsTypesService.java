@@ -35,4 +35,8 @@ public class FeedsTypesService {
         Page<FeedsTypes> all = feedsTypesRepo.findAll(pageRequest);
         return all.getContent();
     }
+
+    public List<FeedsTypes> searchFeedsTypes(String query) {
+        return feedsTypesRepo.searchFeedsTypes(query);
+    }
 }

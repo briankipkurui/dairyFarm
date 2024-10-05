@@ -25,5 +25,9 @@ public class FeedsTypeController {
     public List<FeedsTypes> getAllFeedsTypes() {
         return feedsTypesService.getAllFeedsTypes();
     }
+    @GetMapping("search")
+    public List<FeedsTypes> searchFeedsTypes(@RequestParam("query") String query) {
+        return feedsTypesService.searchFeedsTypes(query);
+    }
 
 }

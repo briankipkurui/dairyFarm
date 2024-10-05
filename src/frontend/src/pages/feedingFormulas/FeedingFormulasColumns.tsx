@@ -9,16 +9,8 @@ interface rowActionProps {
     onDelete: (data: any) => void
 }
 
-export const FeedsTypesColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<FeedingFormulas>[] => {
-    feedingFormulasIds: feed
-    livestockTypes: Livestoc
-    feedsTypes: FeedsTypes
-    quantityKg: number
-    feedingFrequency: string
-    feedingTime: string
-    waterLiters: number
-    supplements: string
-    createdAt: Date
+export const FeedingFormulasColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<FeedingFormulas>[] => {
+
     const columns: ColumnDef<FeedingFormulas>[] = [
         {
             accessorKey: "id",
@@ -29,32 +21,44 @@ export const FeedsTypesColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef
             },
         },
         {
-            accessorKey: "name",
-            header: "name",
+            accessorKey: "livestockTypes",
+            header: "livestockTypes",
+            cell: ({ row }) => {
+                const value: FeedingFormulas = row.original
+                return value.livestockTypes.name
+            },
         },
         {
-            accessorKey: "description",
-            header: "description",
+            accessorKey: "feedsTypes",
+            header: "feedsTypes",
+            cell: ({ row }) => {
+                const value: FeedingFormulas = row.original
+                return value.feedsTypes.name
+            },
         },
         {
-            accessorKey: "proteinPct",
-            header: "proteinPct",
+            accessorKey: "quantityKg",
+            header: "quantityKg",
         },
         {
-            accessorKey: "fatPct",
-            header: "fatPct",
+            accessorKey: "feedingFrequency",
+            header: "feedingFrequency",
         },
         {
-            accessorKey: "fiberPct",
-            header: "fiberPct",
+            accessorKey: "feedingTime",
+            header: "feedingTime",
         },
         {
-            accessorKey: "energy",
-            header: "energy",
+            accessorKey: "waterLiters",
+            header: "waterLiters",
         },
         {
-            accessorKey: "costPerKg",
-            header: "costPerKg",
+            accessorKey: "supplements",
+            header: "supplements",
+        },
+        {
+            accessorKey: "createdAt",
+            header: "createdAt",
         },
         {
             id: "actions",
