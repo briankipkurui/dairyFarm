@@ -17,11 +17,11 @@ export const FeedingRecordsColumns = ({onEdit, onDelete}: rowActionProps): Colum
             header: "id",
         },
         {
-            accessorKey: "livestockTypes",
-            header: "livestockType",
+            accessorKey: "formula",
+            header: "formula",
             cell: ({ row }) => {
                 const value: FeedingRecords = row.original
-                return value.feedingFormulas.livestockTypes.name
+                return value.feedingFormulas.feedsTypes.name
             },
         },
         {

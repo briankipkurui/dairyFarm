@@ -17,8 +17,8 @@ export const FeedingFormulasColumns = ({onEdit, onDelete}: rowActionProps): Colu
             header: "id",
         },
         {
-            accessorKey: "livestockTypes",
-            header: "livestockTypes",
+            accessorKey: "livestockType",
+            header: "livestockType",
             cell: ({ row }) => {
                 const value: FeedingFormulas = row.original
                 return value.livestockTypes.name

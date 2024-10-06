@@ -1,11 +1,8 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
-import {getAllFeedingFormulas, getAllFeedingRecords} from "@/apiCalls/apiCalls";
-import {FeedingFormulas, FeedingRecords} from "@/pages/types/Types";
+import {getAllFeedingRecords} from "@/apiCalls/apiCalls";
+import {FeedingRecords} from "@/pages/types/Types";
 import Spinner from "@/pages/spinnner/Spinner";
 import {Button} from "@/components/ui/button";
-import {FeedingFormulasColumns} from "@/pages/feedingFormulas/FeedingFormulasColumns";
-import {FeedingFormulasDataTable} from "@/pages/feedingFormulas/FeedingFormulasDataTables";
-import AddFeedingFormulasDrawer from "@/pages/feedingFormulas/AddFeedingFormulasDrawer";
 import {FeedingRecordsColumns} from "@/pages/feedingRecords/FeedingRecordsColumns";
 import {FeedingRecordsDataTable} from "@/pages/feedingRecords/FeedingRecordsDataTables";
 
