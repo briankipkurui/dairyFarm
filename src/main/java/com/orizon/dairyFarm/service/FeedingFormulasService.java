@@ -36,8 +36,14 @@ public class FeedingFormulasService {
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("feedType with " + feedTypeId + " was not found"));
 
+        List<FeedingFormulas> feedingFormulasByLivestockTypesId = feedingFormulasRepo.getFeedingFormulasByLivestockTypesId(liveStockTypeId);
+        List<FeedingFormulas> feedingFormulasByFeedTypeId = feedingFormulasRepo.getFeedingFormulasByFeedTypeId(feedTypeId);
+
+        if (!feedingFormulasByLivestockTypesId.isEmpty() || !feedingFormulasByFeedTypeId.isEmpty()) {
+            throw new IllegalStateException("Feeding formula already exists.");
+        }
+
         FeedingFormulas feedingFormulas = new FeedingFormulas(
-                new FeedingFormulasIds(livestockTypes.getId(), feedsTypes.getId()),
                 livestockTypes,
                 feedsTypes,
                 feedingFormulaRequest.getQuantityKg(),

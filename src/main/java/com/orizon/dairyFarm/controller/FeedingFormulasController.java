@@ -1,5 +1,6 @@
 package com.orizon.dairyFarm.controller;
 
+import com.orizon.dairyFarm.repo.FeedingFormulasRepo;
 import com.orizon.dairyFarm.request.FeedingFormulaRequest;
 import com.orizon.dairyFarm.request.FeedsTypeRequest;
 import com.orizon.dairyFarm.service.FeedingFormulasService;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequestMapping(path = "api/v1/feedingFormulas")
 public class FeedingFormulasController {
     private final FeedingFormulasService feedingFormulasService;
+    private  final FeedingFormulasRepo feedingFormulasRepo;
 
     @PostMapping("{liveStockTypeId}/{feedTypeId}")
     public void addFeedingFormula(@RequestBody FeedingFormulaRequest feedingFormulaRequest,
@@ -26,4 +28,5 @@ public class FeedingFormulasController {
     public List<FeedingFormulas> getAllFeedingFormulas() {
        return feedingFormulasService.getAllFeedingFormulas();
     }
+
 }

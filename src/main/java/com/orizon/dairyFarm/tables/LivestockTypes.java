@@ -31,12 +31,12 @@ public class LivestockTypes {
     private String name;
     private String description;
     @JsonIgnore
-    @OneToMany(
+    @OneToOne(
             cascade = CascadeType.ALL, fetch = FetchType.EAGER,
             orphanRemoval = true,
             mappedBy = "livestockTypes"
     )
-    private List<FeedingFormulas> feedingFormulas = new ArrayList<>();
+    private FeedingFormulas feedingFormulas;
 
 
     public LivestockTypes(String name,

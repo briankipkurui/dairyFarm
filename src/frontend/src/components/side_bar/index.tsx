@@ -38,6 +38,11 @@ const sidebarItems: SidebarItems = {
             href: '/feedingFormulas',
             icon: Package,
         },
+        {
+            label: 'FeedingRecords',
+            href: '/feedingRecords',
+            icon: Package,
+        },
     ],
     extras: (
         <div className='flex flex-col gap-2'>

@@ -1,17 +1,11 @@
 package com.orizon.dairyFarm.tables;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -61,14 +55,13 @@ public class FeedsTypes {
             name = "cost_per_kg"
     )
     private String costPerKg;
-//    @JsonManagedReference
     @JsonIgnore
-    @OneToMany(
+    @OneToOne(
             cascade = CascadeType.ALL, fetch = FetchType.EAGER,
             orphanRemoval = true,
             mappedBy = "feedsTypes"
     )
-    private List<FeedingFormulas> feedingFormulas = new ArrayList<>();
+    private FeedingFormulas feedingFormulas;
 
     public FeedsTypes(
             String name,

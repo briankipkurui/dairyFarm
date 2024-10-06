@@ -10,7 +10,7 @@ export type Cattle = {
     dateServed: any
 }
 export type  FeedingFormulas = {
-    feedingFormulasIds: feedingFormulasIds
+    id: number
     livestockTypes: Livestock
     feedsTypes: FeedsTypes
     quantityKg: number
@@ -21,10 +21,17 @@ export type  FeedingFormulas = {
     createdAt: Date
 
 }
-export type feedingFormulasIds = {
-    livestockTypeId: number
-    feedTypeId: number
+
+export type FeedingRecords = {
+    id: number
+    feedingFormulas: FeedingFormulas
+    cattle: Cattle
+    feedGivenKg: number,
+    waterGivenLiters: number,
+    remarks: string,
+    feedingTime: Date
 }
+
 export type Breeds = {
     id: number
     name: string

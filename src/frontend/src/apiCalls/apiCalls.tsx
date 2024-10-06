@@ -227,6 +227,12 @@ export const getAllFeedingFormulas = () =>
     }).then(checkStatus);
 
 
+export const getAllFeedingRecords = () =>
+    fetch("/api/v1/feedingRecords", {
+        method: 'GET'
+    }).then(checkStatus);
+
+
 
 
 

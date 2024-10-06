@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {getAllFeedingFormulas} from "@/apiCalls/apiCalls";
 import {FeedingFormulas} from "@/pages/types/Types";
-import {FeedTypeDataTable} from "@/pages/feedsTypes/FeedsTypeDataTable";
 import Spinner from "@/pages/spinnner/Spinner";
 import {Button} from "@/components/ui/button";
 import {FeedingFormulasColumns} from "@/pages/feedingFormulas/FeedingFormulasColumns";
