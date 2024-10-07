@@ -5,11 +5,13 @@ import Spinner from "@/pages/spinnner/Spinner";
 import {Button} from "@/components/ui/button";
 import {FeedingRecordsColumns} from "@/pages/feedingRecords/FeedingRecordsColumns";
 import {FeedingRecordsDataTable} from "@/pages/feedingRecords/FeedingRecordsDataTables";
+import AddFeedingRecordsDrawer from "@/pages/feedingRecords/AddFeedingRecordsDrawer";
 
 
 export default function FeedingRecordsFn() {
     const [data, setData] = useState<FeedingRecords[]>([])
     const [loading, setLoading] = useState<boolean>(true)
+    const [showAddFeedingRecordsDrawer, setShowAddFeedingRecordsDrawer] = useState<boolean>(false)
 
 
     const fetchFeedingRecords = useCallback(async () => {
@@ -56,11 +58,16 @@ export default function FeedingRecordsFn() {
             <Button
                 variant='default'
                 className="flex items-center justify-end"
-                // onClick={() => setShowAddFeedingFormulasDrawer(!showAddFeedingFormulasDrawer)}
+                onClick={() => setShowAddFeedingRecordsDrawer(!showAddFeedingRecordsDrawer)}
             >
                 Add FeedingRecords
             </Button>
             <FeedingRecordsDataTable columns={FeedingRecordsColumnsData} data={data}/>
+            <AddFeedingRecordsDrawer
+                showAddFeedingRecordsDrawer={showAddFeedingRecordsDrawer}
+                setShowAddFeedingRecordsDrawer={setShowAddFeedingRecordsDrawer}
+                fetchFeedingRecords={fetchFeedingRecords}
+            />
 
         </main>
     )

@@ -62,4 +62,8 @@ public class FeedingFormulasService {
         Page<FeedingFormulas> all = feedingFormulasRepo.findAll(pageRequest);
         return all.getContent();
     }
+
+    public List<FeedingFormulas> searchFeedingFormulas(String query) {
+        return feedingFormulasRepo.searchFeedingFormulas(query);
+    }
 }

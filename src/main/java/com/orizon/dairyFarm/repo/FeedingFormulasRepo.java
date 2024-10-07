@@ -13,4 +13,7 @@ public interface FeedingFormulasRepo  extends JpaRepository<FeedingFormulas,Long
 
     @Query("SELECT F FROM FeedingFormulas  F WHERE F.feedsTypes.id = ?1")
     List<FeedingFormulas> getFeedingFormulasByFeedTypeId(Long feedTypeId);
+
+    @Query("SELECT F FROM FeedingFormulas  F WHERE F.feedsTypes.name LIKE CONCAT('%',:query,'%')")
+    List<FeedingFormulas> searchFeedingFormulas(String query);
 }

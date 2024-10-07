@@ -2,9 +2,9 @@ import {Drawer, Input, Col, Select, Form, Row, Button, Spin} from 'antd';
 import {LoadingOutlined} from "@ant-design/icons";
 import React, {useEffect, useState} from 'react';
 import {
-    addFeedingFormula,
-    addNewCattle, getAllFeedingFormulas, getAllFeedsTypes,
-    getLivestock,
+    addFeedingFormula, addFeedingRecords,
+    getAllCows,
+    getAllFeedingFormulas, searchFeedingFormulas,
     SearchFeedsTypes,
     SearchLivestock
 } from "@/apiCalls/apiCalls";
@@ -18,18 +18,18 @@ const {Option} = Select;
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 
 interface CattleDrawerProps {
-    showAddFeedingFormulasDrawer: boolean;
-    setShowAddFeedingFormulasDrawer: React.Dispatch<React.SetStateAction<boolean>>
-    fetchFeedsFormulas: any
+    showAddFeedingRecordsDrawer: boolean;
+    setShowAddFeedingRecordsDrawer: React.Dispatch<React.SetStateAction<boolean>>
+    fetchFeedingRecords: any
 }
 
 const AddFeedingRecordsDrawer: React.FC<CattleDrawerProps> = ({
-                                                                   showAddFeedingFormulasDrawer,
-                                                                   setShowAddFeedingFormulasDrawer,
-                                                                   fetchFeedsFormulas
+                                                                  showAddFeedingRecordsDrawer,
+                                                                  setShowAddFeedingRecordsDrawer,
+                                                                  fetchFeedingRecords
                                                                }) => {
     const onCLose = () => {
-        setShowAddFeedingFormulasDrawer(false);
+        setShowAddFeedingRecordsDrawer(false);
     }
     const [submitting, setSubmitting] = useState(false);
     const [formulaToDisplay, setFormulaToDisplay] = useState<FeedingFormulas[]>([])
@@ -42,7 +42,7 @@ const AddFeedingRecordsDrawer: React.FC<CattleDrawerProps> = ({
 
 
     const fetchFeedingFormulas = () =>
-        getLivestock()
+        getAllFeedingFormulas()
             .then(res => res.json())
             .then((data:FeedingFormulas[]) => {
                 setFormulaToDisplay(data);
@@ -63,7 +63,7 @@ const AddFeedingRecordsDrawer: React.FC<CattleDrawerProps> = ({
     }, []);
 
     const fetchCattle = () =>
-        getAllFeedsTypes()
+        getAllCows()
             .then(res => res.json())
             .then((data:Cattle[]) => {
                 setCattleToDisplay(data);
@@ -84,20 +84,17 @@ const AddFeedingRecordsDrawer: React.FC<CattleDrawerProps> = ({
     }, []);
 
 
-    const onFinish = (student: any) => {
+    const onFinish = (feedingRecords: any) => {
         setSubmitting(true)
-        console.log(JSON.stringify(student, null, 2))
-        console.log("this is what is going to the server", student)
-        addFeedingFormula(student)
+        addFeedingRecords(feedingRecords)
             .then(() => {
-                console.log("cow added")
                 onCLose();
                 successNotification(
                     "Cow successfully added",
-                    `${student.name} was added to the system`,
+                    `${feedingRecords.name} was added to the system`,
                     'topRight'
                 )
-                fetchFeedsFormulas();
+                fetchFeedingRecords();
             }).catch(err => {
             console.log(err);
             err.response.json().then((res: any) => {
@@ -116,18 +113,18 @@ const AddFeedingRecordsDrawer: React.FC<CattleDrawerProps> = ({
     const onFinishFailed = (errorInfo: any) => {
         alert(JSON.stringify(errorInfo, null, 2));
     };
-    const handleBreedChange = (value: any) => {
-        setFeedTypeSearchTerm(value)
+    const handleFormulaChange = (value: any) => {
+        setFormulaSearchTerm(value)
     }
-    const handleLivestockChange = (value: any) => {
-        setSearchTermForLivestockType(value)
+    const handleCattleChange = (value: any) => {
+        setCattleSearchTerm(value)
     }
 
-    const searchFeedsTypesBySearchTerm = (query: any) => {
-        SearchFeedsTypes(feedTypeSearchTerm)
+    const searchFeedingFormulasBySearchTerm = () => {
+        searchFeedingFormulas(formulaSearchTerm)
             .then(res => res.json())
-            .then(data => {
-                setFeedingTypesToDisplay(data)
+            .then((data:FeedingFormulas[]) => {
+                setFormulaToDisplay(data)
             }).catch(err => {
             console.log(err.response)
             err.response.json().then((res: any) => {
@@ -140,13 +137,13 @@ const AddFeedingRecordsDrawer: React.FC<CattleDrawerProps> = ({
             });
         })
     }
-    useDebounce(feedTypeSearchTerm, 500, searchFeedsTypesBySearchTerm)
+    useDebounce(formulaSearchTerm, 500, searchFeedingFormulasBySearchTerm)
 
-    const searchLivestockTypeBySearchTerm = (query: any) => {
-        SearchLivestock(searchTermForLivestockType)
+    const searchCattleBySearchTerm = (query: any) => {
+        SearchLivestock(cattleSearchTerm)
             .then(res => res.json())
-            .then(data => {
-                setLivestockTypeToDisplay(data)
+            .then((data:Cattle[]) => {
+                setCattleToDisplay(data)
             }).catch(err => {
             console.log(err.response)
             err.response.json().then((res: any) => {
@@ -159,32 +156,32 @@ const AddFeedingRecordsDrawer: React.FC<CattleDrawerProps> = ({
             });
         })
     }
-    useDebounce(searchTermForLivestockType, 500, searchLivestockTypeBySearchTerm)
+    useDebounce(cattleSearchTerm, 500, searchCattleBySearchTerm)
 
     useEffect(() => {
-        const updatedFeedsTypesOptions: any = feedingTypesToDisplay.map((feedsTypes: FeedsTypes) => ({
-            label: feedsTypes.name,
-            value: feedsTypes.id
+        const updatedFeedingFormula: any = formulaToDisplay.map((feedingFormulas: FeedingFormulas) => ({
+            label: feedingFormulas.feedsTypes.name,
+            value: feedingFormulas.id
         }));
-        setFeedingTypesOptions(updatedFeedsTypesOptions);
-    }, [feedingTypesToDisplay]);
+        setFormulaOptions(updatedFeedingFormula);
+    }, [formulaToDisplay]);
 
     useEffect(() => {
-        const updatedLivestockOptions: any = livestockTypeToDisplay.map((livestock: Livestock) => ({
-            label: livestock.name,
-            value: livestock.id
+        const updatedCattleOptions: any = cattleToDisplay.map((cattle: Cattle) => ({
+            label: cattle.name,
+            value: cattle.id
         }));
-        setLivestockOptions(updatedLivestockOptions);
-    }, [livestockTypeToDisplay]);
+        setCattleOptions(updatedCattleOptions);
+    }, [cattleToDisplay]);
 
-    const filterBreedOptions = (inputValue: any, option: any) => {
+    const filterFormulaOptions = (inputValue: any, option: any) => {
         const label = option.props.children;
         if (label && typeof label === 'string') {
             return label.toLowerCase().includes(inputValue.toLowerCase());
         }
         return false;
     };
-    const filterLivestockOptions = (inputValue: any, option: any) => {
+    const filterCattleOptions = (inputValue: any, option: any) => {
         const label = option.props.children;
         if (label && typeof label === 'string') {
             return label.toLowerCase().includes(inputValue.toLowerCase());
@@ -192,14 +189,13 @@ const AddFeedingRecordsDrawer: React.FC<CattleDrawerProps> = ({
         return false;
     };
 
-    const handleLivestockSelect = (value: any) => {
-        console.log("Selected livestock ID:", value)
-    };
+    const handleLivestockSelect = (value: any) => {};
+
     return <Drawer
         title="Create new student"
         width={720}
         onClose={onCLose}
-        visible={showAddFeedingFormulasDrawer}
+        visible={showAddFeedingRecordsDrawer}
         bodyStyle={{paddingBottom: 80}}
         footer={
             <div
@@ -221,18 +217,18 @@ const AddFeedingRecordsDrawer: React.FC<CattleDrawerProps> = ({
             <Row gutter={16}>
                 <Col span={12}>
                     <Form.Item
-                        name="livestockTypeId"
-                        label="livestock type"
+                        name="feedingFormulaId"
+                        label="Formula"
                         rules={[{required: true, message: 'Please select livestock type'}]}
                     >
                         <Select
                             placeholder="Please select a sex"
                             showSearch
-                            onSearch={handleLivestockChange}
-                            filterOption={filterLivestockOptions}
+                            onSearch={handleFormulaChange}
+                            filterOption={filterFormulaOptions}
                             onSelect={handleLivestockSelect}
                         >
-                            {livestockOptions.map((option: any) => (
+                            {formulaOptions.map((option: any) => (
                                 <Option key={option.value} value={option.value}>{option.label}</Option>
                             ))}
                         </Select>
@@ -240,17 +236,17 @@ const AddFeedingRecordsDrawer: React.FC<CattleDrawerProps> = ({
                 </Col>
                 <Col span={12}>
                     <Form.Item
-                        name="feedsTypesId"
-                        label="feed Types"
+                        name="cattleId"
+                        label="cattle"
                         rules={[{required: true, message: 'Please select feed Types'}]}
                     >
                         <Select
                             placeholder="Please select feed Types"
                             showSearch
-                            onSearch={handleBreedChange}
-                            filterOption={filterBreedOptions}
+                            onSearch={handleCattleChange}
+                            filterOption={filterCattleOptions}
                         >
-                            {feedingTypesOptions.map((option: any) => (
+                            {cattleOptions.map((option: any) => (
                                 <Option key={option.value} value={option.value}>{option.label}</Option>
                             ))}
                         </Select>
@@ -260,16 +256,16 @@ const AddFeedingRecordsDrawer: React.FC<CattleDrawerProps> = ({
             <Row gutter={16}>
                 <Col span={12}>
                     <Form.Item
-                        name="quantityKg"
-                        label="quantityKg"
+                        name="feedGivenKg"
+                        label="feed Given(Kg)"
                     >
                         <Input/>
                     </Form.Item>
                 </Col>
                 <Col span={12}>
                     <Form.Item
-                        name="feedingFrequency"
-                        label="feedingFrequency"
+                        name="waterGivenLiters"
+                        label="waterGiven(Liters)"
                     >
                         <Input/>
                     </Form.Item>
@@ -279,26 +275,8 @@ const AddFeedingRecordsDrawer: React.FC<CattleDrawerProps> = ({
             <Row gutter={16}>
                 <Col span={12}>
                     <Form.Item
-                        name="feedingTime"
-                        label="feedingTime"
-                    >
-                        <Input/>
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
-                        name="waterLiters"
-                        label="waterLiters"
-                    >
-                        <Input/>
-                    </Form.Item>
-                </Col>
-            </Row>
-            <Row gutter={16}>
-                <Col span={12}>
-                    <Form.Item
-                        name="supplements"
-                        label="supplements"
+                        name="remarks"
+                        label="remarks"
                     >
                         <Input/>
                     </Form.Item>

@@ -136,7 +136,6 @@ export const updateLivestock = (livestock: any) =>
         body: JSON.stringify(livestock)
     }).then(checkStatus)
 
-
 export const SearchLivestock = (query: any) =>
     fetch(`/api/v1/livestock/search?query=${query}`, {
         headers: {
@@ -225,6 +224,26 @@ export const getAllFeedingFormulas = () =>
     fetch("/api/v1/feedingFormulas", {
         method: 'GET'
     }).then(checkStatus);
+
+export const searchFeedingFormulas = (query: any) =>
+    fetch(`/api/v1/feedingFormulas/search?query=${query}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'GET'
+        }
+    ).then(checkStatus)
+
+
+export const addFeedingRecords = (feedingRecords: any) =>
+    fetch(`/api/v1/feedingRecords/${feedingRecords.feedingFormulaId}/${feedingRecords.cattleId}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(feedingRecords)
+        }
+    ).then(checkStatus)
 
 
 export const getAllFeedingRecords = () =>

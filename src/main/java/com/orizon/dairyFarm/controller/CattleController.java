@@ -1,13 +1,11 @@
 package com.orizon.dairyFarm.controller;
 
 import com.orizon.dairyFarm.repo.CattleRepo;
-import com.orizon.dairyFarm.request.BreedsRequest;
 import com.orizon.dairyFarm.request.CattleRequest;
 import com.orizon.dairyFarm.service.CattleService;
 import com.orizon.dairyFarm.tables.Cattle;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.*;
 
 @RestController
@@ -31,7 +29,6 @@ public class CattleController {
     public List<Cattle> findCattleByCattleId(@PathVariable("cattleId") Long cattleId) {
         return cattleService.findCattleByCattleId(cattleId);
     }
-
 
     @GetMapping("search")
     public List<Cattle> searchCattle(@RequestParam("query") String query) {
