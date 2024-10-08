@@ -51,6 +51,16 @@ export type Incomes = {
     transactionDate: Date,
     updatedAt: Date
 }
+
+export type Expenses = {
+    id: number
+    expenseType: IncomeTypes
+    amount: number,
+    description: string,
+    transactionDate: Date,
+    updatedAt: Date
+}
+
 export type IncomeTypes = {
     id: number
     name: string

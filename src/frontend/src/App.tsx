@@ -10,6 +10,8 @@ import FeedingRecordsFn from "@/pages/feedingRecords/FeedingRecords";
 import IncomeTypeFn from "@/pages/incomeTypes/IncomeTypes";
 import ExpenseTypeFn from "@/pages/expenseTypes/ExpenseTypes";
 import IncomesFn from "@/pages/income/Incomes";
+import ExpenseFn from "@/pages/expense/Expense";
+import DashBoard from "@/pages/dashBoard/DashBoard";
 
 function App() {
     return (
@@ -25,6 +27,8 @@ function App() {
                     <Route path="incomeTypes" element={<IncomeTypeFn/>}/>
                     <Route path="expenseTypes" element={<ExpenseTypeFn/>}/>
                     <Route path="incomes" element={<IncomesFn/>}/>
+                    <Route path="expenses" element={<ExpenseFn/>}/>
+                    <Route path="dashBoard" element={<DashBoard/>}/>
                 </Route>
             </Routes>
         </>

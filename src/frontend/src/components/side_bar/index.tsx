@@ -3,7 +3,9 @@
 import {
     Package,
     DollarSign,
-    Coins
+    Layout,
+    Coins,
+    UsersRound
 } from 'lucide-react';
 import {SidebarDesktop} from './sidebar-desktop';
 import {SidebarItems} from '@/types';
@@ -15,6 +17,11 @@ import { GiBarn,GiFlake,GiHeadshot } from "react-icons/gi"
 const sidebarItems: SidebarItems = {
     links: [
 
+        {
+            label: 'DashBoard',
+            href: '/dashBoard',
+            icon: Layout,
+        },
         {
             label: 'Cattle',
             href: '/cattle',
@@ -58,6 +65,11 @@ const sidebarItems: SidebarItems = {
         {
             label: 'Incomes',
             href: '/incomes',
+            icon: Coins,
+        },
+        {
+            label: 'Expenses',
+            href: '/expenses',
             icon: Coins,
         },
     ],

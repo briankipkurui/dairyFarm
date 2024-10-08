@@ -61,6 +61,8 @@ public class Security  extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/api/v1/incomes/**")
                 .permitAll()
+                .antMatchers("/api/v1/expense/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated();
         http.addFilter(jwtAuthenticationFilter);
