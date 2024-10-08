@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
-import {getAllFeedsTypes, getBreeds} from "@/apiCalls/apiCalls";
-import {Breeds, FeedsTypes} from "@/pages/types/Types";
+import {getAllFeedsTypes} from "@/apiCalls/apiCalls";
+import { FeedsTypes} from "@/pages/types/Types";
 import {FeedTypeDataTable} from "@/pages/feedsTypes/FeedsTypeDataTable";
 import Spinner from "@/pages/spinnner/Spinner";
 import {FeedsTypesColumns} from "@/pages/feedsTypes/FeedsTypesColumns";

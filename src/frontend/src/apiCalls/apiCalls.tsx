@@ -265,6 +265,14 @@ export const getAllIncomesTypes = () =>
         method: 'GET'
     }).then(checkStatus);
 
+export const SearchIncomesTypes = (query: any) =>
+    fetch(`/api/v1/incomeTypes/search?query=${query}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)
+
 export const addExpenseTypes = (incomeType: any) =>
     fetch("/api/v1/expenseTypes", {
         headers: {
@@ -276,6 +284,21 @@ export const addExpenseTypes = (incomeType: any) =>
 
 export const getAllExpenseTypes = () =>
     fetch("/api/v1/expenseTypes", {
+        method: 'GET'
+    }).then(checkStatus);
+
+export const addIncomes = (incomes: any) =>
+    fetch(`/api/v1/incomes/${incomes.incomeTypeId}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(incomes)
+        }
+    ).then(checkStatus)
+
+export const getAllIncomes = () =>
+    fetch("/api/v1/incomes", {
         method: 'GET'
     }).then(checkStatus);
 

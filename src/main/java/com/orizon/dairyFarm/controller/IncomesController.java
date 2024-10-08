@@ -5,6 +5,7 @@ import com.orizon.dairyFarm.request.FeedsTypeRequest;
 import com.orizon.dairyFarm.request.IncomesRequest;
 import com.orizon.dairyFarm.service.IncomesService;
 import com.orizon.dairyFarm.tables.FeedsTypes;
+import com.orizon.dairyFarm.tables.IncomeTypes;
 import com.orizon.dairyFarm.tables.Incomes;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +29,7 @@ public class IncomesController {
     public List<Incomes> getAllIncomes() {
         return incomesService.getAllIncomes();
     }
+
+
 
 }

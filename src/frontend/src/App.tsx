@@ -9,6 +9,7 @@ import FeedingFormulasFn from "@/pages/feedingFormulas/FeedingFormulas";
 import FeedingRecordsFn from "@/pages/feedingRecords/FeedingRecords";
 import IncomeTypeFn from "@/pages/incomeTypes/IncomeTypes";
 import ExpenseTypeFn from "@/pages/expenseTypes/ExpenseTypes";
+import IncomesFn from "@/pages/income/Incomes";
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
                     <Route path="feedingRecords" element={<FeedingRecordsFn/>}/>
                     <Route path="incomeTypes" element={<IncomeTypeFn/>}/>
                     <Route path="expenseTypes" element={<ExpenseTypeFn/>}/>
+                    <Route path="incomes" element={<IncomesFn/>}/>
                 </Route>
             </Routes>
         </>

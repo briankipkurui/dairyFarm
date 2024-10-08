@@ -30,4 +30,9 @@ public class IncomeTypesService {
         Page<IncomeTypes> all = incomeTypesRepo.findAll(pageRequest);
         return all.getContent();
     }
+
+    public List<IncomeTypes> searchIncomeTypes(String query) {
+        return incomeTypesRepo.searchIncomesTypes(query);
+    }
+
 }

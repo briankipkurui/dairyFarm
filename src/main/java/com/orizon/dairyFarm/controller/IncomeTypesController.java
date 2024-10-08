@@ -24,4 +24,9 @@ public class IncomeTypesController {
     public List<IncomeTypes> getAllIncomeTypes() {
         return incomeTypesService.getAllIncomeTypes();
     }
+
+    @GetMapping("search")
+    public List<IncomeTypes> searchIncomeTypes(@RequestParam("query") String query) {
+        return incomeTypesService.searchIncomeTypes(query);
+    }
 }

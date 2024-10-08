@@ -55,6 +55,11 @@ const sidebarItems: SidebarItems = {
             href: '/expenseTypes',
             icon: Coins,
         },
+        {
+            label: 'Incomes',
+            href: '/incomes',
+            icon: Coins,
+        },
     ],
     extras: (
         <div className='flex flex-col gap-2'>

@@ -1,5 +1,3 @@
-
-
 export type Cattle = {
     id: number
     name: string
@@ -34,18 +32,6 @@ export type FeedingRecords = {
     feedingTime: Date
 }
 
-export type Breeds = {
-    id: number
-    name: string
-    description: string
-}
-
-export type Livestock = {
-    id: number
-    name: string
-    description: string
-}
-
 export type FeedsTypes = {
     id: number
     name: string
@@ -57,12 +43,32 @@ export type FeedsTypes = {
     costPerKg: string
 }
 
+export type Incomes = {
+    id: number
+    incomeTypes: IncomeTypes
+    amount: number,
+    description: string,
+    transactionDate: Date,
+    updatedAt: Date
+}
 export type IncomeTypes = {
     id: number
     name: string
     description: string
 }
 export type ExpenseTypes = {
+    id: number
+    name: string
+    description: string
+}
+
+export type Breeds = {
+    id: number
+    name: string
+    description: string
+}
+
+export type Livestock = {
     id: number
     name: string
     description: string

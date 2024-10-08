@@ -44,4 +44,5 @@ public class IncomesService {
         Page<Incomes> all = incomesRepo.findAll(pageRequest);
         return all.getContent();
     }
+
 }
