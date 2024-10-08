@@ -1,7 +1,9 @@
 'use client';
 
 import {
-    Package
+    Package,
+    DollarSign,
+    Coins
 } from 'lucide-react';
 import {SidebarDesktop} from './sidebar-desktop';
 import {SidebarItems} from '@/types';
@@ -42,6 +44,16 @@ const sidebarItems: SidebarItems = {
             label: 'FeedingRecords',
             href: '/feedingRecords',
             icon: Package,
+        },
+        {
+            label: 'IncomeTypes',
+            href: '/incomeTypes',
+            icon: Coins,
+        },
+        {
+            label: 'ExpenseTypes',
+            href: '/expenseTypes',
+            icon: Coins,
         },
     ],
     extras: (

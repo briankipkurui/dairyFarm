@@ -56,3 +56,14 @@ export type FeedsTypes = {
     energy: string
     costPerKg: string
 }
+
+export type IncomeTypes = {
+    id: number
+    name: string
+    description: string
+}
+export type ExpenseTypes = {
+    id: number
+    name: string
+    description: string
+}

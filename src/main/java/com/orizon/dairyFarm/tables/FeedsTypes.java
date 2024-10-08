@@ -11,7 +11,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity(name = "FeedsTypes")
 @Table(name = "feeds_types")
-@ToString
 public class FeedsTypes {
     @SequenceGenerator(
             name = "feeds_types_sequence",

@@ -16,4 +16,7 @@ public interface FeedingFormulasRepo  extends JpaRepository<FeedingFormulas,Long
 
     @Query("SELECT F FROM FeedingFormulas  F WHERE F.feedsTypes.name LIKE CONCAT('%',:query,'%')")
     List<FeedingFormulas> searchFeedingFormulas(String query);
+
+//    @Query("SELECT F FROM FeedingFormulas F WHERE LOWER(F.feedsTypes.name) LIKE LOWER(CONCAT('%',:query,'%'))")
+//    List<FeedingFormulas> searchFeedingFormulas(String query);
 }
