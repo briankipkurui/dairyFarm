@@ -326,6 +326,19 @@ export const getAllExpenses = () =>
         method: 'GET'
     }).then(checkStatus);
 
+export const addRoles = (incomeType: any) =>
+    fetch("/api/v1/roles", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(incomeType)
+    }).then(checkStatus)
+
+export const getAllRoles = () =>
+    fetch("/api/v1/roles", {
+        method: 'GET'
+    }).then(checkStatus);
 
 
 

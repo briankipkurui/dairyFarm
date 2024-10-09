@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -32,13 +33,14 @@ public class Roles {
             columnDefinition = "TEXT"
     )
     private String name;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-//    @OneToMany(
-//            mappedBy = "role"
-//    )
-//    private Set<RoleToApplicationUser> rolesAndUsers = new HashSet<>();
-
-    public Roles(String name) {
+    public Roles(String name,
+                 LocalDateTime createdAt,
+                 LocalDateTime updatedAt) {
         this.name = name;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 }

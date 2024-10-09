@@ -6,6 +6,7 @@ import com.orizon.dairyFarm.tables.Roles;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,7 +23,11 @@ public class RolesService {
         if (exist){
             throw new IllegalStateException("name registered");
         }else {
-            Roles roles=new Roles(rolesRequest.getName());
+            Roles roles=new Roles(
+                    rolesRequest.getName(),
+                    LocalDateTime.now(),
+                    LocalDateTime.now()
+            );
             rolesRepo.save(roles);
             return roles.getName();
         }

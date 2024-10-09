@@ -83,3 +83,10 @@ export type Livestock = {
     name: string
     description: string
 }
+
+export type Roles = {
+    id: number,
+    name: string,
+    createAt: Date,
+    updatedAt: Date
+}
