@@ -340,6 +340,20 @@ export const getAllRoles = () =>
         method: 'GET'
     }).then(checkStatus);
 
+export const addPermissions = (incomeType: any) =>
+    fetch("/api/v1/permissions", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(incomeType)
+    }).then(checkStatus)
+
+export const getAllPermissions = () =>
+    fetch("/api/v1/permissions", {
+        method: 'GET'
+    }).then(checkStatus);
+
 
 
 

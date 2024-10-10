@@ -90,3 +90,9 @@ export type Roles = {
     createAt: Date,
     updatedAt: Date
 }
+export type Permissions = {
+    id: number,
+    name: string,
+    createAt: Date,
+    updatedAt: Date
+}

@@ -28,16 +28,16 @@ public class Permissions {
     )
     private Long id;
     private String name;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public Permissions(
             String name,
-            LocalDateTime createAt,
+            LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
         this.name = name;
-        this.createAt = createAt;
+        this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 }

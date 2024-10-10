@@ -28,7 +28,7 @@ public class PermissionsService {
     }
 
     public List<Permissions> getPermissions() {
-        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("amount").ascending());
+        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("name").ascending());
         Page<Permissions> all = permissionsRepo.findAll(pageRequest);
         return all.getContent();
     }

@@ -5,7 +5,7 @@ import {
     DollarSign,
     Layout,
     Coins,
-    UsersRound
+    KeyRound
 } from 'lucide-react';
 import {SidebarDesktop} from './sidebar-desktop';
 import {SidebarItems} from '@/types';
@@ -76,6 +76,11 @@ const sidebarItems: SidebarItems = {
             label: 'Roles',
             href: '/roles',
             icon: Coins,
+        },
+        {
+            label: 'Permissions',
+            href: '/permissions',
+            icon: KeyRound,
         },
     ],
     extras: (
