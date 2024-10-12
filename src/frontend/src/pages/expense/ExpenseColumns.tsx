@@ -17,10 +17,18 @@ export const ExpensesColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<E
         },
         {
             accessorKey: "expenseType",
-            header: "Expense Types",
+            header: "ExpenseTypes",
             cell: ({ row }) => {
                 const value: Expenses = row.original
                 return value.expenseType.name
+            },
+        },
+        {
+            accessorKey: "valueChains",
+            header: "ValueChains",
+            cell: ({ row }) => {
+                const value: Expenses = row.original
+                return value.valueChains.name
             },
         },
         {

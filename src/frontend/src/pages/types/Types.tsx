@@ -46,6 +46,7 @@ export type FeedsTypes = {
 export type Incomes = {
     id: number
     incomeTypes: IncomeTypes
+    valueChains:ValueChains
     amount: number,
     description: string,
     transactionDate: Date,
@@ -55,6 +56,7 @@ export type Incomes = {
 export type Expenses = {
     id: number
     expenseType: IncomeTypes
+    valueChains:ValueChains
     amount: number,
     description: string,
     transactionDate: Date,
@@ -90,7 +92,14 @@ export type Roles = {
     createAt: Date,
     updatedAt: Date
 }
+
 export type Permissions = {
+    id: number,
+    name: string,
+    createAt: Date,
+    updatedAt: Date
+}
+export type ValueChains = {
     id: number,
     name: string,
     createAt: Date,

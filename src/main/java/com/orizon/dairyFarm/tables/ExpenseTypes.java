@@ -40,6 +40,8 @@ public class ExpenseTypes {
     )
     private List<Expense> expenses = new ArrayList<>();
 
+
+
     public ExpenseTypes
             (
                     String name,

@@ -1,5 +1,5 @@
 import {ColumnDef} from "@tanstack/react-table"
-import {Breeds, Expenses, FeedingFormulas, FeedsTypes, Incomes, Permissions, } from "@/pages/types/Types";
+import {Breeds, Expenses, FeedingFormulas, FeedsTypes, Incomes, Permissions, ValueChains,} from "@/pages/types/Types";
 import FeedsTypesRowActions from "@/pages/feedsTypes/FeedsTypesRowActions";
 
 
@@ -8,9 +8,9 @@ interface rowActionProps {
     onDelete: (data: any) => void
 }
 
-export const PermissionsColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<Permissions>[] => {
+export const ValueChainsColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<ValueChains>[] => {
 
-    const columns: ColumnDef<Permissions>[] = [
+    const columns: ColumnDef<ValueChains>[] = [
         {
             accessorKey: "id",
             header: "id",

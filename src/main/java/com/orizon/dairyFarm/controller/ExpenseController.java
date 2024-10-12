@@ -14,10 +14,12 @@ import java.util.List;
 @RequestMapping(path = "api/v1/expense")
 public class ExpenseController {
     private final ExpenseService expenseService;
-    @PostMapping("{expenseTypeId}")
+
+    @PostMapping("{expenseTypeId}/{valueChainsId}")
     public void addExpense(@RequestBody ExpenseRequest expenseRequest,
-                           @PathVariable("expenseTypeId") Long expenseTypeId) {
-        expenseService.addExpense(expenseRequest, expenseTypeId);
+                           @PathVariable("expenseTypeId") Long expenseTypeId,
+                           @PathVariable("valueChainsId") Long valueChainsId) {
+        expenseService.addExpense(expenseRequest, expenseTypeId,valueChainsId);
     }
 
     @GetMapping()

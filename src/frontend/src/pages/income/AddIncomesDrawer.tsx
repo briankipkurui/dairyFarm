@@ -3,11 +3,11 @@ import {LoadingOutlined} from "@ant-design/icons";
 import React, {useEffect, useState} from 'react';
 import {
     addFeedingFormula, addIncomes,
-    getAllIncomesTypes,
-    SearchIncomesTypes,
+    getAllIncomesTypes, getAllValueChains,
+    SearchIncomesTypes, SearchValueChains,
 } from "@/apiCalls/apiCalls";
 import {useDebounce} from "@/utils/DebounceHook";
-import {IncomeTypes} from "@/pages/types/Types";
+import {IncomeTypes, ValueChains} from "@/pages/types/Types";
 import {errorNotification, successNotification} from "@/utils/Notification";
 
 
@@ -31,8 +31,11 @@ const AddIncomeDrawer: React.FC<CattleDrawerProps> = ({
     }
     const [submitting, setSubmitting] = useState(false);
     const [incomeTypeToDisplay, setIncomeTypeToDisplay] = useState([])
+    const [valueChainsToDisplay, setValueChainsToDisplay] = useState([])
     const [incomeTypeSearchTerm, setIncomeTypeSearchTerm] = useState('')
+    const [ValueChainsSearchTerm, setValueChainsSearchTerm] = useState('')
     const [incomeTypesOptions, setIncomeTypesOptions] = useState([])
+    const [valueChainsOptions, setValueChainsOptions] = useState([])
     const [form] = Form.useForm();
 
 
@@ -55,6 +58,28 @@ const AddIncomeDrawer: React.FC<CattleDrawerProps> = ({
 
     useEffect(() => {
         fetchAllIncomesTypes();
+    }, []);
+
+
+    const fetchAllValueChains = () =>
+        getAllValueChains()
+            .then(res => res.json())
+            .then(data => {
+                setValueChainsToDisplay(data);
+            }).catch(err => {
+            console.log(err.response)
+            err.response.json().then((res: any) => {
+                console.log(res);
+                errorNotification(
+                    "There was an issue",
+                    `${res.message} [${res.status}] [${res.error}]`,
+                    'topRight'
+                )
+            });
+        })
+
+    useEffect(() => {
+        fetchAllValueChains();
     }, []);
 
 
@@ -91,6 +116,9 @@ const AddIncomeDrawer: React.FC<CattleDrawerProps> = ({
     const handleIncomeTypeChange = (value: any) => {
         setIncomeTypeSearchTerm(value)
     }
+    const handleValueChainChange = (value: any) => {
+        setValueChainsSearchTerm(value)
+    }
 
     const searchIncomesTypesBySearchTerm = (query: any) => {
         SearchIncomesTypes(incomeTypeSearchTerm)
@@ -111,6 +139,25 @@ const AddIncomeDrawer: React.FC<CattleDrawerProps> = ({
     }
     useDebounce(incomeTypeSearchTerm, 500, searchIncomesTypesBySearchTerm)
 
+    const searchValueChainsBySearchTerm = () => {
+        SearchValueChains(ValueChainsSearchTerm)
+            .then(res => res.json())
+            .then(data => {
+                setValueChainsToDisplay(data)
+            }).catch(err => {
+            console.log(err.response)
+            err.response.json().then((res: any) => {
+                console.log(res);
+                errorNotification(
+                    "There was an issue",
+                    `${res.message} [${res.status}] [${res.error}]`,
+                    "bottomLeft"
+                )
+            });
+        })
+    }
+    useDebounce(ValueChainsSearchTerm, 500, searchValueChainsBySearchTerm)
+
 
     useEffect(() => {
         const updatedIncomesTypesOptions: any = incomeTypeToDisplay.map((incomeTypes: IncomeTypes) => ({
@@ -120,8 +167,24 @@ const AddIncomeDrawer: React.FC<CattleDrawerProps> = ({
         setIncomeTypesOptions(updatedIncomesTypesOptions);
     }, [incomeTypeToDisplay]);
 
+    useEffect(() => {
+        const updatedValueChainsOptions: any = valueChainsToDisplay.map((valueChains: ValueChains) => ({
+            label: valueChains.name,
+            value: valueChains.id
+        }));
+        setValueChainsOptions(updatedValueChainsOptions);
+    }, [valueChainsToDisplay]);
+
 
     const filterIncomeTypesOptions = (inputValue: any, option: any) => {
+        const label = option.props.children;
+        if (label && typeof label === 'string') {
+            return label.toLowerCase().includes(inputValue.toLowerCase());
+        }
+        return false;
+    };
+
+    const filterValueChainsOptions = (inputValue: any, option: any) => {
         const label = option.props.children;
         if (label && typeof label === 'string') {
             return label.toLowerCase().includes(inputValue.toLowerCase());
@@ -179,6 +242,28 @@ const AddIncomeDrawer: React.FC<CattleDrawerProps> = ({
                 </Col>
                 <Col span={12}>
                     <Form.Item
+                        name="valueChainsId"
+                        label="Value Chain"
+                        rules={[{required: true, message: 'Please select livestock type'}]}
+                    >
+                        <Select
+                            placeholder="Please select a sex"
+                            showSearch
+                            onSearch={handleValueChainChange}
+                            filterOption={filterValueChainsOptions}
+                            onSelect={handleLivestockSelect}
+                        >
+                            {valueChainsOptions.map((option: any) => (
+                                <Option key={option.value} value={option.value}>{option.label}</Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Row gutter={16}>
+
+                <Col span={12}>
+                    <Form.Item
                         name="amount"
                         label="Amount"
                         rules={[{required: true, message: 'Please enter Amount'}]}
@@ -186,9 +271,6 @@ const AddIncomeDrawer: React.FC<CattleDrawerProps> = ({
                         <Input placeholder="enter Amount"/>
                     </Form.Item>
                 </Col>
-            </Row>
-            <Row gutter={16}>
-
                 <Col span={12}>
                     <Form.Item
                         name="description"

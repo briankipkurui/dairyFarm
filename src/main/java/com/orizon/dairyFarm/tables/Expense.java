@@ -32,6 +32,12 @@ public class Expense {
             name = "expense_Type_id"
     )
     private ExpenseTypes expenseType;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "value_chain_id"
+    )
+    private ValueChains valueChains;
     private Double amount;
     private String description;
     private LocalDateTime transactionDate;
@@ -39,12 +45,14 @@ public class Expense {
 
     public Expense(
             ExpenseTypes expenseType,
+            ValueChains valueChains,
             Double amount,
             String description,
             LocalDateTime transactionDate,
             LocalDateTime updatedAt
     ) {
         this.expenseType = expenseType;
+        this.valueChains = valueChains;
         this.amount = amount;
         this.description = description;
         this.transactionDate = transactionDate;

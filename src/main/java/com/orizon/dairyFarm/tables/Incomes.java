@@ -32,6 +32,11 @@ public class Incomes {
             name = "income_Type_id"
     )
     private IncomeTypes incomeTypes;
+    @ManyToOne
+    @JoinColumn(
+            name = "value_chain_id"
+    )
+    private ValueChains valueChains;
     private Double amount;
     private String description;
     private LocalDateTime transactionDate;
@@ -40,12 +45,14 @@ public class Incomes {
     public Incomes
             (
                     IncomeTypes incomeTypes,
+                    ValueChains valueChains,
                     Double amount,
                     String description,
                     LocalDateTime transactionDate,
                     LocalDateTime updatedAt
             ) {
         this.incomeTypes = incomeTypes;
+        this.valueChains = valueChains;
         this.amount = amount;
         this.description = description;
         this.transactionDate = transactionDate;

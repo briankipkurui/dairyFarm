@@ -19,10 +19,11 @@ public class IncomesController {
     private final IncomesService incomesService;
 
 
-    @PostMapping("{incomeTypeId}")
+    @PostMapping("{incomeTypeId}/{valueChainsId}")
     public void addIncomes(@RequestBody IncomesRequest incomesRequest,
-                           @PathVariable("incomeTypeId") Long incomeTypeId) {
-        incomesService.addIncomes(incomesRequest, incomeTypeId);
+                           @PathVariable("incomeTypeId") Long incomeTypeId,
+                           @PathVariable("valueChainsId") Long valueChainsId) {
+        incomesService.addIncomes(incomesRequest, incomeTypeId,valueChainsId);
     }
 
     @GetMapping()

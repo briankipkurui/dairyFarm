@@ -2,10 +2,12 @@ package com.orizon.dairyFarm.service;
 
 import com.orizon.dairyFarm.repo.IncomeTypesRepo;
 import com.orizon.dairyFarm.repo.IncomesRepo;
+import com.orizon.dairyFarm.repo.ValueChainRepo;
 import com.orizon.dairyFarm.request.IncomesRequest;
 import com.orizon.dairyFarm.tables.IncomeTypes;
 import com.orizon.dairyFarm.tables.Incomes;
 import com.orizon.dairyFarm.tables.LivestockTypes;
+import com.orizon.dairyFarm.tables.ValueChains;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,8 +22,9 @@ import java.util.List;
 public class IncomesService {
     private final IncomesRepo incomesRepo;
     private final IncomeTypesRepo IncomeTypesRepo;
+    private final ValueChainRepo valueChainRepo;
 
-    public void addIncomes(IncomesRequest incomesRequest, Long incomeTypeId) {
+    public void addIncomes(IncomesRequest incomesRequest, Long incomeTypeId,Long valueChainsId) {
         IncomeTypes incomeTypes
                 = IncomeTypesRepo.findById(incomeTypeId)
                 .stream()
@@ -29,8 +32,16 @@ public class IncomesService {
                 .orElseThrow(() -> new IllegalStateException("incomeTypes  with id " +
                         incomeTypeId + " was not found"));
 
+        ValueChains valueChains
+                = valueChainRepo.findById(valueChainsId)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Value Chain  with id " +
+                        valueChainsId + " was not found"));
+
         Incomes incomes = new Incomes(
                 incomeTypes,
+                valueChains,
                 incomesRequest.getAmount(),
                 incomesRequest.getDescription(),
                 LocalDateTime.now(),

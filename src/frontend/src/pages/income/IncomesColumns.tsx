@@ -1,5 +1,5 @@
 import {ColumnDef} from "@tanstack/react-table"
-import {Breeds, FeedingFormulas, FeedsTypes, Incomes} from "@/pages/types/Types";
+import {Breeds, Expenses, FeedingFormulas, FeedsTypes, Incomes} from "@/pages/types/Types";
 import FeedsTypesRowActions from "@/pages/feedsTypes/FeedsTypesRowActions";
 
 
@@ -17,10 +17,18 @@ export const IncomesColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<In
         },
         {
             accessorKey: "incomeTypes",
-            header: "Income Types",
+            header: "IncomeType",
             cell: ({ row }) => {
                 const value: Incomes = row.original
                 return value.incomeTypes.name
+            },
+        },
+        {
+            accessorKey: "valueChains",
+            header: "ValueChain",
+            cell: ({ row }) => {
+                const value: Incomes = row.original
+                return value.valueChains.name
             },
         },
         {

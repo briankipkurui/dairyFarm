@@ -14,6 +14,7 @@ import ExpenseFn from "@/pages/expense/Expense";
 import DashBoard from "@/pages/dashBoard/DashBoard";
 import RolesFn from "@/pages/roles/Roles";
 import PermissionsFn from "@/pages/permissions/Permissions";
+import ValueChainsFn from "@/pages/valueChains/ValueChains";
 
 function App() {
     return (
@@ -33,6 +34,7 @@ function App() {
                     <Route path="dashBoard" element={<DashBoard/>}/>
                     <Route path="roles" element={<RolesFn/>}/>
                     <Route path="permissions" element={<PermissionsFn/>}/>
+                    <Route path="valueChains" element={<ValueChainsFn/>}/>
                 </Route>
             </Routes>
         </>

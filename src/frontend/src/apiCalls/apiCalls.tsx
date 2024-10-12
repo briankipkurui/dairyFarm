@@ -297,7 +297,7 @@ export const SearchExpenseTypes = (query: any) =>
     }).then(checkStatus)
 
 export const addIncomes = (incomes: any) =>
-    fetch(`/api/v1/incomes/${incomes.incomeTypeId}`, {
+    fetch(`/api/v1/incomes/${incomes.incomeTypeId}/${incomes.valueChainsId}`, {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -312,7 +312,7 @@ export const getAllIncomes = () =>
     }).then(checkStatus);
 
 export const addExpense = (expense: any) =>
-    fetch(`/api/v1/expense/${expense.expenseTypeId}`, {
+    fetch(`/api/v1/expense/${expense.expenseTypeId}/${expense.valueChainsId}`, {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -351,6 +351,28 @@ export const addPermissions = (incomeType: any) =>
 
 export const getAllPermissions = () =>
     fetch("/api/v1/permissions", {
+        method: 'GET'
+    }).then(checkStatus);
+
+export const addValueChains = (incomeType: any) =>
+    fetch("/api/v1/valueChains", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(incomeType)
+    }).then(checkStatus)
+
+export const SearchValueChains = (query: any) =>
+    fetch(`/api/v1/valueChains/search?query=${query}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET'
+    }).then(checkStatus)
+
+export const getAllValueChains = () =>
+    fetch("/api/v1/valueChains", {
         method: 'GET'
     }).then(checkStatus);
 

@@ -16,10 +16,14 @@ import { GiBarn,GiFlake,GiHeadshot } from "react-icons/gi"
 
 const sidebarItems: SidebarItems = {
     links: [
-
         {
             label: 'DashBoard',
             href: '/dashBoard',
+            icon: Layout,
+        },
+        {
+            label: 'ValueChain',
+            href: '/valueChains',
             icon: Layout,
         },
         {
