@@ -224,9 +224,9 @@ const AddExpenseDrawer: React.FC<CattleDrawerProps> = ({
               onFinishFailed={onFinishFailed}
               onFinish={onFinish}
               form={form}
-              hideRequiredMark>
+              hideRequiredMark
+        >
             <Row gutter={16}>
-
                 <Col span={12}>
                     <Form.Item
                         name="expenseTypeId"

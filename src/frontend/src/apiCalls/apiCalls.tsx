@@ -376,6 +376,11 @@ export const getAllValueChains = () =>
         method: 'GET'
     }).then(checkStatus);
 
+export const getNetProfit = () =>
+    fetch("/api/v1/dashBoard/net-profit", {
+        method: 'GET'
+    }).then(checkStatus);
+
 
 
 
