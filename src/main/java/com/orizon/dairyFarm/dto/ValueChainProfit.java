@@ -3,7 +3,6 @@ package com.orizon.dairyFarm.dto;
 import lombok.Data;
 
 
-
 @Data
 public class ValueChainProfit {
     private Long valueChainId;

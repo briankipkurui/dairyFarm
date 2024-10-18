@@ -4,13 +4,13 @@ import {getAllValueChains, getNetProfit} from "@/apiCalls/apiCalls";
 import { BarChart, Bar, XAxis, YAxis,Label, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from "recharts";
 
 const NetProfitChart = () => {
-    const [netProfit, setNetProfit] = useState([
-        { valueChain: 'Value Chain 1', netProfit: 20000 },
-        { valueChain: 'Value Chain 2', netProfit: 10000 },
-        { valueChain: 'Value Chain 3', netProfit: 5000 }
-    ])
+    // const [netProfit, setNetProfit] = useState([
+    //     { valueChain: 'Value Chain 1', netProfit: 20000 },
+    //     { valueChain: 'Value Chain 2', netProfit: 10000 },
+    //     { valueChain: 'Value Chain 3', netProfit: 5000 }
+    // ])
 
-    // const [netProfit, setNetProfit] = useState([])
+    const [netProfit, setNetProfit] = useState([])
 
 
     const fetchValueChains = useCallback(async () => {
@@ -27,6 +27,7 @@ const NetProfitChart = () => {
     useEffect(() => {
         fetchValueChains();
     }, [fetchValueChains]);
+
     return (
         <>
             {/*<div className="bg-white shadow-md rounded-lg p-6">*/}
@@ -53,7 +54,7 @@ const NetProfitChart = () => {
                 <ResponsiveContainer width="100%" height={400}>
                     <BarChart data={netProfit} margin={{top: 20, right: 30, left: 20, bottom: 20}}>
                         <CartesianGrid strokeDasharray="3 3"/>
-                        <XAxis dataKey="valueChainId">
+                        <XAxis dataKey="name">
                             <Label value="Value Chains" offset={-10} position="insideBottom"/>
                         </XAxis>
                         <YAxis>

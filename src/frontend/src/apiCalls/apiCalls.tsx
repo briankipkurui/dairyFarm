@@ -382,6 +382,17 @@ export const getNetProfit = () =>
     }).then(checkStatus);
 
 
+export const getEachValueChainIncome = () =>
+    fetch("/api/v1/dashBoard/incomes", {
+        method: 'GET'
+    }).then(checkStatus);
+
+export const getEachValueChainExpense = () =>
+    fetch("/api/v1/dashBoard/expense", {
+        method: 'GET'
+    }).then(checkStatus);
+
+
 
 
 
