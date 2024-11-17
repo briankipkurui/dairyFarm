@@ -1,4 +1,5 @@
 import fetch from 'unfetch';
+import {FilterValues} from "@/pages/types/Types";
 
 const checkStatus = (response: any) => {
     if (response.ok) {
@@ -381,14 +382,29 @@ export const getNetProfit = () =>
         method: 'GET'
     }).then(checkStatus);
 
+export const getNetProfitForSelectedValueChain = (filterValues: FilterValues|undefined) =>
+    fetch(`/api/v1/dashBoard/net-profit/selectedValueChain?startDate=${filterValues?.startDate}&endDate=${filterValues?.endDate}`, {
+        method: 'GET'
+    }).then(checkStatus);
+
 
 export const getEachValueChainIncome = () =>
     fetch("/api/v1/dashBoard/incomes", {
         method: 'GET'
     }).then(checkStatus);
 
+export const getIncomesForSelectedValueChain = (filterValues: FilterValues|undefined) =>
+    fetch(`/api/v1/dashBoard/incomes/selectedValueChain?startDate=${filterValues?.startDate}&endDate=${filterValues?.endDate}`, {
+        method: 'GET'
+    }).then(checkStatus);
+
 export const getEachValueChainExpense = () =>
     fetch("/api/v1/dashBoard/expense", {
+        method: 'GET'
+    }).then(checkStatus);
+
+export const getExpenseForSelectedValueChain = (filterValues: FilterValues|undefined) =>
+    fetch(`/api/v1/dashBoard/expense/selectedValueChain?startDate=${filterValues?.startDate}&endDate=${filterValues?.endDate}`, {
         method: 'GET'
     }).then(checkStatus);
 

@@ -1,9 +1,18 @@
 import {TrendingDown, TrendingUp} from "lucide-react";
-import {useCallback, useEffect, useState} from "react";
-import {getEachValueChainExpense, getEachValueChainIncome, getNetProfit} from "@/apiCalls/apiCalls";
-import {EachValueChainExpense, eachValueChainIncomes, NetProfit} from "@/pages/types/Types";
+import React, {useCallback, useEffect, useState} from "react";
+import {
+    getEachValueChainExpense,
+    getEachValueChainIncome, getExpenseForSelectedValueChain,
+    getIncomesForSelectedValueChain,
+    getNetProfit, getNetProfitForSelectedValueChain
+} from "@/apiCalls/apiCalls";
+import {EachValueChainExpense, eachValueChainIncomes, FilterValues, NetProfit} from "@/pages/types/Types";
 
-const ExpIncNtDisplay = () => {
+interface ExpIncNtDisplayProps {
+    selectedFilterValue: FilterValues | undefined
+}
+
+const ExpIncNtDisplay: React.FC<ExpIncNtDisplayProps> = ({selectedFilterValue}) => {
     const [eachValueChainIncome, setEachValueChainIncome] = useState([])
     const [eachValueChainExpense, setEachValueChainExpense] = useState([])
     const [netProfit, setNetProfit] = useState([])
@@ -11,13 +20,18 @@ const ExpIncNtDisplay = () => {
 
     const fetchValueChains = useCallback(async () => {
         try {
-            const res = await getEachValueChainIncome();
+            let res;
+            if (selectedFilterValue) {
+                res = await getIncomesForSelectedValueChain(selectedFilterValue);
+            } else {
+                res = await getEachValueChainIncome();
+            }
             const data = await res.json();
             setEachValueChainIncome(data);
         } catch (err) {
-            console.error("Error fetching breeds:", err);
+            console.error("Error fetching value chains:", err);
         }
-    }, []);
+    }, [selectedFilterValue]);
 
     useEffect(() => {
         fetchValueChains();
@@ -25,13 +39,18 @@ const ExpIncNtDisplay = () => {
 
     const fetchEachValueChainExpense = useCallback(async () => {
         try {
-            const res = await getEachValueChainExpense();
+            let res;
+            if (selectedFilterValue) {
+                res = await getExpenseForSelectedValueChain(selectedFilterValue);
+            } else {
+                res = await getEachValueChainExpense();
+            }
             const data = await res.json();
             setEachValueChainExpense(data);
         } catch (err) {
             console.error("Error fetching breeds:", err);
         }
-    }, []);
+    }, [selectedFilterValue]);
 
     useEffect(() => {
         fetchEachValueChainExpense();
@@ -40,14 +59,18 @@ const ExpIncNtDisplay = () => {
 
     const fetchNetProfit = useCallback(async () => {
         try {
-            const res = await getNetProfit();
+            let res;
+            if (selectedFilterValue) {
+                res = await getNetProfitForSelectedValueChain(selectedFilterValue)
+            } else {
+                res = await getNetProfit()
+            }
             const data = await res.json();
-            console.log("this is the data.....",data)
             setNetProfit(data);
         } catch (err) {
             console.error("Error fetching breeds:", err);
         }
-    }, []);
+    }, [selectedFilterValue]);
 
     useEffect(() => {
         fetchNetProfit();

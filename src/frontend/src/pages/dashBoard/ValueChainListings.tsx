@@ -1,10 +1,15 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {getAllValueChains} from "@/apiCalls/apiCalls";
-import {ExpenseTypes, ValueChains} from "@/pages/types/Types";
+import {FilterValues, ValueChains} from "@/pages/types/Types";
 import {Button, Col, Form, Input, Row, Select} from "antd";
 
 const {Option} = Select;
-const ValueChainListings = () => {
+
+interface ValueChainListingsProps {
+    setSelectedFilterValue: React.Dispatch<React.SetStateAction<FilterValues | undefined>>
+}
+
+const ValueChainListings: React.FC<ValueChainListingsProps> = ({setSelectedFilterValue}) => {
     const [valueChain, setValueChain] = useState<ValueChains[]>([])
     const [valueChainsOptions, setValueChainsOptions] = useState([])
     const [form] = Form.useForm();
@@ -43,14 +48,16 @@ const ValueChainListings = () => {
     const handleValueChainsSelect = (value: any) => {
     }
 
-    const onFinish = (student: any) => {
-
+    const onFinish = (filterValues: FilterValues) => {
+        console.log("this are the value..............", filterValues)
+        setSelectedFilterValue(filterValues)
     }
 
 
     const onFinishFailed = (errorInfo: any) => {
         alert(JSON.stringify(errorInfo, null, 2));
     };
+
     return (
         <>
             <Form
@@ -62,57 +69,34 @@ const ValueChainListings = () => {
             >
                 <Row gutter={12}>
                     <Col span={4}>
-                        <Form.Item
-                            name="valueChainId"
-                            label="Value Chain"
-                            rules={[{ required: true, message: 'Select Value Chain' }]}
-                        >
-                            <Select
-                                placeholder="Select Value Chain"
-                                showSearch
-                                filterOption={filterValueChains}
-                                onSelect={handleValueChainsSelect}
+                        <Form.Item name="startDate" label="startDate">
+                            <Input
+                                type="date"
                                 className="border-gray-300 rounded-md shadow-sm"
+                            />
+                        </Form.Item>
+                    </Col>
+
+                    <Col span={4}>
+                        <Form.Item name="endDate" label="endDate">
+                            <Input
+                                type="date"
+                                className="border-gray-300 rounded-md shadow-sm"
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={4}>
+                        <Form.Item>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                className="bg-blue-500 text-white hover:bg-blue-600 rounded-md px-4 py-2 mt-8"
                             >
-                                {valueChainsOptions.map((option: any) => (
-                                    <Option key={option.value} value={option.value}>
-                                        {option.label}
-                                    </Option>
-                                ))}
-                            </Select>
-                        </Form.Item>
-                    </Col>
-
-                    <Col span={4}>
-                        <Form.Item name="dateServed" label="Date Served">
-                            <Input
-                                type="date"
-                                className="border-gray-300 rounded-md shadow-sm"
-                            />
-                        </Form.Item>
-                    </Col>
-
-                    <Col span={4}>
-                        <Form.Item name="dateServed" label="Date Served">
-                            <Input
-                                type="date"
-                                className="border-gray-300 rounded-md shadow-sm"
-                            />
+                                Fetch Dashboard Items
+                            </Button>
                         </Form.Item>
                     </Col>
                 </Row>
-
-                <Col span={3}>
-                    <Form.Item>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            className="bg-blue-500 text-white hover:bg-blue-600 rounded-md px-4 py-2"
-                        >
-                            Fetch Dashboard Items
-                        </Button>
-                    </Form.Item>
-                </Col>
             </Form>
 
 

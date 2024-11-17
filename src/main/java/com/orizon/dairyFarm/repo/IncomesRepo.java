@@ -47,5 +47,16 @@ public interface IncomesRepo extends JpaRepository<Incomes, Long> {
             "GROUP BY i.valueChains.id, i.valueChains.name")
     List<IncomeResponse> getAmountForEachValueChain(LocalDateTime startOfMonth, LocalDateTime endOfMonth);
 
+//    @Query("SELECT new com.orizon.dairyFarm.response.IncomeResponse(i.valueChains.id, i.valueChains.name, SUM(i.amount)) " +
+//            "FROM Incomes i " +
+//            "WHERE i.transactionDate BETWEEN :startOfMonth AND :endOfMonth " +
+//            "GROUP BY i.valueChains.id, i.valueChains.name")
+//    List<IncomeResponse> getIncomesForSelectedValueChain(LocalDateTime startOfMonth, LocalDateTime endOfMonth,Long valueChainId);
+
+    @Query("SELECT new com.orizon.dairyFarm.response.IncomeResponse(i.valueChains.id, i.valueChains.name, SUM(i.amount)) " +
+            "FROM Incomes i " +
+            "WHERE i.transactionDate BETWEEN :startOfMonth AND :endOfMonth " +
+            "GROUP BY i.valueChains.id, i.valueChains.name")
+    List<IncomeResponse> getIncomesForSelectedValueChain(LocalDateTime startOfMonth, LocalDateTime endOfMonth);
 
 }

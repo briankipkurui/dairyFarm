@@ -7,6 +7,7 @@ import {getAllValueChains} from "@/apiCalls/apiCalls"
 import {ValueChainsColumns} from "@/pages/valueChains/ValueChainsColumns";
 import {ValueChainsDataTable} from "@/pages/valueChains/ValueChainsDataTables";
 import AddValueChainsDrawer from "@/pages/valueChains/AddValueChainsDrawer";
+import AdaptiveValueChainFilter from "@/pages/valueChains/AdaptiveValueChainFilter";
 
 
 export default function ValueChainsFn() {
@@ -64,6 +65,7 @@ export default function ValueChainsFn() {
             >
                 Add ValueChains
             </Button>
+            <AdaptiveValueChainFilter/>
             <ValueChainsDataTable columns={ValueChainsColumnsData} data={data}/>
             <AddValueChainsDrawer
                 showAddValueChainsDrawer={showAddValueChainsDrawer}

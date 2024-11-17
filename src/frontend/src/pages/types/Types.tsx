@@ -121,3 +121,8 @@ export type NetProfit = {
     netProfit: number,
     name: string
 }
+export type FilterValues = {
+    // valueChainId: string,
+    startDate: string,
+    endDate: string
+}

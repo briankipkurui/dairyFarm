@@ -11,14 +11,22 @@ import org.springframework.data.jpa.repository.Query;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface ExpenseRepo extends JpaRepository<Expense,Long> {
+public interface ExpenseRepo extends JpaRepository<Expense, Long> {
     @Query("SELECT new com.orizon.dairyFarm.dto.ValueChainProfit(e.valueChains.id, " +
-            "(SELECT SUM(i.amount) FROM Incomes i WHERE i.valueChains.id = e.valueChains.id AND i.transactionDate BETWEEN :startOfMonth AND :endOfMonth), " +
+            "(SELECT COALESCE(SUM(i.amount), 0) FROM Incomes i WHERE i.valueChains.id = e.valueChains.id AND i.transactionDate BETWEEN :startOfMonth AND :endOfMonth), " +
             "SUM(e.amount)) " +
             "FROM Expense e " +
             "WHERE e.transactionDate BETWEEN :startOfMonth AND :endOfMonth " +
             "GROUP BY e.valueChains.id")
     List<ValueChainProfit> findIncomeAndExpensesForMonth(LocalDateTime startOfMonth, LocalDateTime endOfMonth);
+
+    @Query("SELECT new com.orizon.dairyFarm.dto.ValueChainProfit(e.valueChains.id, " +
+            "(SELECT COALESCE(SUM(i.amount), 0) FROM Incomes i WHERE i.valueChains.id = e.valueChains.id AND i.transactionDate BETWEEN :startOfMonth AND :endOfMonth), " +
+            "SUM(e.amount)) " +
+            "FROM Expense e " +
+            "WHERE e.transactionDate BETWEEN :startOfMonth AND :endOfMonth " +
+            "GROUP BY e.valueChains.id")
+    List<ValueChainProfit> getNetProfitForSelectedValueChainDateRange(LocalDateTime startOfMonth, LocalDateTime endOfMonth);
 
 
     @Query("SELECT new com.orizon.dairyFarm.response.ExpenseResponse(e.valueChains.id, e.valueChains.name, SUM(e.amount)) " +
@@ -26,5 +34,12 @@ public interface ExpenseRepo extends JpaRepository<Expense,Long> {
             "WHERE e.transactionDate BETWEEN :startOfMonth AND :endOfMonth " +
             "GROUP BY e.valueChains.id, e.valueChains.name")
     List<ExpenseResponse> getExpenseForEachValueChain(LocalDateTime startOfMonth, LocalDateTime endOfMonth);
+
+
+    @Query("SELECT new com.orizon.dairyFarm.response.ExpenseResponse(e.valueChains.id, e.valueChains.name, SUM(e.amount)) " +
+            "FROM Expense e " +
+            "WHERE e.transactionDate BETWEEN :startOfMonth AND :endOfMonth " +
+            "GROUP BY e.valueChains.id, e.valueChains.name")
+    List<ExpenseResponse> getExpenseForSelectedValueChain(LocalDateTime startOfMonth, LocalDateTime endOfMonth);
 
 }

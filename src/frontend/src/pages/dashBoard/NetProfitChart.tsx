@@ -1,28 +1,33 @@
 
-import {useCallback, useEffect, useState} from "react";
-import {getAllValueChains, getNetProfit} from "@/apiCalls/apiCalls";
+import React, {useCallback, useEffect, useState} from "react";
+import {
+    getAllValueChains,
+    getEachValueChainIncome,
+    getIncomesForSelectedValueChain,
+    getNetProfit, getNetProfitForSelectedValueChain
+} from "@/apiCalls/apiCalls";
 import { BarChart, Bar, XAxis, YAxis,Label, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from "recharts";
-
-const NetProfitChart = () => {
-    // const [netProfit, setNetProfit] = useState([
-    //     { valueChain: 'Value Chain 1', netProfit: 20000 },
-    //     { valueChain: 'Value Chain 2', netProfit: 10000 },
-    //     { valueChain: 'Value Chain 3', netProfit: 5000 }
-    // ])
-
+import {FilterValues} from "@/pages/types/Types";
+interface NetProfitChartProps {
+    selectedFilterValue: FilterValues | undefined
+}
+const NetProfitChart:React.FC<NetProfitChartProps>  = ({selectedFilterValue}) => {
     const [netProfit, setNetProfit] = useState([])
-
 
     const fetchValueChains = useCallback(async () => {
         try {
-            const res = await getNetProfit();
+            let res;
+            if (selectedFilterValue) {
+                res = await getNetProfitForSelectedValueChain(selectedFilterValue);
+            } else {
+                res = await getNetProfit();
+            }
             const data = await res.json();
-            console.log("this is the data.....",data)
             setNetProfit(data);
         } catch (err) {
             console.error("Error fetching breeds:", err);
         }
-    }, []);
+    }, [selectedFilterValue]);
 
     useEffect(() => {
         fetchValueChains();
