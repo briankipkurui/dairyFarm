@@ -1,38 +1,47 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ValueChains} from "@/pages/types/Types";
 
 interface AdaptiveValueChainFilterProps {
-    setData: (data: any[]) => void
+    setData: (data: any[]) => void;
 }
-const AdaptiveValueChainFilter: React.FC<AdaptiveValueChainFilterProps> = ({setData}) => {
-    const [filters, setFilters] = useState([{field: "name", condition: "Equals", value: ""}]);
 
-    // Options for fields and conditions
-    const fieldOptions = ["name", "createdAt", "updatedAt"];
-    const conditionOptions: any = {
-        name: ["Equals", "Contains",'StartsWith'],
-        createdAt: ["Equals", "Before", "After", "Between"],
-        updatedAt: ["Equals", "Before", "After", "Between"],
-    };
+const AdaptiveCattleFilter: React.FC<AdaptiveValueChainFilterProps> = ({setData}) => {
+    const [filters, setFilters] = useState([{field: "", condition: "Equals", value: ""}]);
+    const [metadata, setMetadata] = useState<{ [key: string]: string[] }>({});
 
-    // Handle adding a new filter
+    // Fetch metadata from the backend
+    useEffect(() => {
+        const fetchMetadata = async () => {
+            try {
+                const response = await fetch("/api/v1/cattle/metadata");
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                setMetadata(data);
+            } catch (error) {
+                console.error("Error fetching metadata:", error);
+            }
+        };
+
+        fetchMetadata();
+    }, []);
+
     const addFilter = () => {
-        setFilters([...filters, {field: "name", condition: "Equals", value: ""}]);
+        setFilters([...filters, {field: "", condition: "Equals", value: ""}]);
     };
 
-    // Handle filter changes
-    const handleFilterChange = (index: any, key: any, value: any) => {
+    const handleFilterChange = (index: number, key: string, value: any) => {
         const updatedFilters: any = [...filters];
         updatedFilters[index][key] = value;
         if (key === "field") {
-            updatedFilters[index].condition = "Equals"; // Reset condition when field changes
+            updatedFilters[index].condition = metadata[value]?.[0] || "Equals"; // Default to the first condition
             updatedFilters[index].value = ""; // Reset value
         }
         setFilters(updatedFilters);
     };
 
-    // Render dynamic inputs
-    const renderInput = (filter: any, index: any) => {
+    const renderInput = (filter: any, index: number) => {
         if (filter.condition === "Between") {
             return (
                 <div style={{display: "flex", gap: "10px"}}>
@@ -57,29 +66,31 @@ const AdaptiveValueChainFilter: React.FC<AdaptiveValueChainFilterProps> = ({setD
         }
         return (
             <input
-                type={filter.field === "name" ? "text" : "date"}
-                placeholder={filter.field === "name" ? "Enter value" : "Select date"}
+                type={["Equals", "StartsWith", "Contains"].includes(filter.condition) ? "text" : "date"}
+                placeholder={
+                    filter.condition === "Equals"
+                        ? "Enter exact value"
+                        : filter.condition === "StartsWith"
+                            ? "Enter starting value"
+                            : filter.condition === "Contains"
+                                ? "Enter partial value"
+                                : "Select date"
+                }
                 value={filter.value}
                 onChange={(e) => handleFilterChange(index, "value", e.target.value)}
             />
         );
     };
 
-    // Submit filters to the backend
     const applyFilters = async () => {
         try {
-            const response = await fetch("/api/v1/valueChains/filter", {
+            const response = await fetch("/api/v1/cattle/filter", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(filters),
             });
-   console.log("this are the filters sssssssssssssssss",filters)
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data:ValueChains[] = await response.json();
-            setData(data)
-            console.log("Filtered Data:", data);
+            const data: ValueChains[] = await response.json();
+            setData(data);
         } catch (error) {
             console.error("Error applying filters:", error);
         }
@@ -87,15 +98,15 @@ const AdaptiveValueChainFilter: React.FC<AdaptiveValueChainFilterProps> = ({setD
 
     return (
         <div>
-            <h2>Custom Loan Accounts Filter</h2>
-
+            <h2>Adaptive Filter</h2>
             {filters.map((filter, index) => (
                 <div key={index} style={{marginBottom: "20px"}}>
                     <select
                         value={filter.field}
                         onChange={(e) => handleFilterChange(index, "field", e.target.value)}
                     >
-                        {fieldOptions.map((field) => (
+                        <option value="" disabled>Select Field</option>
+                        {Object.keys(metadata).map((field) => (
                             <option key={field} value={field}>
                                 {field}
                             </option>
@@ -105,7 +116,7 @@ const AdaptiveValueChainFilter: React.FC<AdaptiveValueChainFilterProps> = ({setD
                         value={filter.condition}
                         onChange={(e) => handleFilterChange(index, "condition", e.target.value)}
                     >
-                        {conditionOptions[filter.field].map((condition: any) => (
+                        {metadata[filter.field]?.map((condition) => (
                             <option key={condition} value={condition}>
                                 {condition}
                             </option>
@@ -114,20 +125,10 @@ const AdaptiveValueChainFilter: React.FC<AdaptiveValueChainFilterProps> = ({setD
                     {renderInput(filter, index)}
                 </div>
             ))}
-            <div className="flex space-x-4">
-                <button
-                    onClick={addFilter}
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
-                    Add Filter
-                </button>
-                <button
-                    onClick={applyFilters}
-                    className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">
-                    Apply
-                </button>
-            </div>
+            <button onClick={addFilter}>Add Filter</button>
+            <button onClick={applyFilters}>Apply Filters</button>
         </div>
     );
 };
 
-export default AdaptiveValueChainFilter;
+export default AdaptiveCattleFilter;

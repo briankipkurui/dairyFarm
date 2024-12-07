@@ -9,7 +9,7 @@ import {
     SearchLivestock
 } from "@/apiCalls/apiCalls";
 import {useDebounce} from "@/utils/DebounceHook";
-import {Cattle, FeedingFormulas, FeedsTypes, Livestock} from "@/pages/types/Types";
+import {Cattle, FeedingFormulas, FeedsTypes, livestockTypes} from "@/pages/types/Types";
 import {errorNotification, successNotification} from "@/utils/Notification";
 
 

@@ -29,6 +29,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import AdaptiveValueChainFilter from "@/pages/valueChains/AdaptiveValueChainFilter";
+import AdaptiveValueChainFilter2 from "@/pages/valueChains/AdaptiveValueChainFilter2";
 
 
 interface DataTableProps<TData, TValue> {
@@ -67,6 +69,7 @@ export function ValueChainsDataTable<TData, TValue>({
     return (
         <>
             <div className="flex items-center ">
+                <AdaptiveValueChainFilter2 setData={setFilteredData}/>
                 {/*<div className="flex items-center py-4">*/}
                 {/*    */}
                 {/*</div>*/}

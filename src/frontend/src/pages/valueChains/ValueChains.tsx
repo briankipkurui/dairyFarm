@@ -65,7 +65,7 @@ export default function ValueChainsFn() {
             >
                 Add ValueChains
             </Button>
-            <AdaptiveValueChainFilter/>
+
             <ValueChainsDataTable columns={ValueChainsColumnsData} data={data}/>
             <AddValueChainsDrawer
                 showAddValueChainsDrawer={showAddValueChainsDrawer}

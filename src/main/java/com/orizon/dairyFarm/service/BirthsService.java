@@ -40,7 +40,7 @@ public class BirthsService {
                         addBirthsRequest.getCalveId() + " was not found"));
 
 
-        if(!cattle.getLivestock().getName().equals(calve.getLivestock().getName())){
+        if(!cattle.getLivestockTypes().getName().equals(calve.getLivestockTypes().getName())){
             throw new IllegalStateException("livestock is not of the same species ");
         }
 
@@ -252,8 +252,8 @@ public class BirthsService {
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("cattle with id " +
                         id + " was not found"));
-        String splitLivestock = Utilities.splitNameIntoSubstring(cattle.getLivestock().getName());
-        String s1 = Utilities.splitName(cattle.getLivestock().getName());
+        String splitLivestock = Utilities.splitNameIntoSubstring(cattle.getLivestockTypes().getName());
+        String s1 = Utilities.splitName(cattle.getLivestockTypes().getName());
         Long maxId = cattleRepo.maxID();
         if (maxId == null) {
             maxId = (long) (0 +1);

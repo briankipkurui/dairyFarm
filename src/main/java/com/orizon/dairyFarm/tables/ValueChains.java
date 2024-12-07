@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+
 @NoArgsConstructor
 @Entity(name = "ValueChains")
 @Table(name = "value_chains")
@@ -58,5 +57,53 @@ public class ValueChains {
         this.name = name;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
+    }
+
+    public List<Incomes> getIncomes() {
+        return incomes;
+    }
+
+    public void setIncomes(List<Incomes> incomes) {
+        this.incomes = incomes;
     }
 }

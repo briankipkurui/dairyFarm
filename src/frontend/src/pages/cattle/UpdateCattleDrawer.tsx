@@ -11,7 +11,7 @@ import {
     SearchLivestock, SearchLiveStockById, updateCattle
 } from "@/apiCalls/apiCalls";
 import {useDebounce} from "@/utils/DebounceHook";
-import {Breeds, Cattle, Livestock} from "@/pages/types/Types";
+import {Breeds, Cattle, livestockTypes} from "@/pages/types/Types";
 import moment from 'moment';
 
 
@@ -53,8 +53,8 @@ const UpdateCattleDrawer: React.FC<CattleDrawerProps> = ({
 
     useLayoutEffect(() => {
         const setFormValues = async () => {
-            const liveStock: Livestock = livestockToDisplay.find((c: Livestock) => c.id === cattle.livestock.id) ||
-                await getSpecificLiveStockById(cattle.livestock.id)
+            const liveStock: livestockTypes = livestockToDisplay.find((c: livestockTypes) => c.id === cattle.livestockTypes.id) ||
+                await getSpecificLiveStockById(cattle.livestockTypes.id)
             const breed: Breeds = breedsToDisplay.find((p: Breeds) => p.id === cattle.breeds.id) ||
                 await getSpecificBreedById(cattle.breeds.id);
 
@@ -257,7 +257,7 @@ const UpdateCattleDrawer: React.FC<CattleDrawerProps> = ({
     }, [breedsToDisplay]);
 
     useEffect(() => {
-        const updatedLivestockOptions: any = livestockToDisplay.map((breed: Livestock) => ({
+        const updatedLivestockOptions: any = livestockToDisplay.map((breed: livestockTypes) => ({
             label: breed.name,
             value: breed.id
         }));
@@ -305,7 +305,7 @@ const UpdateCattleDrawer: React.FC<CattleDrawerProps> = ({
               onFinish={onFinish}
               form={form}
               initialValues={{
-                  livestockId: cattle.livestock.id,
+                  livestockId: cattle.livestockTypes.id,
                   breedId: cattle.breeds.id,
                   dateServed: cattle.dateServed ? moment(cattle.dateServed).format('YYYY-MM-DD') : null,
                   dateDewormed: cattle.dateDewormed ? moment(cattle.dateDewormed).format('YYYY-MM-DD') : null,

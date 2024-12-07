@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import Spinner from "@/pages/spinnner/Spinner";
 import {Button} from "@/components/ui/button";
-import {Livestock} from "@/pages/types/Types";
+import {livestockTypes} from "@/pages/types/Types";
 import {LiveStockColumns} from "@/pages/livestock/LiveStockColumns";
 import {LivestockDataTables} from "@/pages/livestock/LiveStockDataTables";
 import {deteleLiveStock, getLivestock} from "@/apiCalls/apiCalls"
@@ -11,11 +11,11 @@ import {errorNotification, successNotification} from "@/utils/Notification";
 
 
 export default function LiveStockFn() {
-    const [data, setData] = useState<Livestock[]>([])
+    const [data, setData] = useState<livestockTypes[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     const [showAddLiveStockDrawer, setShowAddLiveStockDrawer] = useState<boolean>(false)
     const [showUpdateLiveStockDrawer, setShowUpdateLiveStockDrawer] = useState<boolean>(false)
-    const [liveStockData, setLiveStockData] = useState<Livestock | undefined>(undefined)
+    const [liveStockData, setLiveStockData] = useState<livestockTypes | undefined>(undefined)
 
 
     const fetchLiveStocks = useCallback(async () => {
@@ -57,23 +57,23 @@ export default function LiveStockFn() {
     }
 
 
-    const editFunctionCall = (livestock: Livestock) => {
+    const editFunctionCall = (livestock: livestockTypes) => {
         setLiveStockData(livestock)
         setShowUpdateLiveStockDrawer(!showUpdateLiveStockDrawer)
     }
 
-    const deleteFunctionCall = async (livestock: Livestock) => {
+    const deleteFunctionCall = async (livestock: livestockTypes) => {
         deleteCustomerById(livestock.id)
     }
 
 
     const onDelete = useCallback(
-        (livestock: Livestock) => deleteFunctionCall(livestock),
+        (livestock: livestockTypes) => deleteFunctionCall(livestock),
         []
     )
 
     const onEdit = useCallback(
-        (livestock: Livestock) => editFunctionCall(livestock),
+        (livestock: livestockTypes) => editFunctionCall(livestock),
         []
     )
 

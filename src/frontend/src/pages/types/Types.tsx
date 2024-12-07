@@ -5,13 +5,13 @@ export type Cattle = {
     serialNumber: string
     dateOfBirth: string
     breeds: Breeds
-    livestock: Livestock
+    livestockTypes: livestockTypes
     dateDewormed: any
     dateServed: any
 }
 export type  FeedingFormulas = {
     id: number
-    livestockTypes: Livestock
+    livestockTypes: livestockTypes
     feedsTypes: FeedsTypes
     quantityKg: number
     feedingFrequency: string
@@ -80,7 +80,7 @@ export type Breeds = {
     description: string
 }
 
-export type Livestock = {
+export type livestockTypes = {
     id: number
     name: string
     description: string

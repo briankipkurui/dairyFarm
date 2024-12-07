@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {errorNotification, successNotification} from "../../utils/Notification";
 import {addNewCattle, getBreeds, getLivestock, SearchBreed, SearchLivestock} from "@/apiCalls/apiCalls";
 import {useDebounce} from "@/utils/DebounceHook";
-import {Breeds, Livestock} from "@/pages/types/Types";
+import {Breeds,livestockTypes} from "@/pages/types/Types";
 
 
 const {Option} = Select;
@@ -159,9 +159,9 @@ const AddCattleDrawer: React.FC<CattleDrawerProps> = ({addCattleDrawer, showAddC
     }, [breedsToDisplay]);
 
     useEffect(() => {
-        const updatedLivestockOptions: any = livestockToDisplay.map((breed: Livestock) => ({
-            label: breed.name,
-            value: breed.id
+        const updatedLivestockOptions: any = livestockToDisplay.map((livestockTypes: livestockTypes) => ({
+            label: livestockTypes.name,
+            value: livestockTypes.id
         }));
         setLivestockOptions(updatedLivestockOptions);
     }, [livestockToDisplay]);

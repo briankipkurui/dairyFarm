@@ -12,7 +12,7 @@ import {
     SearchLivestock, SearchLiveStockById, updateCattle
 } from "@/apiCalls/apiCalls";
 import {useDebounce} from "@/utils/DebounceHook";
-import {Breeds, Cattle, Livestock} from "@/pages/types/Types";
+import {Breeds, Cattle, livestockTypes} from "@/pages/types/Types";
 import moment from 'moment';
 
 

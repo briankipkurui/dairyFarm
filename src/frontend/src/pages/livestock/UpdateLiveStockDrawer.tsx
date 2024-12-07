@@ -3,7 +3,7 @@ import {LoadingOutlined} from "@ant-design/icons";
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {addLivestock, updateLivestock} from "@/apiCalls/apiCalls";
 import {errorNotification, successNotification} from "@/utils/Notification";
-import {Cattle, Livestock} from "@/pages/types/Types";
+import {Cattle, livestockTypes} from "@/pages/types/Types";
 
 
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
@@ -11,9 +11,9 @@ const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 interface LiveStockDrawerProps {
     showUpdateLiveStockDrawer: boolean;
     setShowUpdateLiveStockDrawer: React.Dispatch<React.SetStateAction<boolean>>
-    LiveStock: Livestock
+    LiveStock: livestockTypes
     fetchLiveStocks: any,
-    setLiveStockData: React.Dispatch<React.SetStateAction<Livestock | undefined>>
+    setLiveStockData: React.Dispatch<React.SetStateAction<livestockTypes | undefined>>
 }
 
 const UpdateLivestockDrawerForm: React.FC<LiveStockDrawerProps> = ({

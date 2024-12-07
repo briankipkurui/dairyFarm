@@ -71,8 +71,8 @@ export const CattleColumns = ({onEdit, onDelete,onAddRelationShip,onViewFamilyTr
             accessorKey: "livestock",
             header: "livestock",
             cell: ({row}) => {
-                const value: any = row.original
-                return value.livestock.name
+                const value: Cattle = row.original
+                return value.livestockTypes.name
             },
         },
         {

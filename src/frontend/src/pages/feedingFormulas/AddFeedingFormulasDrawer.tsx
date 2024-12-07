@@ -10,7 +10,7 @@ import {
     SearchLivestock
 } from "@/apiCalls/apiCalls";
 import {useDebounce} from "@/utils/DebounceHook";
-import {FeedsTypes, Livestock} from "@/pages/types/Types";
+import {FeedsTypes, livestockTypes} from "@/pages/types/Types";
 
 
 const {Option} = Select;
@@ -170,7 +170,7 @@ const AddFeedingFormulasDrawer: React.FC<CattleDrawerProps> = ({
     }, [feedingTypesToDisplay]);
 
     useEffect(() => {
-        const updatedLivestockOptions: any = livestockTypeToDisplay.map((livestock: Livestock) => ({
+        const updatedLivestockOptions: any = livestockTypeToDisplay.map((livestock: livestockTypes) => ({
             label: livestock.name,
             value: livestock.id
         }));

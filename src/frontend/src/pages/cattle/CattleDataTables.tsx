@@ -29,6 +29,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import AdaptiveCattleFilter from "@/pages/cattle/AdaptiveCattleFilter";
 
 
 interface DataTableProps<TData, TValue> {
@@ -67,9 +68,7 @@ export function CattleDataTables<TData, TValue>({
     return (
         <>
             <div className="flex items-center ">
-                {/*<div className="flex items-center py-4">*/}
-                {/*    */}
-                {/*</div>*/}
+               <AdaptiveCattleFilter setData={setFilteredData}/>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">

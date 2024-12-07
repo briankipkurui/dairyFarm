@@ -36,7 +36,7 @@ public class Cattle {
     @OneToOne
     private Breeds breeds;
     @OneToOne
-    private LivestockTypes livestock;
+    private LivestockTypes livestockTypes;
 
     @JsonIgnore
     @OneToMany(
@@ -53,7 +53,7 @@ public class Cattle {
                   LocalDateTime dateDewormed,
                   LocalDateTime dateServed,
                   Breeds breeds,
-                  LivestockTypes livestock) {
+                  LivestockTypes livestockTypes) {
         this.name = name;
         this.sex = sex;
         this.serialNumber = serialNumber;
@@ -61,6 +61,6 @@ public class Cattle {
         DateDewormed = dateDewormed;
         DateServed = dateServed;
         this.breeds = breeds;
-        this.livestock = livestock;
+        this.livestockTypes = livestockTypes;
     }
 }

@@ -1,5 +1,5 @@
 import {ColumnDef} from "@tanstack/react-table"
-import { Livestock} from "@/pages/types/Types";
+import { livestockTypes} from "@/pages/types/Types";
 import BreedsRowActions from "@/pages/breeds/BreedsRowActions";
 import LiveStockRowActions from "@/pages/livestock/LiveStockRowActions";
 
@@ -8,8 +8,8 @@ interface rowActionProps {
     onDelete: (data: any) => void
 }
 
-export const LiveStockColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<Livestock>[] => {
-    const columns: ColumnDef<Livestock>[] = [
+export const LiveStockColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<livestockTypes>[] => {
+    const columns: ColumnDef<livestockTypes>[] = [
         {
             accessorKey: "id",
             header: "id",

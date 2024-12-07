@@ -3,7 +3,7 @@ import React, {useCallback, useEffect, useMemo, useState} from "react";
 import Spinner from "@/pages/spinnner/Spinner";
 
 import {Button} from "@/components/ui/button";
-import {Breeds, Livestock} from "@/pages/types/Types";
+import {Breeds} from "@/pages/types/Types";
 import {BreedsColumns} from "@/pages/breeds/BreedsColumns";
 import {BreedsDataTables} from "@/pages/breeds/BreedsDataTables";
 import {deleteBreed, getBreeds} from "@/apiCalls/apiCalls";
