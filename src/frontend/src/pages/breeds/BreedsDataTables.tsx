@@ -29,6 +29,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import AdaptiveBreedsFilter from "@/pages/breeds/AdaptiveBreedsFilter";
 
 
 interface DataTableProps<TData, TValue> {
@@ -67,9 +68,7 @@ export function BreedsDataTables<TData, TValue>({
     return (
         <>
             <div className="flex items-center ">
-                {/*<div className="flex items-center py-4">*/}
-                {/*    */}
-                {/*</div>*/}
+                <AdaptiveBreedsFilter setData={setFilteredData}/>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">

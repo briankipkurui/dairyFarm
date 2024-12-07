@@ -1,6 +1,6 @@
 package com.orizon.dairyFarm.filters;
 
-import com.orizon.dairyFarm.tables.ValueChains;
+import com.orizon.dairyFarm.tables.LivestockTypes;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -10,14 +10,14 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @Component
-public class ValueChainSpecifications {
+public class LiveStockTypesSpecifications {
 
-    public static Specification<ValueChains> applyFilter(String field, String condition, Object value) {
-        return new Specification<ValueChains>() {
+    public static Specification<LivestockTypes> applyFilter(String field, String condition, Object value) {
+        return new Specification<LivestockTypes>() {
             @Override
-            public Predicate toPredicate(Root<ValueChains> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+            public Predicate toPredicate(Root<LivestockTypes> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 try {
-                    Field fieldInEntity = ValueChains.class.getDeclaredField(field); // Reflective lookup of field
+                    Field fieldInEntity = LivestockTypes.class.getDeclaredField(field); // Reflective lookup of field
                     fieldInEntity.setAccessible(true); // Make private fields accessible
                     Path<?> path = root.get(field);
 

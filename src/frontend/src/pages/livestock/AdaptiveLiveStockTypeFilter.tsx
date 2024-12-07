@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { ValueChains } from "@/pages/types/Types";
+import React, {useEffect, useState} from "react";
+import {ValueChains} from "@/pages/types/Types";
 
 interface AdaptiveValueChainFilterProps {
     setData: (data: any[]) => void;
 }
 
-const AdaptiveValueChainFilter2: React.FC<AdaptiveValueChainFilterProps> = ({ setData }) => {
-    const [filters, setFilters] = useState([{ field: "", condition: "Equals", value: "" }]);
+const AdaptiveLiveStockTypeFilter: React.FC<AdaptiveValueChainFilterProps> = ({setData}) => {
+    const [filters, setFilters] = useState([{field: "", condition: "Equals", value: ""}]);
     const [metadata, setMetadata] = useState<{ [key: string]: string[] }>({});
 
     // Fetch metadata from the backend
     useEffect(() => {
         const fetchMetadata = async () => {
             try {
-                const response = await fetch("/api/v1/valueChains/metadata");
+                const response = await fetch("/api/v1/livestock/metadata");
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -22,16 +22,17 @@ const AdaptiveValueChainFilter2: React.FC<AdaptiveValueChainFilterProps> = ({ se
             } catch (error) {
                 console.error("Error fetching metadata:", error);
             }
-        }
+        };
+
         fetchMetadata();
     }, []);
 
     const addFilter = () => {
-        setFilters([...filters, { field: "", condition: "Equals", value: "" }]);
+        setFilters([...filters, {field: "", condition: "Equals", value: ""}]);
     };
 
     const handleFilterChange = (index: number, key: string, value: any) => {
-        const updatedFilters:any = [...filters];
+        const updatedFilters: any = [...filters];
         updatedFilters[index][key] = value;
         if (key === "field") {
             updatedFilters[index].condition = metadata[value]?.[0] || "Equals"; // Default to the first condition
@@ -43,13 +44,13 @@ const AdaptiveValueChainFilter2: React.FC<AdaptiveValueChainFilterProps> = ({ se
     const renderInput = (filter: any, index: number) => {
         if (filter.condition === "Between") {
             return (
-                <div style={{ display: "flex", gap: "10px" }}>
+                <div style={{display: "flex", gap: "10px"}}>
                     <input
                         type="date"
                         placeholder="Start Date"
                         value={filter.value?.start || ""}
                         onChange={(e) =>
-                            handleFilterChange(index, "value", { ...filter.value, start: e.target.value })
+                            handleFilterChange(index, "value", {...filter.value, start: e.target.value})
                         }
                     />
                     <input
@@ -57,7 +58,7 @@ const AdaptiveValueChainFilter2: React.FC<AdaptiveValueChainFilterProps> = ({ se
                         placeholder="End Date"
                         value={filter.value?.end || ""}
                         onChange={(e) =>
-                            handleFilterChange(index, "value", { ...filter.value, end: e.target.value })
+                            handleFilterChange(index, "value", {...filter.value, end: e.target.value})
                         }
                     />
                 </div>
@@ -83,7 +84,7 @@ const AdaptiveValueChainFilter2: React.FC<AdaptiveValueChainFilterProps> = ({ se
 
     const applyFilters = async () => {
         try {
-            const response = await fetch("/api/v1/valueChains/filter", {
+            const response = await fetch("/api/v1/livestock/filter", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(filters),
@@ -100,7 +101,7 @@ const AdaptiveValueChainFilter2: React.FC<AdaptiveValueChainFilterProps> = ({ se
             <h2>Adaptive Filter</h2>
             {filters.map((filter, index) => (
                 <div key={index} style={{marginBottom: "20px"}}>
-                <select
+                    <select
                         value={filter.field}
                         onChange={(e) => handleFilterChange(index, "field", e.target.value)}
                     >
@@ -130,4 +131,4 @@ const AdaptiveValueChainFilter2: React.FC<AdaptiveValueChainFilterProps> = ({ se
     );
 };
 
-export default AdaptiveValueChainFilter2;
+export default AdaptiveLiveStockTypeFilter;

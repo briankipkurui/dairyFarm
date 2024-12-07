@@ -1,17 +1,20 @@
 package com.orizon.dairyFarm.controller;
 
+import com.orizon.dairyFarm.filtrerResponse.Filter;
 import com.orizon.dairyFarm.request.LivestockRequest;
 import com.orizon.dairyFarm.service.LivestockTypeService;
+import com.orizon.dairyFarm.tables.Breeds;
 import com.orizon.dairyFarm.tables.LivestockTypes;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "api/v1/livestock")
-public class LivestockController {
+public class LivestockTypeController {
     private final LivestockTypeService liveStockTypeService;
 
     @PostMapping()
@@ -44,6 +47,15 @@ public class LivestockController {
     @GetMapping("{liveStockId}")
     public List<LivestockTypes> findLiveStockByLiveStockId(@PathVariable("liveStockId") Long liveStockId) {
         return liveStockTypeService.findLiveStockByLiveStockId(liveStockId);
+    }
+    @PostMapping("/filter")
+    public List<LivestockTypes> filterValueChainsService(@RequestBody List<Filter> filters) {
+        return liveStockTypeService.filterLivestockTypes(filters);
+    }
+
+    @GetMapping("/metadata")
+    public Map<String, List<String>> getMetadata(){
+        return liveStockTypeService.getMetadata();
     }
 
 }

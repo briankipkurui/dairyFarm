@@ -29,6 +29,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import AdaptiveLiveStockTypeFilter from "@/pages/livestock/AdaptiveLiveStockTypeFilter";
 
 
 interface DataTableProps<TData, TValue> {
@@ -67,9 +68,7 @@ export function LivestockDataTables<TData, TValue>({
     return (
         <>
             <div className="flex items-center ">
-                {/*<div className="flex items-center py-4">*/}
-                {/*    */}
-                {/*</div>*/}
+               <AdaptiveLiveStockTypeFilter setData={setFilteredData}/>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">

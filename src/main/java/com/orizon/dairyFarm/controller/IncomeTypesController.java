@@ -29,4 +29,6 @@ public class IncomeTypesController {
     public List<IncomeTypes> searchIncomeTypes(@RequestParam("query") String query) {
         return incomeTypesService.searchIncomeTypes(query);
     }
+
+
 }

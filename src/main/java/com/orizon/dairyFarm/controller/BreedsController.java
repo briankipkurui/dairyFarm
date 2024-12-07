@@ -1,5 +1,6 @@
 package com.orizon.dairyFarm.controller;
 
+import com.orizon.dairyFarm.filtrerResponse.Filter;
 import com.orizon.dairyFarm.request.BreedsRequest;
 import com.orizon.dairyFarm.service.BreedsService;
 import com.orizon.dairyFarm.tables.Breeds;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -45,5 +47,14 @@ public class BreedsController {
     @GetMapping("search")
     public List<Breeds> searchBreeds(@RequestParam("query") String query) {
         return breedsService.searchBreeds(query);
+    }
+    @PostMapping("/filter")
+    public List<Breeds> filterValueChainsService(@RequestBody List<Filter> filters) {
+        System.out.println("Received filters,,,,,,,,,,,,,: " + filters);
+        return breedsService.filterBreeds(filters);
+    }
+    @GetMapping("/metadata")
+    public Map<String, List<String>> getMetadata(){
+        return breedsService.getMetadata();
     }
 }
