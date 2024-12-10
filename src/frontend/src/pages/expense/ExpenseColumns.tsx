@@ -20,7 +20,7 @@ export const ExpensesColumns = ({onEdit, onDelete}: rowActionProps): ColumnDef<E
             header: "ExpenseTypes",
             cell: ({ row }) => {
                 const value: Expenses = row.original
-                return value.expenseType.name
+                return value.expenseTypes.name
             },
         },
         {

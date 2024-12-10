@@ -33,12 +33,10 @@ public class IncomeTypes {
     private String description;
 
     @JsonIgnore
-    @OneToMany(
-            cascade = CascadeType.ALL, fetch = FetchType.EAGER,
-            orphanRemoval = true,
-            mappedBy = "incomeTypes"
+    @ManyToOne(
+            cascade = CascadeType.ALL, fetch = FetchType.EAGER
     )
-    private List<Incomes> incomes = new ArrayList<>();
+    private Incomes incomes;
 
     public IncomeTypes(
             String name,

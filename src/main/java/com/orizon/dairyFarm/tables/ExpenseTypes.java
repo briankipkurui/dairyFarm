@@ -31,14 +31,10 @@ public class ExpenseTypes {
     private Long id;
     private String name;
     private String description;
-
-    @JsonIgnore
-    @OneToMany(
-            cascade = CascadeType.ALL, fetch = FetchType.EAGER,
-            orphanRemoval = true,
-            mappedBy = "expenseType"
+    @ManyToOne(
+            cascade = CascadeType.ALL, fetch = FetchType.EAGER
     )
-    private List<Expense> expenses = new ArrayList<>();
+    private Expense expenses;
 
 
 

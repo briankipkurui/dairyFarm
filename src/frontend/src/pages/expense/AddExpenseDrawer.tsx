@@ -3,12 +3,13 @@ import {LoadingOutlined} from "@ant-design/icons";
 import React, {useEffect, useState} from 'react';
 import {
     addExpense,
-    addFeedingFormula, addIncomes, getAllExpenseTypes,
-    getAllIncomesTypes, getAllValueChains, SearchExpenseTypes,
-    SearchIncomesTypes, SearchValueChains,
+    getAllExpenseTypes,
+    getAllValueChains,
+    SearchExpenseTypes,
+    SearchValueChains,
 } from "@/apiCalls/apiCalls";
 import {useDebounce} from "@/utils/DebounceHook";
-import {ExpenseTypes, IncomeTypes, ValueChains} from "@/pages/types/Types";
+import {ExpenseTypes, ValueChains} from "@/pages/types/Types";
 import {errorNotification, successNotification} from "@/utils/Notification";
 
 
@@ -26,7 +27,7 @@ const AddExpenseDrawer: React.FC<CattleDrawerProps> = ({
                                                            showAddExpenseDrawer,
                                                            setShowAddExpensesDrawer,
                                                            fetchExpenses
-                                                      }) => {
+                                                       }) => {
     const onCLose = () => {
         setShowAddExpensesDrawer(false);
     }
@@ -82,7 +83,6 @@ const AddExpenseDrawer: React.FC<CattleDrawerProps> = ({
     useEffect(() => {
         fetchAllValueChains();
     }, []);
-
 
 
     const onFinish = (student: any) => {

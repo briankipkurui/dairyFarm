@@ -55,7 +55,7 @@ export type Incomes = {
 
 export type Expenses = {
     id: number
-    expenseType: IncomeTypes
+    expenseTypes: ExpenseTypes
     valueChains: ValueChains
     amount: number,
     description: string,

@@ -29,6 +29,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import AdaptiveExpenseFilter from "@/pages/expense/AdaptiveExpenseFilter";
 
 
 interface DataTableProps<TData, TValue> {
@@ -67,9 +68,7 @@ export function ExpensesDataTable<TData, TValue>({
     return (
         <>
             <div className="flex items-center ">
-                {/*<div className="flex items-center py-4">*/}
-                {/*    */}
-                {/*</div>*/}
+                <AdaptiveExpenseFilter setData={setFilteredData}/>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">

@@ -27,16 +27,10 @@ public class Expense {
             name = "id"
     )
     private Long id;
-    @ManyToOne
-    @JoinColumn(
-            name = "expense_Type_id"
-    )
-    private ExpenseTypes expenseType;
+    @OneToOne
+    private ExpenseTypes expenseTypes;
 
-    @ManyToOne
-    @JoinColumn(
-            name = "value_chain_id"
-    )
+    @OneToOne
     private ValueChains valueChains;
     private Double amount;
     private String description;
@@ -44,14 +38,14 @@ public class Expense {
     private LocalDateTime updatedAt;
 
     public Expense(
-            ExpenseTypes expenseType,
+            ExpenseTypes expenseTypes,
             ValueChains valueChains,
             Double amount,
             String description,
             LocalDateTime transactionDate,
             LocalDateTime updatedAt
     ) {
-        this.expenseType = expenseType;
+        this.expenseTypes = expenseTypes;
         this.valueChains = valueChains;
         this.amount = amount;
         this.description = description;

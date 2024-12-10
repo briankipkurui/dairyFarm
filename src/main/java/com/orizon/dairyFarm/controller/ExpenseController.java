@@ -1,13 +1,16 @@
 package com.orizon.dairyFarm.controller;
 
+import com.orizon.dairyFarm.filtrerResponse.Filter;
 import com.orizon.dairyFarm.request.ExpenseRequest;
 import com.orizon.dairyFarm.service.ExpenseService;
+import com.orizon.dairyFarm.tables.Cattle;
 import com.orizon.dairyFarm.tables.Expense;
 import com.orizon.dairyFarm.tables.Incomes;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -25,5 +28,14 @@ public class ExpenseController {
     @GetMapping()
     public List<Expense> getAllExpense() {
         return expenseService.getAllExpense();
+    }
+    @GetMapping("/metadata")
+    public Map<String, Object> getMetadata() {
+        return expenseService.getMetadata();
+    }
+
+    @PostMapping("/filter")
+    public List<Expense> filterValueChainsService(@RequestBody List<Filter> filters) {
+        return expenseService.filterExpenses(filters);
     }
 }

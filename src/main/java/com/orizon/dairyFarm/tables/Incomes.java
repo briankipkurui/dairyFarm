@@ -27,15 +27,9 @@ public class Incomes {
             name = "id"
     )
     private Long id;
-    @ManyToOne
-    @JoinColumn(
-            name = "income_Type_id"
-    )
+    @OneToOne
     private IncomeTypes incomeTypes;
-    @ManyToOne
-    @JoinColumn(
-            name = "value_chain_id"
-    )
+    @OneToOne
     private ValueChains valueChains;
     private Double amount;
     private String description;

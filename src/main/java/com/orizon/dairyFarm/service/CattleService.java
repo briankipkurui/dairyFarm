@@ -178,7 +178,7 @@ public class CattleService {
             if (dataType.equalsIgnoreCase("character varying") || dataType.equalsIgnoreCase("text")) {
                 metadata.put(camelCaseColumnName, List.of("Equals", "Contains", "StartsWith"));
             } else if (dataType.equalsIgnoreCase("timestamp without time zone") || dataType.equalsIgnoreCase("date")) {
-                metadata.put(camelCaseColumnName, List.of("Equals", "Before", "After", "Between"));
+                metadata.put(camelCaseColumnName, List.of( "Before", "After", "Between"));
             }
             // Add more conditions for other data types as needed
         }

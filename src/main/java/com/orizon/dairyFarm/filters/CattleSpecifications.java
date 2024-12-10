@@ -18,7 +18,6 @@ public class CattleSpecifications {
             try {
                 // Remove brackets if present
                 String trimmedField = Utilities.reverseAndCamelCase(field);
-                System.out.println("Trimmed field: " + trimmedField);
 
                 // Handle join fields
                 Path<?> path;
@@ -30,7 +29,6 @@ public class CattleSpecifications {
                 } else {
                     path = root.get(trimmedField);
                 }
-
                 // Determine the field type using reflection
                 Field fieldInEntity;
                 if (trimmedField.contains(".")) {
